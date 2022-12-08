@@ -1,0 +1,10 @@
+.crearEmpleado{
+    width: 90%;
+    height: 100%;
+    padding: 15px 15px;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    position: relative;
+}
+

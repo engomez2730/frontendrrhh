@@ -1,0 +1,19 @@
+.tabledata{
+    display: flex;
+    height: 100%;
+    flex-direction: column;
+}
+
+
+.verEmpleados{
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+}
+
+h1{
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+

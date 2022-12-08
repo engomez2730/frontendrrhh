@@ -1,0 +1,14 @@
+.deparInfo{
+    display: flex;
+    flex-direction: column;
+}
+
+.deparInfo-item{
+    font-size: 1.2rem;
+    margin: 15px;
+}
+
+.title-item-info{
+    font-weight: bold;
+    text-transform: uppercase;
+}

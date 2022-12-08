@@ -1,0 +1,54 @@
+.verPermisos{
+    width: 100%;
+    height: 80vh;
+}
+
+.tableDataPer{
+    width: 100%;
+    height:90%;
+   
+   
+}
+
+.editrarVacacionesForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+h1{
+    color: #474747;
+}
+
+.vacacionesSpan{
+    font-weight: bold;
+}
+
+.verVacacionesModal{
+    padding: 20px 35px;
+}
+
+.verVacacionesItem{
+    display: flex;
+}
+
+.verVacacionesLabel{
+    font-size: 1.3rem;
+    font-weight: bold;
+}
+.verVacacionesValue{
+    font-size: 1.3rem;
+    margin-left: 10px;
+}
+
+.disponibilidadVac{
+    font-size: 1.4rem;
+    padding: 15px 0;
+}
+
+.estadoVac{
+    margin-top: 15px;
+    font-size: 1.4rem;
+    display: flex;
+    align-items: center;
+}
