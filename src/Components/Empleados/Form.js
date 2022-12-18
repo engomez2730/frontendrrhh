@@ -134,14 +134,8 @@ import {
         puesto:values.puesto,
         tipoDeNomina:values.tipoDeNomina,
         costoPorHora:values.costoPorHora,
+        createdAt:values.createdAt,
       })
-
-     /*  const nomina = await Api.post('http://localhost:5000/api/v1/nomina',{
-        sueldoFijo:values.salario,
-        Empleados:response.data.data.user._id,
-        tipoDeNomina:values.tipoDeNomina,
-        costoPorHora:values.costoPorHora
-      }) */
         renderSuccess()
 
       }catch(err){
@@ -198,7 +192,7 @@ import {
             },
             {
               required: true,
-              message: 'Introduce un correo',
+              message: 'Tienes que introducir un correo',
             },
           ]}
         >
@@ -211,7 +205,7 @@ import {
           rules={[
             {
               required: true,
-              message: 'Please input your password!',
+              message: 'Tienes que introducir una contraseña!',
             },
             {
               min: 8,
@@ -231,7 +225,7 @@ import {
           rules={[
             {
               required: true,
-              message: 'Please confirm your password!',
+              message: 'Tienes que confirmar la contraseña!',
             },
             ({ getFieldValue }) => ({
               validator(_, value) {
@@ -239,7 +233,7 @@ import {
                   return Promise.resolve();
                 }
   
-                return Promise.reject(new Error('The two passwords that you entered do not match!'));
+                return Promise.reject(new Error('Las contraseñas que introduciste no coinciden'));
               },
             }),
           ]}
@@ -254,7 +248,7 @@ import {
           rules={[
             {
               required: true,
-              message: 'Please input your nickname!'
+              message: 'Tienes que introducir una cedula!'
             },
           ]}
         >
@@ -267,7 +261,7 @@ import {
           rules={[
             {
               required: true,
-              message: 'Please input your phone number!',
+              message: 'Tienes que introducir un numero de telefono!',
             },
           ]}
         >
@@ -280,7 +274,7 @@ import {
           rules={[
             {
               required: true,
-              message: 'Please input Intro',
+              message: 'Tienes que introducir una direcion!',
             },
           ]}
         >
@@ -293,7 +287,7 @@ import {
           rules={[
             {
               required: true,
-              message: 'Please select gender!',
+              message: 'Tienes que introducir un genero',
             },
           ]}
         >
@@ -310,7 +304,7 @@ import {
           rules={[
             {
               required: true,
-              message: 'Necesita intruducir su fecha de nacimiento',
+              message: 'Tienes que introducir la fecha de nacimiento',
             },
           ]}
         >
@@ -323,7 +317,7 @@ import {
           rules={[
             {
               required: true,
-              message: 'Please select gender!',
+              message: 'Tienes que introducir una pais',
             },
           ]}
         >
@@ -343,11 +337,11 @@ import {
       
         <Form.Item
           name="salario"
-          label="Salario"
+          label="Sueldo Fijo"
           rules={[
             {
               required: true,
-              message: 'Please input donation amount!',
+              message: 'Tienes que introducir un sueldo fijo',
             },
           ]}
         >
@@ -358,15 +352,13 @@ import {
           />
         </Form.Item>
 
-  
-
         <Form.Item
           name="contrato"
           label="Contrato"
           rules={[
             {
               required: true,
-              message: 'Please select gender!',
+              message: 'Seleciona el tipo de contrato',
             },
           ]}
         >
@@ -396,7 +388,7 @@ import {
           rules={[
             {
               required: true,
-              message: 'Please select gender!',
+              message: 'Tienes que introducir el tipo de nomina',
             },
           ]}
         >
@@ -422,7 +414,7 @@ import {
           rules={[
             {
               required: true,
-              message: 'Please select gender!',
+              message: 'Tienes que introducir un departamento',
             },
           ]}
         >
@@ -436,13 +428,16 @@ import {
           rules={[
             {
               required: true,
-              message: 'Please select gender!',
+              message: 'Tienes que introducir un puesto',
             },
           ]}
         >
           <Select placeholder="Seleciona el tipo de Departamento">
                {renderDepartamentos(puestosFinal)}
           </Select>
+        </Form.Item>
+        <Form.Item name="createdAt" label="Inicio Laboral">
+          <DatePicker/>
         </Form.Item>
   
       

@@ -105,7 +105,6 @@ const TableFinal = (props) => {
 
   const onClickModal = (e,text) =>{
     props.empleadoSelecionadoVer(text.key)
-    console.log(text)
     showModal()
   }
 

@@ -1,7 +1,6 @@
 import React from 'react';
 
 const VerCandidato = ({candidato}) => {
-    console.log(candidato)
     return (
         <div className='verVacacionesModal'>
 
@@ -40,6 +39,10 @@ const VerCandidato = ({candidato}) => {
         <div className='verVacacionesItem'>
             <div className='verVacacionesLabel'>Estado Laboral:</div>
             <div className='verVacacionesValue'>{candidato?.estadoLaboral}</div>
+        </div>
+        <div className='verVacacionesItem'>
+            <div className='verVacacionesLabel'>Vacante Aplicada:</div>
+            <div className='verVacacionesValue'>{candidato?.vacanteAplicada}</div>
         </div>
     </div>
     );

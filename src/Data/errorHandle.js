@@ -9,7 +9,7 @@ const handleError = (err) => {
     }else if (err.response.data.error.name === 'ValidationError'){
         const value = err.response.data.error.message.split('`')[1]
         const key = err.response.data.error.message.split('`')[3]
-        return  message.error(`El valor ${value} no esta entre las opciones de ${key}`)
+        return  message.error(`Error de Validacion, confirma que los campos sean del mismo tipo que se le pide`,4)
     }else if(err.code === 'ERR_NETWORK'){
         return message.error(`Error con la red`)
     }

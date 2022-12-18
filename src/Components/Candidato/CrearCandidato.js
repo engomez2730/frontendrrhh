@@ -1,6 +1,6 @@
 import { Button, Checkbox, Form, Input,Select,message,DatePicker  } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
-import React,{useEffect} from 'react';
+import React,{useEffect,useState} from 'react';
 import rrhhApi from '../../apis/rrhhApi';
 import { BUSCAR_SOLICITANTE_ACTION, CAMBIAR_ESTADO } from '../../actions';
 import {connect} from 'react-redux'
@@ -13,8 +13,15 @@ const { Option } = Select;
 const App = (props) => {
 
   const [form] = Form.useForm()
+  const [vacantes,setVacantes] = useState([])
+
+  const getVacantes = async () =>{
+    const vacantes = await rrhhApi.get('vacantes')
+    setVacantes(vacantes.data.data?.Vacantes.map(e => e.nombre))
+  }
  
   useEffect(()=>{
+    getVacantes()
     form.setFieldsValue({
       nombre:props.solicitante?.nombre,
       apellido:props.solicitante?.apellido,
@@ -31,11 +38,9 @@ const App = (props) => {
     }
   },[props.estado])
 
-
-  const onFinish = (values) => {
-    console.log(values)
+  const onFinish = async(values) => {
     try{
-      const data = rrhhApi.post('entrevistados',{
+      const data = await rrhhApi.post('entrevistados',{
         nombre:values.nombre,
         apellido:values.apellido,
         correo:values.correo,
@@ -46,11 +51,13 @@ const App = (props) => {
         puestoAplicado:values.puestoAplicado,
         direccion:values.direccion,
         entrevistado:values.entrevistado,
-        estadoLaboral:values.estadoLaboral
+        estadoLaboral:values.estadoLaboral,
+        vacanteAplicada:values.vacanteAplicada,
+        sexo:values.sexo
       })
-  
+
       props.CAMBIAR_ESTADO(!props.estado)
-      message.success('Creado con Exito')
+      message.success('Candidato creado con exito')
 
     }catch(err){
       handleError(err)
@@ -62,20 +69,25 @@ const App = (props) => {
   };
 
   const renderDepartamentos = (provincas) =>{
-    return provincas.map((e) =>{
+    return provincas?.map((e) =>{
         return <Option value={`${e.label}`} key={e.label}>{e.label}</Option> 
     })
   }
 
   const renderPaises = (Countries) =>{
-    return Countries.map((e) =>{
+    return Countries?.map((e) =>{
         return <Option value={`${e.label}`} key={e.label}>{e.label}</Option> 
     })
   }
 
   const renderProvincias = (provincas) =>{
-    return provincas.map((e) =>{
+    return provincas?.map((e) =>{
         return <Option value={`${e.label}`} key={e.label}>{e.label}</Option> 
+    })
+  }
+  const renderVacantes = (provincas) =>{
+    return provincas?.map((e,index) =>{
+        return <Option value={`${e}`} key={index}>{e}</Option> 
     })
   }
   return (
@@ -195,8 +207,18 @@ const App = (props) => {
         name="estadoLaboral"
         rules={[{required: true,message: 'Please input your password!',},]}
       >
-        <Select placeholder="Seleciona la provincia">
+        <Select placeholder="Seleciona el estado laboral">
                {renderProvincias(estadoCandidatoFinal)}
+          </Select>
+      </Form.Item>
+
+      <Form.Item
+        label="Vacante Aplicada"
+        name="vacanteAplicada"
+        rules={[{required: true,message: 'Please input your password!',},]}
+      >
+        <Select placeholder="Seleciona el estado laboral">
+               {renderVacantes(vacantes)}
           </Select>
       </Form.Item>
       <Form.Item

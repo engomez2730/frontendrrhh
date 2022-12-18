@@ -17,7 +17,6 @@ const CompanyModalEdit = (props) => {
     const [errorAlert,errorAlertSet] = useState('')
     const [dateInput,dateInputSet] = useState(true)
     const [checkedInput,setChecked] = useState(false)
-    const [determineCheck,determineCheckSet] = useState(props.usuarioEditar?.vacacionesTomadas)
 
     const renderDepartamentos = (provincas) =>{
         return provincas.map((e) =>{
@@ -25,10 +24,7 @@ const CompanyModalEdit = (props) => {
         })
     }
 
-    const onChange = (checked) => {
-      setChecked(checked)
-      determineCheckSet(checked)
-    };
+ 
     useEffect(() => {
         form.setFieldsValue({
           sueldoFijo:props.usuarioEditar.sueldoFijo,
@@ -83,7 +79,7 @@ const CompanyModalEdit = (props) => {
         rules={[
           {
             required: true,
-            message: 'Please input your username!',
+            message: 'Introduce un sueldo fijo',
           },
         ]}
       >
@@ -93,7 +89,7 @@ const CompanyModalEdit = (props) => {
         rules={[
             {
               required: true,
-              message: 'Please select gender!',
+              message: 'Introduce un contrato',
             },
           ]}
         >
@@ -119,9 +115,6 @@ const CompanyModalEdit = (props) => {
                {renderDepartamentos(departamentosFinal)}
           </Select>
         </Form.Item>
-      <Form.Item label="Vacaciones Tomadas" name='vacacionesTomadas' wrapperCol={{offset: 8,span: 16,}}>
-        <Switch checked={determineCheck} onChange={onChange} />
-      </Form.Item>
       <Form.Item wrapperCol={{offset: 8,span: 16,}}>
         <Button type="primary" htmlType="submit">
           Actualizar

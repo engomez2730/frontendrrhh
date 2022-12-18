@@ -2,9 +2,10 @@ import React,{useEffect,useState} from 'react';
 import { Table,Button,Modal,Input,Popconfirm } from 'antd';
 import {SearchOutlined} from '@ant-design/icons'
 import {connect} from 'react-redux'
-import {avisoSelecionado,cargarEmpleados,CAMBIAR_ESTADO} from '../../actions/index'
-import Api from '../../apis/rrhhApi'
-import VerDespido from './VerDespido'
+import {avisoSelecionado,cargarEmpleados,CAMBIAR_ESTADO,empleadoSelecionadoVer} from '../../actions/index'
+import FormDespidos from './formDespidos'
+import CrearDesvinculo from './CrearDesvinculo';
+
 
 
 import moment from 'moment';
@@ -101,14 +102,14 @@ const TablePerm = (props) => {
       fixed: 'right', 
       width: 260,
       render: (text) => [
-      <Button type='primary' key='ver' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Despedir </Button>, 
-, 
-    ],
+      <Button type='primary' key='despedir' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Despedir </Button>,
+      <Button type='dished' key='desvincular' style={{marginLeft:'10px'}} onClick={e => onClickModalVer(e,text)}>Desvincular </Button>],
     },
   ];
 
   const onClickModal = (e,text) =>{
-    props.avisoSelecionado(text)
+    console.log(text)
+    props.empleadoSelecionadoVer(text.key)
     showModal()
   }
   const onClickModalVer = (e,text) =>{
@@ -127,43 +128,47 @@ const TablePerm = (props) => {
             cedula:e.cedula,
             departamento:e.cedula,
             key:e.id,
-            DiaDeVacaciones:e.DiaDeVacaciones,
             PrestacionesLaborales:e.PrestacionesLaborales,
-            ausencias:e.ausencias,
             contrato:e.contrato,
             createdAt:e.createdAt,
             direccion:e.direccion,
             estado:e.estado,
             pais:e.pais,
             provincia:e.provincia,
-            salario:e.salarioBruto,
+            salario:e.sueldoFijo,
             departamento:e.departamento,
             expiracionDelContrato:e.vencimientoDelContrato,
-            vacacionesTomadas:e.vacacionesTomadas
+            Vacaciones:e.Vacaciones
         }
     })
+
+    const empleadosActivos = empleados?.filter(e =>{
+      return e.estado === true
+  })
     return (
         <div>
             <Table 
            style={{marginTop:'50px',width:'80%'}}
            columns={columns} scroll={{x: 1300, }} 
-           dataSource={empleados}
+           dataSource={empleadosActivos}
            bordered={true}
            pagination={{pageSize:5,total:empleados?.length}}
            />
           <Modal title="Despedir empleado" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1000}>
-            
+              <FormDespidos/>
           </Modal>
-          <Modal title="Editar Anuncio" open={isModalOpenVer} onOk={handleOkVER} onCancel={handleCancelVer} width={1000}>
+          <Modal title="Desvincular empleado" open={isModalOpenVer} onOk={handleOkVER} onCancel={handleCancelVer} width={1000}>
+              <CrearDesvinculo/>
           </Modal>
         </div>
     );
 }
 const StateMapToProps = state =>{
-    return {empleados:state.empleados.empleados}
+    return {empleados:state.empleados.empleados, estado:state.cambiarState}
 }
 export default connect(StateMapToProps,{
     cargarEmpleados,
     avisoSelecionado,
-    CAMBIAR_ESTADO
+    CAMBIAR_ESTADO,
+    empleadoSelecionadoVer
 })(TablePerm);

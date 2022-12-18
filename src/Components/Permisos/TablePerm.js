@@ -1,14 +1,14 @@
 import React,{useEffect,useState} from 'react';
-import { Table,Button,Modal,Input } from 'antd';
-import {SearchOutlined} from '@ant-design/icons'
+import { Table,Button,Modal,Input,Popconfirm } from 'antd';
+import {SearchOutlined,QuestionCircleOutlined} from '@ant-design/icons'
 import {connect} from 'react-redux'
-import {GET_PERMISOS_STATE} from '../../actions/index'
-import {permisoSelecionado} from '../../actions/index'
+import {GET_PERMISOS_STATE,CAMBIAR_ESTADO,permisoSelecionado} from '../../actions/index'
 import PermisoEditar from './PermisoEditar';
 import PermisoVer from './PermisoVer';
 import moment from 'moment';
 import PermisoCrear from './PermisoCrear'
-moment.locale('uk')
+import Api from '../../apis/rrhhApi'
+
 
 
 const TablePerm = (props) => {
@@ -94,17 +94,24 @@ const TablePerm = (props) => {
       title: 'Acción',
       key: 'operation',
       fixed: 'right', 
-      width: 300,
+      width: 400,
       render: (text) => [
       <Button type='primary' key='ver' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Ver Permiso</Button>, 
       <Button type='' key='manejar' style={{marginLeft:'10px'}} onClick={e => onClickModalVer(e,text)}>Manejar Permiso</Button>, 
-    ],
+      <Popconfirm title="Estas seguro que quieres eliminar este aviso？" onConfirm={e => eliminaranuncio(e,text)} key="popConfirm" icon={<QuestionCircleOutlined style={{color: 'red',}}/>}>
+       <Button type='danger' key='manejar' style={{marginLeft:'10px'}}>Eliminar</Button>
+     </Popconfirm>    ],
     },
   ];
 
   const onClickModal = (e,text) =>{
     props.permisoSelecionado(text)
     showModal()
+  }
+
+  const eliminaranuncio = async (e,text) =>{
+    const res = await Api.delete(`permisos/${text.key}`)
+    props.CAMBIAR_ESTADO(!props.estado)
   }
 
   const onClickModalVer = (e,text) =>{
@@ -151,10 +158,13 @@ const TablePerm = (props) => {
 }
 
 const StateMapToProps = state =>{
-    return {permisos:state.permisos.permisos,permisoSelecioandoData:state.permisoSelecionado, estado:state.cambiarState}
+    return {permisos:state.permisos.permisos,
+            permisoSelecioandoData:state.permisoSelecionado, 
+            estado:state.cambiarState}
 }
 
 export default connect(StateMapToProps,{
     GET_PERMISOS_STATE,
-    permisoSelecionado
+    permisoSelecionado,
+    CAMBIAR_ESTADO
 })(TablePerm);

@@ -15,8 +15,8 @@ const EmpleadosInfoPer = ({usuarioSelecionado,usuarioEditado}) => {
         intArr.splice(11,0,"-")
         return intArr
     }
-
-    const edad = moment(usuarioSelecionado?.fechaDeNacimiento).fromNow().split(' ')[0] + ' Años'
+    console.log(moment(usuarioSelecionado?.fechaDeNacimiento).format())
+    const edad = moment(usuarioSelecionado?.fechaDeNacimiento).format('LLL')
     return (
         <div className='infoParent'>
             <div className='header-info'>
@@ -41,7 +41,7 @@ const EmpleadosInfoPer = ({usuarioSelecionado,usuarioEditado}) => {
                         <div className='realNombres'>{usuarioSelecionado?.celular}</div>
                     </div>
                     <div className='nombres'>
-                        <div className='subNombres'>Edad:</div>
+                        <div className='subNombres'>Fecha de Nacimento:</div>
                         <div className='realNombres'>{edad}</div>
                     </div>
                     <div className='nombres'>
@@ -54,7 +54,7 @@ const EmpleadosInfoPer = ({usuarioSelecionado,usuarioEditado}) => {
                     </div>
                     <div className='nombres'>
                         <div className='subNombres'>Provincia:</div>
-                        <div className='realNombres'>{usuarioSelecionado?.provincia}</div>
+                        <div className='realNombres'>{usuarioSelecionado?.provincia || ""}</div>
                     </div>
                     <div className='nombres'>
                         <div className='subNombres'>Correo:</div>

@@ -22,7 +22,7 @@ const VerVacaciones = (props) => {
             </div>
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Salario de Vacaciones:</div>
-                <div className='verVacacionesValue'> {new Intl.NumberFormat('En-IN',{ maximumSignificantDigits: 3 }).format(props?.vacacion?.salarioPorVacaciones)} RD$</div>
+                <div className='verVacacionesValue'> {new Intl.NumberFormat('es-DO',{ maximumSignificantDigits: 3 }).format(props?.vacacion?.salarioPorVacaciones)} RD$</div>
             </div>
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Prima fecha de Vacaciones:</div>

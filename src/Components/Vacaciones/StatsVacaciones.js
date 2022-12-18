@@ -1,39 +1,32 @@
 import { Col, Row, Statistic } from 'antd';
-import React,{useState,useEffect} from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import Api from '../../apis/rrhhApi'
-
-const StatsCard = (props) => {
-
-    const [departamentos,setDepartamentos] = useState([])
 
 
-    useEffect(()=>{
-        getData()
-    },[])
 
-    const getData = async () =>{
-        const data = await Api.get('http://localhost:5000/api/v1/departamentos')
-        setDepartamentos(data.data.data)
-    }
+
+
+const StatsCard = ({empleados}) => {
+  const EmpleadosActivos = empleados?.filter(e =>{
+    return e.estado === true
+  })
 
   const Data = [
     {
-      title:'Departamentos Registrados Total',
-      value:departamentos.Departamentos?.length,
+      title:'Empleados Registrados Total',
+      value:empleados?.length,
     },
     {
-      title:'Departamentos Registrados Activos',
-      value:3,
+      title:'Empleados Registrados Activos',
+      value:EmpleadosActivos?.length  ,
   
     },
     {
-      title:'Departamentos Registrados Inactivos',
-      value:0,
+      title:'Empleados Registrados Inactivos',
+      value:empleados?.length - EmpleadosActivos?.length ,
   
     }
   ]
-
 
   return <Row gutter={18}>
       {Data.map(e =>{
@@ -46,7 +39,7 @@ const StatsCard = (props) => {
 };
 
 const mapStateToProps = (state) =>{
-    return {empleados:state.empleados}
+    return {empleados:state.empleados.empleados, estado:state.cambiarState}
 }
 
 export default connect(mapStateToProps)(StatsCard);

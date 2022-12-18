@@ -47,11 +47,6 @@ const TableFinal = (props) => {
     setIsModalEditOpen(false);
   };
 
-  const eliminarempleado = async (e,text) =>{
-    const res = await Api.delete(`empleados/${text.key}`)
-    props.CAMBIAR_ESTADO(!props.estado)
-  }
-
   const columns = [
     {
       title: 'Nombre',
@@ -105,13 +100,10 @@ const TableFinal = (props) => {
       title: 'Acción',
       key: 'operation',
       fixed: 'right', 
-      width: 300,
+      width: 250,
       render: (text) => [
       <Button type='primary' key='ver' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Ver</Button>,
       <Button type='warning' key='editar'style={{marginLeft:'10px'}} onClick={e => onClickModalEdit(e,text)}>Editar</Button>,
-      <Popconfirm title="Estas seguro que quieres eliminar este empleado？" onConfirm={e => eliminarempleado(e,text)} key="popConfirm" icon={<QuestionCircleOutlined style={{color: 'red',}}/>}>
-          <Button type='danger' key='eliminar'  style={{marginLeft:'10px'}}>Eliminar</Button>
-      </Popconfirm>
     ],
     },
   ];

@@ -13,10 +13,6 @@ const PermisoVer = (props) => {
                 <div className='verVacacionesLabel'>Nombre del permiso:</div>
                 <div className='verVacacionesValue'> {props.permisoSelecioandoData?.permisoSelecionado?.nombre}</div>
             </div>
-            <div className='verVacacionesItem'>
-                <div className='verVacacionesLabel'>Descripcion:</div>
-                <div className='verVacacionesValue'> {props.permisoSelecioandoData.permisoSelecionado?.descripcion}</div>
-            </div>
     
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Fecha:</div>
@@ -25,6 +21,10 @@ const PermisoVer = (props) => {
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Empleado:</div>
                 <div className='verVacacionesValue'> {`${props.permisoSelecioandoData.permisoSelecionado?.Empleados[0]?.nombre} ${props.permisoSelecioandoData.permisoSelecionado?.Empleados[0]?.apellido}` } </div>
+            </div>
+            <div className='verVacacionesItem'>
+                <div className='verVacacionesLabel'>Descripcion:</div>
+                <div className='verVacacionesValue'> {props.permisoSelecioandoData.permisoSelecionado?.descripcion}</div>
             </div>
          {/*    <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>PrestacionesLaborales:</div>

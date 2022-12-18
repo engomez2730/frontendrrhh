@@ -29,7 +29,7 @@ const puestos = ['Gerente General','Encargado Recursos Humanos','Asistente Recur
 
 const estadoCandidato = ['Contratado','En Espera','No Calificado','Por Entrevistar','Otro']
 
-const horarios = ['matutino','vespertino','nocturno']
+const horarios = ['Matutino','Vespertino','Nocturno','Jornada Completa']
 
 export const paisesFinal = crearSelectArray(state)
 export const provinciasFinal = crearSelectArray(provincas)

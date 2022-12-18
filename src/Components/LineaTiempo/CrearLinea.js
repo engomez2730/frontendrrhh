@@ -40,7 +40,6 @@ const CrearPermiso = (props) => {
 
 
   const onFinish = async(values) => {
-    console.log(values)
     try{
         await Api.post('nomina',{
             sueldoFijo:props.usuarioSelecionado?.sueldoFijo,

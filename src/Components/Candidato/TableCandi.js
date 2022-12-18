@@ -5,14 +5,10 @@ import {connect} from 'react-redux'
 import {avisoSelecionado,GET_ENTREVISTADOS,CAMBIAR_ESTADO,ENTREVISTADOS_SELECIONADO_ACTION} from '../../actions/index'
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import Api from '../../apis/rrhhApi'
-import CrearCandidato from './CrearCandidato'
 import ModalData from './ModalData';
 import VerCandidato from './verCandidato';
 import EditarCandidato from './editarCandidato';
-import moment from 'moment';
-import AddSolicitante from './AddSolicitante';
 import CrearEmpleado from './CrearEmpleado'
-moment.locale('uk')
 
 
 

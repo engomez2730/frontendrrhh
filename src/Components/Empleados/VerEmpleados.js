@@ -7,7 +7,7 @@ const VerEmpleados = () => {
 
     return (
         <div className='verEmpleados'>
-            <h1>Ver Empleados</h1>
+            <h1>Manejar Empleados</h1>
             <div className='tabledata'>
             <StatsCard/>
             <Table />

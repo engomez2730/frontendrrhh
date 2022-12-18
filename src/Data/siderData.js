@@ -13,7 +13,8 @@ import {  NotificationOutlined,
     CloseOutlined,
     SolutionOutlined,
     DollarCircleOutlined,
-    RiseOutlined    
+    RiseOutlined,
+    UserSwitchOutlined    
 } from '@ant-design/icons';
 
 export const elementos = [
@@ -45,8 +46,8 @@ export const elementos = [
 
             },
             {
-                key:'editarEmpleado',
-                label:<Link to='/editarempleados'>Estadisticas de Empleados</Link>,
+                key:'statsempleado',
+                label:<Link to='/statsempleados'>Estadisticas de Empleados</Link>,
                 icon: React.createElement(LineChartOutlined)
 
             }
@@ -58,15 +59,9 @@ export const elementos = [
         icon:HomeOutlined,
         childrens:[
             {
-                key:'crearDepartamento',
-                label:<Link to='/creardepartamento'>Crear Departamento</Link>,
-                icon: React.createElement(PlusCircleOutlined)
-
-            },
-            {
                 key:'verDepartamento',
-                label:<Link to='/verdepartamentos'>Ver Departamentos</Link>,
-                icon: React.createElement(EyeOutlined)
+                label:<Link to='/verdepartamentos'>Manejar Departamentos</Link>,
+                icon: React.createElement(PlusCircleOutlined)
 
                 
             },
@@ -88,13 +83,7 @@ export const elementos = [
                 label:<Link to='/avisos'>Manejar Avisos</Link>,
                 icon: React.createElement(PlusCircleOutlined)
 
-            },  
-            {
-                key:'editarAvisos',
-                label:<Link to='/verempleados'>Eliminar Aviso</Link>,
-                icon: React.createElement(LineChartOutlined)
-
-            },
+            }
         ]
     },
     {
@@ -106,13 +95,7 @@ export const elementos = [
                 label:<Link to='/candidatos'>Crear candidato</Link>,
                 icon: React.createElement(PlusCircleOutlined)
 
-            },
-            {
-                key:'verCandidato',
-                label:<Link to='/verempleados'>Ver Candidato</Link>,
-                icon: React.createElement(EyeOutlined)
-
-            },
+            }
         ]
     },
     {
@@ -129,7 +112,6 @@ export const elementos = [
                 key:'Stats Nomina',
                 label:<Link to='/statsnomina'>Stats Nomina</Link>,
                 icon: React.createElement(PlusCircleOutlined)
-
             }
         ]
     },
@@ -141,11 +123,10 @@ export const elementos = [
                 key:'verDespidos',
                 label:<Link to='/despidos'>Manejar Despidos</Link>,
                 icon: React.createElement(PlusCircleOutlined)
-
             },
             {
                 key:'Crear Despido',
-                label:<Link to='/creardespidos'>Generar Despido</Link>,
+                label:<Link to='/despidosver'>Generar Despido</Link>,
                 icon: React.createElement(EyeOutlined)
             }
         ]
@@ -165,6 +146,16 @@ export const elementos = [
                 label:<Link to='/vervacantes'>Ver Vacantes</Link>,
                 icon: React.createElement(EyeOutlined)
 
+            },
+        ]
+    },
+    {
+        nombre:'Epp',
+        icon:UserSwitchOutlined ,
+        childrens:[
+            {
+                key:'ManejarEpp',
+                label:<Link to='/epp'>Manejar EPP</Link>
             },
         ]
     },

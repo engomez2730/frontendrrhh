@@ -5,6 +5,8 @@ import { Button,  Form, DatePicker,Switch,message } from 'antd';
 import { CAMBIAR_ESTADO } from '../../actions';
 import Api from '../../apis/rrhhApi'
 import handleError from '../../Data/errorHandle';
+import {vacaciones} from '../../Data/Calcular'
+
 const { RangePicker } = DatePicker;
 
 
@@ -31,15 +33,14 @@ const EditarVacaciones = (props) => {
       };
 
       const mostrarDisponibilidad = (date) =>{
-
         const actualYear = new Date()
-
         if(new Date(date).getFullYear() === actualYear.getFullYear()){
           return 'Si'
         }else{
           return 'NO'
         } 
-      }
+      }      
+
 
       const mostrarFecha = date =>{
         if(date === undefined){
@@ -73,11 +74,12 @@ const EditarVacaciones = (props) => {
       const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
       };
+      
     return (
         <div className='editrarVacacionesForm'>
         <Form name="basic" labelCol={{span: 8,}} wrapperCol={{span: 16,}} initialValues={{remember: true,}}onFinish={onFinish}onFinishFailed={onFinishFailed}autoComplete="off" >
      <h1>Ya tomo sus vacaciones establecidas esta año? <span className='vacacionesSpan'>{mostrarDisponibilidad(props.usuario?.Vacaciones[props.usuario.Vacaciones.length-1]?.tiempoDeVacaciones[0])}</span></h1>
-     <h1>Dias de vacaciones que le tocan: <span className='vacacionesSpan'>{props.usuario?.DiaDeVacaciones}</span></h1>
+     <h1>Dias de vacaciones que le tocan: <span className='vacacionesSpan'>{vacaciones(props?.usuario?.createdAt)}</span></h1>
      <h1>Proxima disponibilidad de vacaciones: <span className='vacacionesSpan'>{mostrarFecha(props.usuario?.Vacaciones[props.usuario.Vacaciones.length-1]?.siguientesVacacionesFecha)}</span></h1>
      <Form.Item name="tiempoDeVacaciones" label="Tiempo de Vacaciones"  {...rangeConfig}>
         <RangePicker /* disabled={!props.usuario?.vacacionesDisponibles} */ />

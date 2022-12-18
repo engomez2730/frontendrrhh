@@ -76,7 +76,8 @@ const App = (props) => {
         tipoDeNomina:values.tipoDeNomina,
         costoPorHora:values.costoPorHora,
         sueldoFijo:values.salario,
-        fechaDeNacimiento:values.fechaDeNacimiento
+        fechaDeNacimiento:values.fechaDeNacimiento,
+        createdAt:values.createdAt
       })
       props.CAMBIAR_ESTADO(!props.estado)
       message.success('Creado con Exito')
@@ -384,6 +385,10 @@ const App = (props) => {
           <Select placeholder="Seleciona el tipo de Departamento">
                {renderDepartamentos(puestosFinal)}
           </Select>
+        </Form.Item>
+
+        <Form.Item name="createdAt" label="Inicio Laboral">
+          <DatePicker/>
         </Form.Item>
       <Form.Item
         wrapperCol={{

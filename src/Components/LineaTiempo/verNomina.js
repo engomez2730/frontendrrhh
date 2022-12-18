@@ -6,6 +6,7 @@ import moment from 'moment';
 
 
 const PermisoVer = (props) => {
+    console.log(props.nominaSelecionada)
     return (
         
         <div className='verVacacionesModal'>
@@ -19,37 +20,50 @@ const PermisoVer = (props) => {
             </div>
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Sueldo Bruto:</div>
-                <div className='verVacacionesValue'> {new Intl.NumberFormat('en-IN').format(props.nominaSelecionada?.sueldoBruto)} RD$</div>
+                <div className='verVacacionesValue'> {new Intl.NumberFormat('es-DO').format(props.nominaSelecionada?.sueldoBruto)} RD$</div>
             </div>
 
             <div className='verVacacionesItem'>
-                <div className='verVacacionesLabel'>Sueldo Bruto:</div>
-                <div className='verVacacionesValue'> {new Intl.NumberFormat('en-IN').format(props.nominaSelecionada?.sueldoBruto)} RD$</div>
-            </div>
-            <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Sueldo Neto:</div>
-                <div className='verVacacionesValue'> {new Intl.NumberFormat('en-IN').format(props.nominaSelecionada?.sueldoNeto)} RD$</div>
+                <div className='verVacacionesValue'> {new Intl.NumberFormat('es-DO').format(props.nominaSelecionada?.sueldoNeto)} RD$</div>
             </div>
     
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Sueldo Fijo:</div>
-                <div className='verVacacionesValue'> {new Intl.NumberFormat('en-IN').format(props.nominaSelecionada?.sueldoFijo)} RD$</div>
+                <div className='verVacacionesValue'> {new Intl.NumberFormat('es-DO').format(props.nominaSelecionada?.sueldoFijo)} RD$</div>
+            </div>
+            <div className='verVacacionesItem'>
+                <div className='verVacacionesLabel'>AFP:</div>
+                <div className='verVacacionesValue'> {new Intl.NumberFormat('es-DO').format(props.nominaSelecionada?.afp)} RD$</div>
+            </div>
+            <div className='verVacacionesItem'>
+                <div className='verVacacionesLabel'>SFS:</div>
+                <div className='verVacacionesValue'> {new Intl.NumberFormat('es-DO').format(props.nominaSelecionada?.sfs)} RD$</div>
+            </div>
+            <div className='verVacacionesItem'>
+                <div className='verVacacionesLabel'>ISR:</div>
+                <div className='verVacacionesValue'> {new Intl.NumberFormat('es-DO').format(props.nominaSelecionada?.isr)} RD$</div>
+            </div>
+            <div className='verVacacionesItem'>
+                <div className='verVacacionesLabel'>Descuentos Independientes:</div>
+                <div className='verVacacionesValue'> {new Intl.NumberFormat('es-DO').format(props.nominaSelecionada?.descuentos)} RD$</div>
+            </div>
+            <div className='verVacacionesItem'>
+                <div className='verVacacionesLabel'>Total Desuento:</div>
+                <div className='verVacacionesValue'> {new Intl.NumberFormat('es-DO').format(props.nominaSelecionada?.totalDescuento)} RD$</div>
             </div>
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Bonus:</div>
-                <div className='verVacacionesValue'> {new Intl.NumberFormat('en-IN').format(props.nominaSelecionada?.bonus)} RD$</div>
+                <div className='verVacacionesValue'> {new Intl.NumberFormat('es-DO').format(props.nominaSelecionada?.bonus)} RD$</div>
             </div>
-            <div className='verVacacionesItem'>
-                <div className='verVacacionesLabel'>Descuentos:</div>
-                <div className='verVacacionesValue'> {new Intl.NumberFormat('en-IN').format(props.nominaSelecionada?.descuentos)} RD$</div>
-            </div>
+         
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Regalia:</div>
-                <div className='verVacacionesValue'> {new Intl.NumberFormat('en-IN').format(props.nominaSelecionada?.regalia)} RD$</div>
+                <div className='verVacacionesValue'> {new Intl.NumberFormat('es-DO').format(props.nominaSelecionada?.regalia)} RD$</div>
             </div>
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Vacaciones:</div>
-                <div className='verVacacionesValue'> {new Intl.NumberFormat('en-IN').format(props.nominaSelecionada?.salarioPorVacaciones)} RD$</div>
+                <div className='verVacacionesValue'> {new Intl.NumberFormat('es-DO').format(props.nominaSelecionada?.salarioPorVacaciones)} RD$</div>
             </div>
         </div>
     );

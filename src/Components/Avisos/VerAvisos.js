@@ -13,14 +13,18 @@ const PermisoVer = (props) => {
                 <div className='verVacacionesLabel'>Nombre del Anuncio:</div>
                 <div className='verVacacionesValue'> {props.anuncios?.titulo}</div>
             </div>
-            <div className='verVacacionesItem'>
-                <div className='verVacacionesLabel'>Descripcion:</div>
-                <div className='verVacacionesValue'> {props.anuncios?.descripcion}</div>
-            </div>
     
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Fecha de Finalizacion:</div>
                 <div className='verVacacionesValue'> {moment(props.anuncios?.finishAt).format('MMMM Do YYYY, h:mm:ss a')}</div>
+            </div>
+            <div className='verVacacionesItem'>
+                <div className='verVacacionesLabel'>Fecha de Creacion:</div>
+                <div className='verVacacionesValue'> {moment(props.anuncios?.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</div>
+            </div>
+            <div className='verVacacionesItem'>
+                <div className='verVacacionesLabel'>Descripcion:</div>
+                <div className='verVacacionesValue'> {props.anuncios?.descripcion}</div>
             </div>
         </div>
     );

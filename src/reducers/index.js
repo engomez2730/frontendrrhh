@@ -24,6 +24,7 @@ import despidoSelecionado from './despidoSelecionadoReducer'
 import NominasCompletas from './nomincasCompletas'
 import NominaCompletaSelect from './NominaCompletaSelect'
 import NominaSelected from './Nomina_Selected'
+import Epp from './Get_Epps'
 
 
 export default combineReducers({
@@ -51,5 +52,6 @@ export default combineReducers({
     despidoSelecionado:despidoSelecionado,
     nominasCompletas:NominasCompletas,
     nominaCompletaSelect:NominaCompletaSelect,
-    nominaSelecionada:NominaSelected
+    nominaSelecionada:NominaSelected,
+    epps:Epp
 })

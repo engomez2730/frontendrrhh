@@ -2,6 +2,8 @@ import React from 'react';
 import moment from 'moment';
 
 const VerDespido = ({despido}) => {
+
+    console.log(despido)
     return (
         <div className='verVacacionesModal'>
 
@@ -13,14 +15,18 @@ const VerDespido = ({despido}) => {
             <div className='verVacacionesLabel'>Razon:</div>
             <div className='verVacacionesValue'> {despido?.razon}</div>
         </div>
+        <div className='verVacacionesItem'>
+            <div className='verVacacionesLabel'>Tipo de Despido:</div>
+            <div className='verVacacionesValue'> {despido?.tipoDeDespido}</div>
+        </div>
 
         <div className='verVacacionesItem'>
             <div className='verVacacionesLabel'>Fecha del despido:</div>
-            <div className='verVacacionesValue'> {moment(despido?.fechaDespido).format('MMMM Do YYYY, h:mm:ss a')}</div>
+            <div className='verVacacionesValue'> {new Intl.DateTimeFormat('es-DO',{ dateStyle: 'full', timeStyle: 'short' }).format(despido?.createdAt)}</div>
         </div>
         <div className='verVacacionesItem'>
-            <div className='verVacacionesLabel'>Tipo del despido:</div>
-            <div className='verVacacionesValue'> Renuncia</div>
+            <div className='verVacacionesLabel'>Prestaciones Laborables:</div>
+            <div className='verVacacionesValue'> { new Intl.NumberFormat('es-Do').format(despido?.prestacionesLaborables)}$</div>
         </div>
     </div>
     );

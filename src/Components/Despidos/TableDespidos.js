@@ -2,9 +2,10 @@ import React,{useEffect,useState} from 'react';
 import { Table,Button,Modal,Input,Popconfirm } from 'antd';
 import {SearchOutlined} from '@ant-design/icons'
 import {connect} from 'react-redux'
-import {DESPIDO_SELECIONADO_ACTION,GET_DESPIDOS_ACTION,CAMBIAR_ESTADO} from '../../actions/index'
-import Api from '../../apis/rrhhApi'
+import {avisoSelecionado,cargarEmpleados,CAMBIAR_ESTADO,empleadoSelecionadoVer,GET_DESPIDOS_ACTION,DESPIDO_SELECIONADO_ACTION} from '../../actions/index'
 import VerDespido from './VerDespido'
+import CrearDesvinculo from './CrearDesvinculo';
+
 
 
 import moment from 'moment';
@@ -17,7 +18,7 @@ const TablePerm = (props) => {
   const [isModalOpenCrear, setIsModalVerOpenCrear] = useState(false);
 
   useEffect(()=>{
-    props.empleados()
+    props.GET_DESPIDOS_ACTION()
   },[props.estado])
 
   const showModal = () => {
@@ -53,9 +54,9 @@ const TablePerm = (props) => {
 
   const columns = [
     {
-      title: 'Titulo',
+      title: 'Empleado',
       width: 200,
-      dataIndex: 'nombreDespido',
+      dataIndex: 'Usuario',
       key: 'name',
       fixed: 'left',
       filterDropdown:({setSelectedKeys,selectedKeys,confirm}) =>{
@@ -78,37 +79,45 @@ const TablePerm = (props) => {
       },
       onFilter:(value,record) =>{
           return record.nombre.toLowerCase().includes(value.toLowerCase())
+      },
+      render:(text) =>{
+        return <>{text?.nombre}</>
       }
     },
     {
-      title: 'Descripcion',
-      dataIndex: 'descripcion',
+      title: 'Fecha de Despido',
+      dataIndex: 'fechaDespido',
       key: 'apellido',
     },
     {
-      title: 'Fecha de Finalizacion',
-      dataIndex: 'fechaDespido',
+      title: 'Prestaciones',
+      dataIndex: 'prestacionesLaborables',
+      key: 'cedula',
+      render:(text) =>{
+        return <div>{new Intl.NumberFormat('es-DO',{ style: 'currency', currency: 'DOM' }).format(text)}</div>
+      }
+    },
+    {
+      title: 'razon',
+      dataIndex: 'razon',
       key: 'cedula',
     },
     {
       title: 'Acción',
       key: 'operation',
       fixed: 'right', 
-      width: 360,
+      width: 300,
       render: (text) => [
-      <Button type='primary' key='ver' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Ver Despido</Button>, 
-      <Button type='warning' key='manejar' style={{marginLeft:'10px'}} onClick={e => onClickModalVer(e,text)}>Manejar Despido</Button>,
-, 
-    ],
+      <Button type='primary' key='despedir' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Ver Despido </Button>,],
     },
   ];
 
   const onClickModal = (e,text) =>{
-    props.DESPIDO_SELECIONADO_ACTION(text)
+    props.DESPIDO_SELECIONADO_ACTION(text.key)
     showModal()
   }
   const onClickModalVer = (e,text) =>{
-    props.DESPIDO_SELECIONADO_ACTION(text)
+    props.avisoSelecionado(text)
     showModalEdit()
   }
   const onClickModalCrear = (e,text) =>{
@@ -116,39 +125,40 @@ const TablePerm = (props) => {
   }
     const despidos =  props?.despidos?.map(e => {
         return {
-            descripcion:e.descripcion,
-            nombreDespido:e.Usuario?.nombre + ' Despido',
             razon:e.razon,
-            fechaDespido:moment(e.fechaDespido).format('MMMM Do YYYY, h:mm:ss a'),
+            key:e._id,
             Usuario:e.Usuario,
-            key:e.id,
+            fechaDespido:e.fechaDespido,
+            descripcion:e.descripcion,
+            prestacionesLaborables:e.prestacionesLaborables,
         }
     })
+
     return (
         <div>
-          <Button type='primary' key='crear' style={{marginLeft:'10px', marginTop:'90px'}} onClick={e => onClickModalCrear(e)}>Despedir Empleado</Button>, 
             <Table 
-            style={{marginTop:'50px',width:'80%'}}
+           style={{marginTop:'50px',width:'80%'}}
            columns={columns} scroll={{x: 1300, }} 
            dataSource={despidos}
            bordered={true}
-           pagination={{pageSize:10,total:despidos?.length}}
+           pagination={{pageSize:5,total:despidos?.length}}
            />
-          <Modal title="Ver Anuncio" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1000}>
-            <VerDespido despido={props?.despidoSelecionado}/>
+          <Modal title="Despedir empleado" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1000}>
+              <VerDespido despido={props.despidoSelect}/>
           </Modal>
-          <Modal title="Editar Anuncio" open={isModalOpenVer} onOk={handleOkVER} onCancel={handleCancelVer} width={1000}>
-          </Modal>
-          <Modal title="Crear Anuncio" open={isModalOpenCrear} onOk={handleOkCrear} onCancel={handleCancelCrear} width={1000}>
+          <Modal title="Desvincular Empleado" open={isModalOpenVer} onOk={handleOkVER} onCancel={handleCancelVer} width={1000}>
           </Modal>
         </div>
     );
 }
 const StateMapToProps = state =>{
-    return {despidos:state.Despidos.despidos,despidoSelecionado:state.despidoSelecionado.despidoSelecionado}
+    return {empleados:state.empleados.empleados,despidos:state.Despidos.despidos, despidoSelect:state.despidoSelecionado.despidoSelecionado}
 }
 export default connect(StateMapToProps,{
-  GET_DESPIDOS_ACTION,
-  DESPIDO_SELECIONADO_ACTION,
-    CAMBIAR_ESTADO
+    cargarEmpleados,
+    avisoSelecionado,
+    CAMBIAR_ESTADO,
+    empleadoSelecionadoVer,
+    GET_DESPIDOS_ACTION,
+    DESPIDO_SELECIONADO_ACTION
 })(TablePerm);

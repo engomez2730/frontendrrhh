@@ -28,7 +28,7 @@ const EmpresaInfoPer = ({usuarioSelecionado,usuarioEditado}) => {
                 </div>
                 <div className='nombres'>
                     <div className='subNombres'>Salario:</div>
-                    <div className='realNombres'>{new Intl.NumberFormat().format(usuarioSelecionado.Nominas[0]?.sueldoBruto)} RD$</div>
+                    <div className='realNombres'>{new Intl.NumberFormat('es-DO').format(usuarioSelecionado?.sueldoFijo)} RD$</div>
                 </div>
                 <div className='nombres'>
                     <div className='subNombres'>Departamento:</div>
@@ -45,14 +45,6 @@ const EmpresaInfoPer = ({usuarioSelecionado,usuarioEditado}) => {
                 <div className='nombres'>
                     <div className='subNombres'>¿Ha tomado sus vacaciones?:</div>
                     <div className='realNombres'>{usuarioSelecionado.vacacionesTomadas ? 'Si' : 'No'}</div>
-                </div>
-                <div className='nombres'>
-                    <div className='subNombres'>Dias correspondientes de Vacaciones:</div>
-                    <div className='realNombres'>{usuarioSelecionado.DiaDeVacaciones}</div>
-                </div>
-                <div className='nombres'>
-                    <div className='subNombres'>Salario por Vacaciones:</div>
-                    <div className='realNombres'>{usuarioSelecionado.salarioPorVacaciones ? new Intl.NumberFormat().format(usuarioSelecionado.salarioPorVacaciones )  : 'No le toca aun'}`</div>
                 </div>
             </div>
         </div>

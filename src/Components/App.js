@@ -20,31 +20,30 @@ import Avisos from './Avisos/Avisos'
 import Vacantes from './Vacantes/vacantes'
 import VerVacantesPage from './Vacantes/verVacantesPage';
 import Candidatos from './Candidato/Candidato';
-import Despidos from './Despidos/Despidos';
 import CrearDespidos from './Despidos/CrearDespido'
 import NominaCompleta from './NominaCompleta/NominaCompleta'
 import LinaDeTiempo from './LineaTiempo/LineaDeTiempo'
 import Stats from './Nomina/Stats'
+import Despidos from './Despidos/CrearDespido';
+import DespidosVer from './Despidos/TableDespidos';
+import Epp from './Epp/Epp'
+import StatsEmpleados from './Empleados/Stats/Stats';
 const {  Content } = Layout;
 
 
 const App = (props) => {
 
   const [userActive,userActiveSet] = useState(JSON.parse(localStorage.getItem('user')))
-  useEffect(()=>{
-    const USER = JSON.parse(localStorage.getItem('user'))
-    props.setUser(USER)
-    window.addEventListener('load',function(){
-      if(document.cookie.split('=')[1]){
-        props.loggedUserIn()
-      }else{
-        props.loggedUserOut()
-      }
-    })
-  })
+  const USER = JSON.parse(localStorage.getItem('user'))
+
+
+ /*  useEffect(()=>{
+
+
+  },[props?.isLoggedIn?.isLoggedIn]) */
 
   const renderSider = () =>{
-    if(props.isLoggedIn.isLoggedIn && userActive.rol === 'admin'){
+    if(props?.isLoggedIn?.isLoggedIn && USER.rol === 'admin'){
       return <Sider/>
     }else{
       return null
@@ -76,6 +75,10 @@ const App = (props) => {
                   <Route path='/creardespidos' element={<CrearDespidos/>}></Route>
                   <Route path='/manejarnomina' element={<NominaCompleta/>}></Route>
                   <Route path='/lineadetiempo' element={<LinaDeTiempo/>}></Route>
+                  <Route path='/despidos' element={<Despidos/>}></Route>
+                  <Route path='/despidosVer' element={<DespidosVer/>}></Route>
+                  <Route path='/epp' element={<Epp/>}></Route>
+                  <Route path='/statsempleados' element={<StatsEmpleados/>}></Route>
                 </Routes>
               </Content>
               </Layout>
@@ -86,7 +89,8 @@ const App = (props) => {
 
 const mapStateToProps = (state) =>{
   return {
-    isLoggedIn : state.isLoggedIn
+    isLoggedIn : state.isLoggedIn,
+    usuario:state.user
   }
 }
 

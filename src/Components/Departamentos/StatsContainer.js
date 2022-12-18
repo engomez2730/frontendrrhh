@@ -10,7 +10,7 @@ const StatsCard = (props) => {
 
     useEffect(()=>{
         getData()
-    },[])
+    },[]) 
 
     const getData = async () =>{
         const data = await Api.get('http://localhost:5000/api/v1/departamentos')
@@ -24,7 +24,7 @@ const StatsCard = (props) => {
     },
     {
       title:'Departamentos Registrados Activos',
-      value:3,
+      value:departamentos.Departamentos?.length,
   
     },
     {

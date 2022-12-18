@@ -3,11 +3,13 @@ import React from 'react';
 
 const NominaVer = (props) => {
     console.log(props)
+
+
     return (
         <div className='verVacacionesModal'>
 
             <div className='verVacacionesItem'>
-                <div className='verVacacionesLabel'>Salario Bruto:</div>
+                <div className='verVacacionesLabel'>Salario Brutos:</div>
                 <div className='verVacacionesValue'> {(new Intl.NumberFormat('es-RD', { maximumSignificantDigits: 4 }).format(props.usuario?.salarioBruto))} $</div>
             </div>
             <div className='verVacacionesItem'>

@@ -29,21 +29,18 @@ const Stats = ()=> {
         },
     ]
       }
-
-
-
   return (
     <div className='Stats'>
         <div className='stats-item'>
-            <h1>Nomina Perro</h1>
+            <h1>Nomina</h1>
             <BarChart charData={dataFinal}/>
         </div>
         <div className='stats-item'>
-            <h1>Nomina Perro</h1>
+            <h1>Nomina</h1>
             <PieChart charData={dataFinal}/>
         </div>
         <div className='stats-item'>
-            <h1>Nomina Perro</h1>
+            <h1>Nomina</h1>
             <LineChart charData={dataFinal}/>
         </div>
     </div>

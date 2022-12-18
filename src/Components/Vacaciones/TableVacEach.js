@@ -67,7 +67,7 @@ const TableFinal = (props) => {
       key: 'salarioPorVacaciones',
       width: 200,
       render: (text,item) => { 
-        return <>{new Intl.NumberFormat('En-IN',{ maximumSignificantDigits: 4 }).format(item.salarioPorVacaciones)} RD$</>
+        return <>{new Intl.NumberFormat('es-DO',{ maximumSignificantDigits: 4 }).format(item.salarioPorVacaciones)} RD$</>
     }
     },
     {

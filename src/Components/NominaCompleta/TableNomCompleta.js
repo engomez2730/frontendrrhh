@@ -125,12 +125,13 @@ const TableFinal = (props) => {
       width: 400,
       render: (text) => [
       <Button type='primary' key='ver' style={{marginLeft:'10px'}} onClick={e => onClickModalVer(e,text)}>Ver Nomina</Button>, 
-      <Button type='warning' key='manejar' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Manejar Nomina</Button>, 
+      <Button type='warning' key='manejar' style={{marginLeft:'10px'}} disabled={text.estado === 'Autorizada' ? true : false} onClick={e => onClickModal(e,text)}>Manejar Nomina</Button>, 
     ],
     },
   ];
 
   const onClickModal = (e,text) =>{
+    console.log(text)
     props.NOMINAS_COMPLETA_SELECIONADA_ACTION(text.key)
     showModal()
   }
