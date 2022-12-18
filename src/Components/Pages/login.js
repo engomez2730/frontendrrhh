@@ -37,7 +37,7 @@ const Login = (props) => {
   };
 
   const renderError =  () =>{
-    setAlert(<Alert message="Contraseña o correo incorrectos" type='error'></Alert>)
+    setAlert(<Alert message="Contrtseña o correo incorrectos" type='error'></Alert>)
    setTimeout(()=>{
       setAlert(null)
     },3000)
