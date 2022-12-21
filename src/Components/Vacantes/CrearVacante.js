@@ -1,8 +1,8 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import { Button, Form, Input,DatePicker,message,InputNumber,Select  } from 'antd';
 import Api from '../../apis/rrhhApi'
 import {connect} from 'react-redux'
-import { CAMBIAR_ESTADO } from '../../actions';
+import { CAMBIAR_ESTADO,GET_PUESTOS_ACTION } from '../../actions';
 import handleError from '../../Data/errorHandle';
 import {horariosFinal,puestosFinal} from '../../Data/CountriesData'
 
@@ -10,6 +10,27 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 const CrearPermiso = (props) => {
+
+  useEffect(() => {
+
+    props.GET_PUESTOS_ACTION()
+  },[props.estado]);
+
+  const puestos = props?.puestos?.map((e) => e.nombre)
+
+  const crearSelectArray = (array) =>{
+    return array?.map((e)=>{
+        return{
+            label:e,
+            value:e
+        }
+  })
+ }
+
+ const puestosFinalArray = crearSelectArray(puestos)
+
+
+
 
   const onFinish = async(values) => {
     try{
@@ -34,7 +55,7 @@ const CrearPermiso = (props) => {
   };
 
   const renderDepartamentos = (provincas) =>{
-    return provincas.map((e) =>{
+    return provincas?.map((e) =>{
         return <Option value={`${e.label}`} key={e.label}>{e.label}</Option> 
     })
   }
@@ -77,8 +98,8 @@ const CrearPermiso = (props) => {
             },
           ]}
         >
-          <Select placeholder="Seleciona el tipo de Departamento">
-               {renderDepartamentos(puestosFinal)}
+          <Select placeholder="Seleciona el Puesto">
+               {renderDepartamentos(puestosFinalArray)}
           </Select>
       </Form.Item>
 
@@ -143,9 +164,16 @@ const CrearPermiso = (props) => {
 
 
 const StateMapToProps = state =>{
-  return {permisos:state.permisos.permisos,permisoSelecioandoData:state.permisoSelecionado, estado:state.cambiarState}
+  return {
+    permisos:state.permisos.permisos,
+    permisoSelecioandoData:state.permisoSelecionado, 
+    estado:state.cambiarState,
+    puestos:state.puestos.puestos
+
+  }
 }
 
 export default connect(StateMapToProps,{
-  CAMBIAR_ESTADO
+  CAMBIAR_ESTADO,
+  GET_PUESTOS_ACTION
 })(CrearPermiso);

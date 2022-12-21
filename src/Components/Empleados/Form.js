@@ -9,16 +9,17 @@ import {
     DatePicker
   } from 'antd';
   import React,{useState,useEffect} from 'react';
-  import {paisesFinal,provinciasFinal,departamentosFinal,puestosFinal} from '../../Data/CountriesData'
+  import {paisesFinal,provinciasFinal,departamentosFinal} from '../../Data/CountriesData'
   import { message } from 'antd';
   import {connect} from 'react-redux'
   import Api from '../../apis/rrhhApi'
-  import { BUSCAR_CANDIDATO_ACTION } from '../../actions';
+  import { BUSCAR_CANDIDATO_ACTION,GET_PUESTOS_ACTION } from '../../actions';
   import './Form.css'
   import handleError from '../../Data/errorHandle';
+  import { useNavigate     } from "react-router-dom";
+
   
   const { Option } = Select;
-
 
   
   const formItemLayout = {
@@ -59,6 +60,20 @@ import {
     const [hideInput,hideInputSet] = useState(true) 
     const [hideInputHour,hideInputHourSet] = useState(true) 
 
+    const history = useNavigate ()
+    const puestos = props?.puestos?.map((e) => e.nombre)
+    const crearSelectArray = (array) =>{
+      return array?.map((e)=>{
+          return{
+              label:e,
+              value:e
+          }
+    })
+   }
+
+  const puestosFinalArray = crearSelectArray(puestos)
+
+
     const onSelectChange = (e) =>{
       if(e === 'República Dominicana'){
         hideInputSet(false)
@@ -77,6 +92,9 @@ import {
     }
 
     useEffect(() => {
+
+      props.GET_PUESTOS_ACTION()
+
       form.setFieldsValue({
         nombre:props.candidato?.nombre,
         apellido:props.candidato?.apellido,
@@ -97,7 +115,7 @@ import {
       message.success('Empleado creado con exito', 2);
       setTimeout(()=>{
         seterrorAlert(null)
-        window.location.href= '/'
+        history('/verempleados')
       },3000)
     }
 
@@ -432,8 +450,8 @@ import {
             },
           ]}
         >
-          <Select placeholder="Seleciona el tipo de Departamento">
-               {renderDepartamentos(puestosFinal)}
+          <Select placeholder="Seleciona el tipo de Puesto">
+               {renderDepartamentos(puestosFinalArray)}
           </Select>
         </Form.Item>
         <Form.Item name="createdAt" label="Inicio Laboral">
@@ -452,9 +470,14 @@ import {
   };
 
   const stateMapToProps = (state) =>{
-    return {candidato:state.buscarCandidato.buscarCandidato,estado:state.cambiarState}
+    return {
+      candidato:state.buscarCandidato.buscarCandidato,
+      estado:state.cambiarState,
+      puestos:state.puestos.puestos
+    }
   }
   
   export default connect(stateMapToProps,{
-    BUSCAR_CANDIDATO_ACTION
+    BUSCAR_CANDIDATO_ACTION,
+    GET_PUESTOS_ACTION
   })(App);

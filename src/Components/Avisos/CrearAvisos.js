@@ -2,7 +2,6 @@ import React,{useState} from 'react';
 import { Button, Form, Input,DatePicker,message,Select } from 'antd';
 import Api from '../../apis/rrhhApi'
 import {connect} from 'react-redux'
-import MostrarDepar from './mostrarDepar'
 import { CAMBIAR_ESTADO } from '../../actions';
 import handleError from '../../Data/errorHandle';
 const { Option } = Select;

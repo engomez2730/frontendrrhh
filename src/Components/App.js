@@ -28,6 +28,7 @@ import Despidos from './Despidos/CrearDespido';
 import DespidosVer from './Despidos/TableDespidos';
 import Epp from './Epp/Epp'
 import StatsEmpleados from './Empleados/Stats/Stats';
+import Puesto from './Puestos/Puesto';
 const {  Content } = Layout;
 
 
@@ -79,6 +80,7 @@ const App = (props) => {
                   <Route path='/despidosVer' element={<DespidosVer/>}></Route>
                   <Route path='/epp' element={<Epp/>}></Route>
                   <Route path='/statsempleados' element={<StatsEmpleados/>}></Route>
+                  <Route path='/puestos' element={<Puesto/>}></Route>
                 </Routes>
               </Content>
               </Layout>

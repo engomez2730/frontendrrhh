@@ -2,7 +2,7 @@ import { Button, Checkbox, Form, Input,Select,message,DatePicker  } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import React,{useEffect,useState} from 'react';
 import rrhhApi from '../../apis/rrhhApi';
-import { BUSCAR_SOLICITANTE_ACTION, CAMBIAR_ESTADO } from '../../actions';
+import { BUSCAR_SOLICITANTE_ACTION, CAMBIAR_ESTADO,GET_PUESTOS_ACTION } from '../../actions';
 import {connect} from 'react-redux'
 import {paisesFinal,provinciasFinal,departamentosFinal,puestosFinal,estadoCandidatoFinal} from '../../Data/CountriesData'
 import handleError from '../../Data/errorHandle';
@@ -22,6 +22,7 @@ const App = (props) => {
  
   useEffect(()=>{
     getVacantes()
+    props.GET_PUESTOS_ACTION()
     form.setFieldsValue({
       nombre:props.solicitante?.nombre,
       apellido:props.solicitante?.apellido,
@@ -37,6 +38,19 @@ const App = (props) => {
       props.BUSCAR_SOLICITANTE_ACTION()
     }
   },[props.estado])
+
+  const puestos = props?.puestos?.map((e) => e.nombre)
+
+  const crearSelectArray = (array) =>{
+    return array?.map((e)=>{
+        return{
+            label:e,
+            value:e
+        }
+  })
+ }
+
+ const puestosFinalArray = crearSelectArray(puestos)
 
   const onFinish = async(values) => {
     try{
@@ -136,14 +150,14 @@ const App = (props) => {
       <Form.Item
         label="Correo"
         name="correo"
-        rules={[{required: true,message: 'Please input your password!',},]}
+        rules={[{required: true,message: 'Por Favor introduce tu correo',},]}
       >
         <Input />
       </Form.Item>
       <Form.Item
         label="Pais"
         name="pais"
-        rules={[{required: true,message: 'Please input your password!',},]}
+        rules={[{required: true,message: 'Por Favor introduce tu pais',},]}
       >
            <Select placeholder="Seleciona el Pais">
                {renderPaises(paisesFinal)}
@@ -163,7 +177,7 @@ const App = (props) => {
           rules={[
             {
               required: true,
-              message: 'Please select gender!',
+              message: 'Por Favor introduce tu genero',
             },
           ]}
         >
@@ -189,10 +203,10 @@ const App = (props) => {
       <Form.Item
         label="Puesto"
         name="puestoAplicado"
-        rules={[{required: true,message: 'Please input your password!',},]}
+        rules={[{required: true,message: 'Por Favor introduce tu puesto!',},]}
       >
-          <Select placeholder="Seleciona el tipo de Departamento">
-               {renderDepartamentos(puestosFinal)}
+          <Select placeholder="Seleciona el tipo de puesto">
+               {renderDepartamentos(puestosFinalArray)}
           </Select>
       </Form.Item>
       <Form.Item
@@ -236,9 +250,15 @@ const App = (props) => {
 };
 
 const StateMapToProps = (state) =>{
-  return {estado:state.cambiarState, solicitante:state.buscarSolicitante.buscarSolicitante}
+  return {
+      estado:state.cambiarState, 
+      solicitante:state.buscarSolicitante.buscarSolicitante,
+      puestos:state.puestos.puestos
+    }
 }
 
 export default connect(StateMapToProps,{
-  BUSCAR_SOLICITANTE_ACTION,CAMBIAR_ESTADO
+  BUSCAR_SOLICITANTE_ACTION,
+  CAMBIAR_ESTADO,
+  GET_PUESTOS_ACTION
 })(App);

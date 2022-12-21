@@ -1,6 +1,8 @@
 import React from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, message, Upload } from 'antd';
+import { redirect } from "react-router-dom";
+
 const props = {
   name: 'photo',
   action: 'http://localhost:5000/api/v1/empleados/63969800c9f72eedc030a9ec',

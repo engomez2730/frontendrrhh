@@ -13,7 +13,7 @@ import { message } from 'antd';
 import {connect} from 'react-redux'
 import rrhhApi from '../../apis/rrhhApi';
 import Api from '../../apis/rrhhApi'
-import { BUSCAR_CANDIDATO_ACTION,CAMBIAR_ESTADO } from '../../actions';
+import { BUSCAR_CANDIDATO_ACTION,CAMBIAR_ESTADO,GET_PUESTOS_ACTION } from '../../actions';
 import handleError from '../../Data/errorHandle';
 import moment from 'moment';
 import { tuple } from 'antd/es/_util/type';
@@ -52,6 +52,19 @@ const App = (props) => {
 
     })    
   },[props.candidatoSelecionado]);
+
+  const puestos = props?.puestos?.map((e) => e.nombre)
+
+  const crearSelectArray = (array) =>{
+    return array?.map((e)=>{
+        return{
+            label:e,
+            value:e
+        }
+  })
+ }
+
+ const puestosFinalArray = crearSelectArray(puestos)
 
   
   const onFinish = async(values) => {
@@ -382,8 +395,8 @@ const App = (props) => {
             },
           ]}
         >
-          <Select placeholder="Seleciona el tipo de Departamento">
-               {renderDepartamentos(puestosFinal)}
+          <Select placeholder="Seleciona el puesto">
+               {renderDepartamentos(puestosFinalArray)}
           </Select>
         </Form.Item>
 
@@ -407,11 +420,13 @@ const App = (props) => {
 const StateMapToProps = state =>{
   return {
           estado:state.cambiarState,
-          candidatoSelecionado:state.candidatoSelecionado.candidatoSelec
+          candidatoSelecionado:state.candidatoSelecionado.candidatoSelec,
+          puestos:state.puestos.puestos
     }
 }
 
 export default connect(StateMapToProps,{
-  CAMBIAR_ESTADO
+  CAMBIAR_ESTADO,
+  GET_PUESTOS_ACTION
 })(App);
 

@@ -6,7 +6,6 @@ import AnunciosEmpleado from './Empleados/AnunciosEmpleado';
 import Config from './Empleados/Config';
 
 const EmpleadoPage = (props) => {
-    console.log(props)
     return (
         <>
             <h1 style={{paddingLeft:'60px'}}>Hola {props?.user.nombre}</h1>

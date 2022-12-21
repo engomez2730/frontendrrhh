@@ -73,6 +73,19 @@ export const elementos = [
             }
         ]
     },
+    {
+        nombre:'Puestos',
+        icon:HomeOutlined,
+        childrens:[
+            {
+                key:'Manejar Puestos',
+                label:<Link to='/puestos'>Manejar Puestos</Link>,
+                icon: React.createElement(PlusCircleOutlined)
+
+                
+            }
+        ]
+    },
    
     {
         nombre:'Avisos',
