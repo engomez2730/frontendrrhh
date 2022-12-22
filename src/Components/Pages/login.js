@@ -12,21 +12,19 @@ import handleError from '../../Data/errorHandle'
 
 const Login = (props) => {
 
-  console.log('HI FROM LOGIN')
-
   const [alert,setAlert] = useState(null)
   const onFinish = async (values) => {
     try{
       const response = await API.post('http://localhost:5000/api/v1/login',{
         correo:values.correo,
         password:values.password
-      })
+      })  
+    
       if(response.data.status === 'success'){
         props.loggedUserIn()
         localStorage.setItem('user',JSON.stringify(response.data.data.user))
         props.setUser(response.data.data.user)
-/*         window.location.href= '/'
- */      }
+     }
     }catch(err){
       handleError(err)
     }
@@ -56,18 +54,8 @@ const Login = (props) => {
         onFinishFailed={onFinishFailed} 
         autoComplete="off">
         <Form.Item label="Correo" name="correo"
-        rules={[
-          {
-          required: true,
-          message: 'Tienes que poner tu correo',
-           },
-          {
-            type:'email',
-            message:'Debes introducir un correo valido'
-          }
-        
-      
-           ]}>
+        rules={[{required: true,message: 'Tienes que poner tu correo', },
+        {type:'email',message:'Debes introducir un correo valido'}]}>
           <Input/>
         </Form.Item>
         <Form.Item label="Contraseña" name="password"

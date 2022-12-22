@@ -162,18 +162,18 @@ import {
     };
 
     const renderPaises = (Countries) =>{
-      return Countries.map((e) =>{
+      return Countries?.map((e) =>{
           return <Option value={`${e.label}`} key={e.label}>{e.label}</Option> 
       })
     }
 
     const renderProvincias = (provincas) =>{
-      return provincas.map((e) =>{
+      return provincas?.map((e) =>{
           return <Option value={`${e.label}`} key={e.label}>{e.label}</Option> 
       })
     }
     const renderDepartamentos = (provincas) =>{
-      return provincas.map((e) =>{
+      return provincas?.map((e) =>{
           return <Option value={`${e.label}`} key={e.label}>{e.label}</Option> 
       })
     }

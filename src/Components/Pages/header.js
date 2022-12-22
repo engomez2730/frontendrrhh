@@ -14,12 +14,28 @@ const HeaderFInal = (props) => {
       props.loggedUserOut()
       window.location.href='/'
     }
+
+    function getCookies() {
+      var cookies = document.cookie.split(';');
+      let ret = '';
+      for(var i = 1; i <= cookies.length; i++) {
+          ret += i + ' - ' + cookies[i - 1] + "<br>";
+      }
+      ret = ret?.split('=')[1]
+
+
+      return ret?.split('<br>')[0]
+    }
+
+    const token = getCookies()
+    console.log(token)
+
      const renderButton = () =>{
-       if(!props.isLoggedInState.isLoggedIn){
+       if(!props.isLoggedInState.isLoggedIn && !token){
          return <Button color="inherit"><Link to='/login'>Log In</Link></Button> 
-       }else if(props.isLoggedInState.isLoggedIn) {
+       }else if(props.isLoggedInState.isLoggedIn || token) {
         return <>
-                  <Button color="inherit" onClick={() => logOut()}>Salir</Button> 
+                  <Button color="inherit" onClick={() => logOut()}>Salir</Button>, 
                   <Button color="inherit" >Mi Perfil</Button>
                </>
        }

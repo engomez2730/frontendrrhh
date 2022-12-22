@@ -35,16 +35,31 @@ const {  Content } = Layout;
 const App = (props) => {
 
   const [userActive,userActiveSet] = useState(JSON.parse(localStorage.getItem('user')))
+
+  useEffect(()=>{
+    props.setUser(userActive)
+  },[])
+
   const USER = JSON.parse(localStorage.getItem('user'))
 
+  
+  function getCookies() {
+    var cookies = document.cookie.split(';');
+    var ret = '';
+    for(var i = 1; i <= cookies.length; i++) {
+        ret += i + ' - ' + cookies[i - 1] + "<br>";
+    }
+    return ret.split('=')[1];
+  }
 
- /*  useEffect(()=>{
+    const token = getCookies()
+    /*   props.setUser(USER)
+ */
 
 
-  },[props?.isLoggedIn?.isLoggedIn]) */
 
   const renderSider = () =>{
-    if(props?.isLoggedIn?.isLoggedIn && USER.rol === 'admin'){
+    if((props?.isLoggedIn?.isLoggedIn || token) && USER?.rol === 'admin'){
       return <Sider/>
     }else{
       return null

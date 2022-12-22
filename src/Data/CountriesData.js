@@ -4,7 +4,6 @@ var state = new Array("Afganistán","Albania","Alemania","Andorra","Angola","Ant
 ;
 
 const crearSelectArray = (array) =>{
-    console.log(array)
     return array?.map((e)=>{
         return{
             label:e,
