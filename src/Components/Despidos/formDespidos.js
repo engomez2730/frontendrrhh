@@ -4,6 +4,7 @@ import Api from '../../apis/rrhhApi'
 import {connect} from 'react-redux'
 import { CAMBIAR_ESTADO } from '../../actions';
 import handleError from '../../Data/errorHandle';
+import {razonesDespidosFinal} from '../../Data/CountriesData'
 const {TextArea} = Input
 const {Option} = Select;
 
@@ -15,11 +16,16 @@ const CrearPermiso = (props) => {
   const nominaOpciones = props.nominasCompletas?.map(e =>{
         return e.nombreNomina
   })
+
+
   const renderOpciones = (Countries) =>{
     return Countries.map((e,index) =>{
-        return <Option value={`${e}`} key={index}>{e}</Option> 
+        return <Option value={e.value} key={index}>{e}</Option> 
     })
   }
+
+  console.log(razonesDespidosFinal)
+
   const [form] = Form.useForm();
 
   useEffect(() => {
@@ -82,12 +88,17 @@ const CrearPermiso = (props) => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
-      disabled={disableForm}
-      form={form}
+/*       disabled={disableForm}
+ */      form={form}
     >
        <Form.Item 
         label="Razon despido" name="razon">
-        <Input />
+        <Select placeholder="Seleciona una razon">
+          <Option value="Mala Conducta" key={'Mala Conducta'}>Mala Conducta</Option>
+          <Option value="Rotacion Laboral" key={'Rotacion Laboral'}>Rotacion Laboral</Option>
+          <Option value="Reducción de Personal" key={'Reducción de Personal'}>Reducción de Personal</Option>
+          <Option value="Otro" key={'Otro'}>Otro</Option>
+        </Select>
       </Form.Item>
       <Form.Item 
         label="Descripcion" name="descripcion">
@@ -139,7 +150,7 @@ const CrearPermiso = (props) => {
         }}
       >
         <Button type="primary" htmlType="submit">
-          Agregar a Nomina
+          Depedir Empleado
         </Button>
       </Form.Item>
     </Form>

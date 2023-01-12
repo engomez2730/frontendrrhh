@@ -5,6 +5,7 @@ import Api from '../../apis/rrhhApi'
 import { message } from 'antd';
 import {  CAMBIAR_ESTADO } from '../../actions';
 import handleError from '../../Data/errorHandle';
+import Upload from './Upload';
 
 
 
@@ -25,6 +26,9 @@ const InfoForm = (props) => {
     }, [props.usuarioEditar]);
 
     const onFinish = async (values) => {
+      console.log(values)
+
+
         try{
           const data = await Api.patch(`empleados/${props.usuarioEditar.key}`,{
             nombre:values.nombre,
@@ -99,10 +103,7 @@ const InfoForm = (props) => {
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        label="Celular"
-        name="celular"
-        rules={[
+      <Form.Item label="Celular" name="celular" rules={[
           {
             required: true,
             message: 'Please input your username!',
@@ -111,10 +112,7 @@ const InfoForm = (props) => {
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        label="Cedula"
-        name="cedula"
-        rules={[
+      <Form.Item label="Cedula" name="cedula" rules={[
           {
             required: true,
             message: 'Please input your username!',
@@ -126,16 +124,14 @@ const InfoForm = (props) => {
       <Form.Item
         label="Direccion"
         name="direccion"
-        rules={[
-          {
-            required: true,
-            message: 'Please input your username!',
-          },
-        ]}
       >
         <Input />
       </Form.Item>
 
+   {/*    <Form.Item label="Photo" name="photo"rules={[{required: true,message: 'Please input your username!',},]} >
+        <input type="file" accept='image/*'/>
+      </Form.Item>
+ */}
 
 
       <Form.Item

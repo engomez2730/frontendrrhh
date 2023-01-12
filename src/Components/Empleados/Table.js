@@ -90,6 +90,20 @@ const TableFinal = (props) => {
       title: 'Departamento',
       dataIndex: 'departamento',
       key: 'departamento',
+      filters: [
+        {
+          text: 'Administracion',
+          value: 'Administracion',
+        },
+        {
+          text: 'Inmobiliaria',
+          value: 'Inmobiliaria',
+        }
+      ],
+      onFilter: (value, record) => {
+        return record?.departamento?.indexOf(value) === 0
+      }
+
     },
     {
       title: 'Telefono',

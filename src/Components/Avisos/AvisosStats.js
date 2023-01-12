@@ -10,9 +10,6 @@ const StatsCard = ({empleados}) => {
   const EmpleadosActivos = empleados?.filter(e =>{
     return e.estado === true
   })
-
-  console.log(empleados)
-
   const Data = [
     {
       title:'Empleados Registrados Total',

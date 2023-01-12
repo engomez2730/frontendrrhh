@@ -146,7 +146,8 @@ const TablePerm = (props) => {
   const onClickModalCrear = (e,text) =>{
     showModalCrear()
   }
-    const entrevistados =  props?.entrevistados?.map(e => {
+    const entrevistados = props?.entrevistados?.map(e => {
+      console.log(e)
         return {
             nombre:e.nombre,
             apellido:e.apellido,
@@ -157,6 +158,7 @@ const TablePerm = (props) => {
             estadoLaboral:e.estadoLaboral,
             provincia:e.provincia,
             pais:e.pais,
+            vacanteAplicada:e.vacanteAplicada,
             key:e._id    
         }
     })

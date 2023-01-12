@@ -55,6 +55,18 @@ export const elementos = [
         ]
     },
     {
+        nombre:'Candidatos',
+        icon:BookOutlined,
+        childrens:[
+            {
+                key:'crearCandidato',
+                label:<Link to='/candidatos'>Crear candidato</Link>,
+                icon: React.createElement(PlusCircleOutlined)
+
+            }
+        ]
+    },
+    {
         nombre:'Departamentos',
         icon:HomeOutlined,
         childrens:[
@@ -86,8 +98,7 @@ export const elementos = [
             }
         ]
     },
-   
-    {
+    /* {
         nombre:'Avisos',
         icon:BellOutlined,
         childrens:[
@@ -98,19 +109,7 @@ export const elementos = [
 
             }
         ]
-    },
-    {
-        nombre:'Candidatos',
-        icon:BookOutlined,
-        childrens:[
-            {
-                key:'crearCandidato',
-                label:<Link to='/candidatos'>Crear candidato</Link>,
-                icon: React.createElement(PlusCircleOutlined)
-
-            }
-        ]
-    },
+    }, */
     {
         nombre:'Nomina',
         icon:DollarCircleOutlined,
@@ -177,20 +176,24 @@ export const elementos = [
         icon:BarChartOutlined,
         childrens:[
             {
-                key:'crearAnuncio',
-                label:<Link to='/verempleados'>Ir</Link>
+                key:'EmpleadosStats',
+                label:<Link to='/empleadosstats'> Empleados</Link>
             },
             {
-                key:'verAnuncio',
-                label:<Link to='/verempleados'>Ir</Link>
+                key:'DepartamentoStats',
+                label:<Link to='/departamentosstats'>Departamentos</Link>
             },
             {
                 key:'editarAnuncio',
-                label:<Link to='/verempleados'>Ir</Link>
+                label:<Link to='/vacacionesstats'>Vacaciones</Link>
             },
             {
                 key:'elimianrAnuncio',
-                label:<Link to='/verempleados'>Ir</Link>
+                label:<Link to='/despidosstats'>Despidos</Link>
+            },
+            {
+                key:'EppSt',
+                label:<Link to='/eppsstats'>Epps</Link>
             },
         ]
     }

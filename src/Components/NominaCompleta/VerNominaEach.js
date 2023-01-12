@@ -7,12 +7,11 @@ moment.locale('es')
 
 
 const PermisoVer = (props) => {
-    console.log(props.nominaSelecionada)
     return (
         
         <div className='verVacacionesModal'>
             <div className='verVacacionesItem'>
-                <div className='verVacacionesLabel'>Mes:</div>
+                <div className='verVacacionesLabel'>Meds:</div>
                 <div className='verVacacionesValue'> {props?.nominaSelecionada?.mes} </div>
             </div>
             <div className='verVacacionesItem'>
@@ -75,7 +74,8 @@ const PermisoVer = (props) => {
 }
 
 const StateMapToProps = state =>{
-    return {nominaSelecionada:state.nominaSelecionada.nominaSelecionada,estado:state.cambiarState}
+    return {
+        estado:state.cambiarState}
   }
   
   export default connect(StateMapToProps,{

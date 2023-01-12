@@ -181,11 +181,11 @@ const TablePerm = (props) => {
     }
     })
     
-    const estadoP = true
 
     const empleadosActivos = empleados?.filter(e =>{
         return e.estado === true
     })
+
 
 
     return (
@@ -193,7 +193,7 @@ const TablePerm = (props) => {
             <Table 
             style={{marginTop:'50px',width:'80%'}}
            columns={columns} scroll={{x: 1300, }} 
-           dataSource={estadoP ? empleadosActivos :empleados}
+           dataSource={empleadosActivos}
            bordered={true}
            pagination={{pageSize:5,total:empleados?.length}}
            />

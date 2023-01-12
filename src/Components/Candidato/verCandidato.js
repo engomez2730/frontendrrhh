@@ -1,4 +1,8 @@
 import React from 'react';
+import moment from 'moment';
+import 'moment/locale/es'  // without this line it didn't work
+moment.locale('es')
+
 
 const VerCandidato = ({candidato}) => {
     return (
@@ -39,6 +43,10 @@ const VerCandidato = ({candidato}) => {
         <div className='verVacacionesItem'>
             <div className='verVacacionesLabel'>Estado Laboral:</div>
             <div className='verVacacionesValue'>{candidato?.estadoLaboral}</div>
+        </div>
+        <div className='verVacacionesItem'>
+            <div className='verVacacionesLabel'>Fecha de Creacion:</div>
+            <div className='verVacacionesValue'>{moment(candidato?.createdAt).format('MMMM Do YYYY, h:mm:ss a')}</div>
         </div>
         <div className='verVacacionesItem'>
             <div className='verVacacionesLabel'>Vacante Aplicada:</div>

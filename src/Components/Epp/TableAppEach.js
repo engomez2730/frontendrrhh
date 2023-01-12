@@ -3,12 +3,10 @@ import { Table,Button,Modal,Input,Popconfirm,Tag } from 'antd';
 import {SearchOutlined} from '@ant-design/icons'
 import {connect} from 'react-redux'
 import {avisoSelecionado,CAMBIAR_ESTADO, GET_EPP_ACTION} from '../../actions/index'
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import Api from '../../apis/rrhhApi'
-import moment from 'moment';
 import CrearEpp from './CrearEpp';
-
-moment.locale('uk')
+import moment from 'moment';
+import 'moment/locale/es'
+moment.locale('es')
 
 
 const TablePerm = (props) => {
@@ -17,7 +15,6 @@ const TablePerm = (props) => {
   const [isModalOpenCrear, setIsModalVerOpenCrear] = useState(false);
 
   useEffect(()=>{
-    console.log('Boo Legue MMG')
   },[props.estado])
 
   const showModal = () => {
@@ -80,7 +77,7 @@ const TablePerm = (props) => {
           return record.nombre.toLowerCase().includes(value.toLowerCase())
       },
       render:(text) =>{
-        return <>{moment(text).format('LL')}</>
+        return <>{moment(text).format('MMMM Do YYYY, h:mm:ss a')}</>
       }
     },
     {
@@ -116,7 +113,7 @@ const TablePerm = (props) => {
         key: 'siguienteFechaEntrega',
         width: 400,
         render:(text) =>{
-            return <>{moment(text).format('LL')}</>
+            return <>{moment(text).format('MMMM Do YYYY, h:mm:ss a')}</>
         }
     },
   ];

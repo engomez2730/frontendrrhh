@@ -7,8 +7,10 @@ const calculateYears = (date1,date2) =>{
 }
 export const vacaciones = (createdAt) =>{
 
+
     const meses = calculateMonths(new Date(),new Date(createdAt))
     const years = calculateYears(new Date(),new Date(createdAt))
+
     if(meses < 5){
         return 'No tiene derechos a vacaciones'
     }else if(meses >= 5 && meses < 6){
@@ -25,10 +27,10 @@ export const vacaciones = (createdAt) =>{
         return 11
     }else if(meses >= 11 && meses <=12){
         return  12
-    }else if(meses >= 12 && meses <13){
+    }else if(meses >= 12){
         return 14
     }else{
-        return  18
+        return  14
     }
 }
 

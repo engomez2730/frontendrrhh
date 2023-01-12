@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React from 'react';
 import {connect} from 'react-redux'
 
@@ -16,7 +17,7 @@ const PermisoVer = (props) => {
     
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Fecha:</div>
-                <div className='verVacacionesValue'> {props.permisoSelecioandoData.permisoSelecionado?.fecha}</div>
+                <div className='verVacacionesValue'> {moment(props.permisoSelecioandoData.permisoSelecionado?.fecha).format('MMMM Do YYYY, h:mm:ss a')}</div>
             </div>
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Empleado:</div>

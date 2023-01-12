@@ -1,9 +1,12 @@
 import React from 'react';
 import {connect} from 'react-redux'
+import rrhhApi from '../../apis/rrhhApi';
+import TableNomCom from './TableNomCom';
 
 
 
 const PermisoVer = ({nomina}) => {
+
     return (
         
         <div className='verVacacionesModal'>
@@ -29,6 +32,7 @@ const PermisoVer = ({nomina}) => {
                 <div className='verVacacionesLabel'>Empleados Nominados:</div>
                 <div className='verVacacionesValue'> {nomina?.Nominas?.length}</div>
             </div>
+            <TableNomCom/>
         </div>
     );
 

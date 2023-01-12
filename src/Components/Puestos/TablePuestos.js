@@ -7,11 +7,10 @@ import { QuestionCircleOutlined } from '@ant-design/icons';
 import Api from '../../apis/rrhhApi'
 import CrearPuesto from './CrearPuesto';
 import VerPuesto from './VerPuesto';
-
-
-import moment from 'moment';
 import EditarPuesto from './EditarPuesto';
-moment.locale('uk')
+import moment from 'moment';
+import 'moment/locale/es'  // without this line it didn't work
+moment.locale('es')
 
 
 const TablePerm = (props) => {
@@ -84,14 +83,20 @@ const TablePerm = (props) => {
       }
     },
     {
-      title: 'Descripcion',
+      title: 'Descripción',
       dataIndex: 'descripcion',
       key: 'apellido',
     },
     {
-      title: 'Fecha de Creacion',
+      title: 'Fecha de Creación',
       dataIndex: 'createdAt',
       key: 'cedula',
+      render:(text) =>{
+        console.log(text)
+        return (<div>
+          {moment(text).format('MMMM Do YYYY, h:mm:ss a')}
+        </div>)
+      }
     },
     {
       title: 'Acción',

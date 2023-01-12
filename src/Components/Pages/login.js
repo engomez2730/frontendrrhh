@@ -18,7 +18,9 @@ const Login = (props) => {
       const response = await API.post('http://localhost:5000/api/v1/login',{
         correo:values.correo,
         password:values.password
-      })  
+      })
+      
+      console.log(response)
     
       if(response.data.status === 'success'){
         props.loggedUserIn()

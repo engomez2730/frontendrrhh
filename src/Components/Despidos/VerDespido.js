@@ -1,5 +1,7 @@
 import React from 'react';
-import moment from 'moment';
+import 'moment/locale/es'
+import moment from 'moment';  // without this line it didn't work
+moment.locale('es')
 
 const VerDespido = ({despido}) => {
 
@@ -22,7 +24,7 @@ const VerDespido = ({despido}) => {
 
         <div className='verVacacionesItem'>
             <div className='verVacacionesLabel'>Fecha del despido:</div>
-            <div className='verVacacionesValue'> {new Intl.DateTimeFormat('es-DO',{ dateStyle: 'full', timeStyle: 'short' }).format(despido?.createdAt)}</div>
+            <div className='verVacacionesValue'> {moment(despido?.fechaDeDespido).format('MMMM Do YYYY, h:mm:ss a')}</div>
         </div>
         <div className='verVacacionesItem'>
             <div className='verVacacionesLabel'>Prestaciones Laborables:</div>

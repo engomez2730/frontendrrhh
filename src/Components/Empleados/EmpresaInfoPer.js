@@ -9,7 +9,6 @@ const EmpresaInfoPer = ({usuarioSelecionado,usuarioEditado}) => {
 
     },[usuarioEditado])
 
-    console.log(usuarioSelecionado)
 
     return (
         <div className='infoParent'>

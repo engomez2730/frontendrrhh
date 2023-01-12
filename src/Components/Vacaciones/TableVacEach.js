@@ -8,7 +8,8 @@ import {SearchOutlined} from '@ant-design/icons'
 import EditarVacaciones from './EditarVacaciones';
 import VerVacacionesEach from './VerVacacionesEach'
 import moment from 'moment';
-moment.locale('ES')
+import 'moment/locale/es'  // without this line it didn't work
+moment.locale('es')
 
 
 
@@ -85,7 +86,7 @@ const TableFinal = (props) => {
       render: (text,item) => { 
         if(text){
             return <>{moment(text).format('MMMM Do YYYY')}</>
-        }else if(text){
+        }else if(!text){
             return <>{}</>
         }
         return <>{item.tiempoDeVacaciones[0]}</>

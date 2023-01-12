@@ -8,7 +8,7 @@ import Config from './Empleados/Config';
 const EmpleadoPage = (props) => {
     return (
         <>
-            <h1 style={{paddingLeft:'60px'}}>Hola {props?.user.nombre}</h1>
+            <h1 style={{paddingLeft:'68px', background:"#fff"}}>Hola {props?.user?.nombre}</h1>
             <div className='empleadoPage'>
                 <PersonInfo user={props?.user}/>
                 <AnunciosEmpleado user={props?.user}/>

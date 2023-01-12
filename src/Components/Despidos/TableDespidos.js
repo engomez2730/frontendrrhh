@@ -88,6 +88,11 @@ const TablePerm = (props) => {
       title: 'Fecha de Despido',
       dataIndex: 'fechaDespido',
       key: 'apellido',
+      render:(text)=>{
+        return <div>
+          {moment(text).format('MMMM Do YYYY, h:mm:ss a')}
+        </div>
+      }
     },
     {
       title: 'Prestaciones',

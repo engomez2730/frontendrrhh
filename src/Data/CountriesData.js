@@ -29,6 +29,8 @@ const puestos = ['Gerente General','Encargado Recursos Humanos','Asistente Recur
 'Jardinero','Encargado de Compras','Encargado de Equipos','Encargado de Almacen','Labador','Vigilante','Encargado Despacho',
 'Encargado Planta Agregado','Operador Planta','Encargado Taller','Otro']
 
+const razonesDespido = ['Mala Conducta','Rotacion Laboral','Reducción de Personal',]
+
 /* const puestosFunc = async () =>{
     const res = await rrhhApi.get('puestos')
     return res.data.data?.puestos?.map((e) => e.nombre)
@@ -45,5 +47,6 @@ export const departamentosFinal = crearSelectArray(departamentos)
 export const puestosFinal = crearSelectArray(puestos)
 export const estadoCandidatoFinal = crearSelectArray(estadoCandidato)
 export const horariosFinal = crearSelectArray(horarios)
+export const razonesDespidosFinal = crearSelectArray(razonesDespido)
 
 

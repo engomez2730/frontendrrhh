@@ -29,6 +29,8 @@ import DespidosVer from './Despidos/TableDespidos';
 import Epp from './Epp/Epp'
 import StatsEmpleados from './Empleados/Stats/Stats';
 import Puesto from './Puestos/Puesto';
+import DepartamentoStats from './Stats/Departamentos/Departamentos'
+import EmpleadoPage from './Pages/EmpleadoPage';
 const {  Content } = Layout;
 
 
@@ -61,8 +63,8 @@ const App = (props) => {
   const renderSider = () =>{
     if((props?.isLoggedIn?.isLoggedIn || token) && USER?.rol === 'admin'){
       return <Sider/>
-    }else{
-      return null
+    }else if((props?.isLoggedIn?.isLoggedIn || token) && USER?.rol === 'empleado'){
+      return <EmpleadoPage/>
     }
   }
 
@@ -72,7 +74,7 @@ const App = (props) => {
             <Layout>
               {renderSider()}
               <Layout style={{ padding: '0 24px 24px' }}>
-              <Content className="site-layout-background" style={{padding: 24,margin: '20px 0px',minHeight: '80vh'}}>
+              <Content className="site-layout-background" style={{padding: 24,margin: '20px 0px',minHeight: '85vh'}}>
                 <Routes>
                   <Route path='/' element={<Inicio/>}></Route>
                   <Route path='/crearempleado' element={<CrearEmpleado/>}></Route>
@@ -96,6 +98,7 @@ const App = (props) => {
                   <Route path='/epp' element={<Epp/>}></Route>
                   <Route path='/statsempleados' element={<StatsEmpleados/>}></Route>
                   <Route path='/puestos' element={<Puesto/>}></Route>
+                  <Route path='/departamentosstats' element={<DepartamentoStats/>}></Route>
                 </Routes>
               </Content>
               </Layout>

@@ -83,12 +83,16 @@ const CrearPermiso = (props) => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
-      disabled={disableForm}
-      form={form}
+/*       disabled={disableForm}
+ */      form={form}
     >
        <Form.Item 
-        label="Razon despido" name="razon">
-        <Input />
+        label="Razon Desvinculo" name="razon">
+         <Select placeholder="Seleciona una razon">
+          <Option value="Mejor Oportunidad" key={'Mejor Oportunidad'}>Mala Conducta</Option>
+          <Option value="Mal ambiente laboral" key={'Mal ambiente laboral'}>Rotacion Laboral</Option>
+          <Option value="Otro" key={'Otro'}>Otro</Option>
+        </Select>
       </Form.Item>
       <Form.Item 
         label="Descripcion" name="descripcion">

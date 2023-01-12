@@ -47,7 +47,7 @@ const TableFinal = (props) => {
   const columns = [
     {
       title: 'Nombre',
-      width: 100,
+      width: 170,
       dataIndex: 'nombre',
       key: 'name',
       fixed: 'left',
@@ -77,19 +77,25 @@ const TableFinal = (props) => {
       title: 'Apellido',
       dataIndex: 'apellido',
       key: 'apellido',
+      width: 170,
+
     },
     {
       title: 'Cedula',
       dataIndex: 'cedula',
       key: 'cedula',
+      width: 170,
+
     },
     {
       title: 'Estado',
       dataIndex: 'Vacaciones',
       key: 'cedula',
-      render: (text,item) => {        
+      width: 170,
+
+      render: (text,item) => {
         if(text.length === 0){
-          return <Tag color='red' key={item._id}>No tiene tiempo</Tag>
+          return <Tag color='red' key={item._id}>No ha  tomado aun</Tag>
         }else if(text.length > 0){
           const date1 = moment(text[text.length-1].tiempoDeVacaciones[0]).format()
           const dateNow = moment().format()
@@ -100,7 +106,6 @@ const TableFinal = (props) => {
           }
           return <Tag color='Green' key={item._id}>En espera</Tag>
         }
-
         return <></>
       }
     },

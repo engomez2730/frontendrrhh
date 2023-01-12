@@ -10,7 +10,7 @@ const VerVacante = ({vacante}) => {
             <div className='verVacacionesValue'> {vacante?.nombre}</div>
         </div>
         <div className='verVacacionesItem' key='3'>
-            <div className='verVacacionesLabel'>Descripcion de la vacante:</div>
+            <div className='verVacacionesLabel'>Descripcion:</div>
             <div className='verVacacionesValue'> {vacante?.descripcion}</div>
         </div>
 
