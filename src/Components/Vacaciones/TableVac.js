@@ -173,10 +173,10 @@ const TableFinal = (props) => {
            bordered={true}
            pagination={{pageSize:6,total:empleados?.length}}
            />
-          <Modal title="Vacaciones del empleado" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1000}>
+          <Modal title="Vacaciones del empleado" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1200}>
             <EditarVacaciones usuario={props.usuarioSelecionado} />
           </Modal>
-          <Modal title="Vacaciones del empleado" open={isModalOpenVer} onOk={handleOkVER} onCancel={handleCancelVer} width={1000}>
+          <Modal title="Vacaciones del empleado" open={isModalOpenVer} onOk={handleOkVER} onCancel={handleCancelVer} width={1200}>
             <VerVacaciones usuario={props.usuarioSelecionado} />
           </Modal>
         </>

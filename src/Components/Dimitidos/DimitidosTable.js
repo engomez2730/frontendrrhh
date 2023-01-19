@@ -1,15 +1,12 @@
 import React,{useEffect,useState} from 'react';
-import { Table,Button,Modal,Input,Popconfirm } from 'antd';
-import {SearchOutlined} from '@ant-design/icons'
+import { Table,Button,Modal,Input } from 'antd';
+import {SearchOutlined,} from '@ant-design/icons'
 import {connect} from 'react-redux'
-import {avisoSelecionado,cargarEmpleados,CAMBIAR_ESTADO,empleadoSelecionadoVer} from '../../actions/index'
-import FormDespidos from './formDespidos'
-import CrearDesvinculo from './CrearDesvinculo';
-
-
-
+import {cargarEmpleados,GET_DIMITIDOS_ACTION} from '../../actions/index'
+import VerDimitido from './VerDimitido'
 import moment from 'moment';
-moment.locale('uk')
+import Api from '../../apis/rrhhApi'
+
 
 
 const TablePerm = (props) => {
@@ -72,6 +69,7 @@ const TablePerm = (props) => {
           onBlur={()=>{
             confirm()
           }}
+        
         ></Input>
       },
       filterIcon:() =>{
@@ -79,46 +77,52 @@ const TablePerm = (props) => {
       },
       onFilter:(value,record) =>{
           return record.nombre.toLowerCase().includes(value.toLowerCase())
-      }
-    },
-    {
-      title: 'Apellido',
-      dataIndex: 'apellido',
-      key: 'apellido',
+      },
+      render:(value,record) =>{
+        return <>{`${record.nombre} ${record.apellido}`}</>
+      },
     },
     {
       title: 'Cedula',
       dataIndex: 'cedula',
-      key: 'cedula',
+      key: 'apellido',
+      width: 200,
+
     },
     {
-      title: 'Departamento',
-      dataIndex: 'departamento',
-      key: 'cedula',
+        title: 'Celular',
+        dataIndex: 'celular',
+        key: 'celular',
+        width: 200,
+    },
+    {
+        title: 'Puesto',
+        dataIndex: 'puesto',
+        key: 'celular',
+        width: 200,
+    },
+    {
+        title: 'Departamento',
+        dataIndex: 'departamento',
+        key: 'celular',
+        width: 200,
     },
     {
       title: 'Acción',
       key: 'operation',
       fixed: 'right', 
-      width: 260,
+      width: 160,
       render: (text) => [
-      <Button type='primary' key='despedir' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Despedir </Button>,
-      <Button type='dished' key='desvincular' style={{marginLeft:'10px'}} onClick={e => onClickModalVer(e,text)}>Desvincular </Button>],
+      <Button type='primary' key='ver' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Ver Demitido</Button>   ],
     },
   ];
 
   const onClickModal = (e,text) =>{
-    props.empleadoSelecionadoVer(text.key)
+    props.GET_DIMITIDOS_ACTION(text.key)
     showModal()
   }
-  const onClickModalVer = (e,text) =>{
-    props.avisoSelecionado(text)
-    showModalEdit()
-  }
-  const onClickModalCrear = (e,text) =>{
-    showModalCrear()
-  }
-    const empleados =  props?.empleados?.map(e => {
+
+    const empleadosDimitidos =  props?.empleados?.map(e => {
         return {
             nombre:e.nombre,
             apellido:e.apellido,
@@ -127,47 +131,53 @@ const TablePerm = (props) => {
             cedula:e.cedula,
             departamento:e.cedula,
             key:e.id,
+            DiaDeVacaciones:e.DiaDeVacaciones,
             PrestacionesLaborales:e.PrestacionesLaborales,
+            ausencias:e.ausencias,
             contrato:e.contrato,
             createdAt:e.createdAt,
             direccion:e.direccion,
             estado:e.estado,
             pais:e.pais,
             provincia:e.provincia,
-            salario:e.sueldoFijo,
+            sueldoFijo:e.sueldoFijo,
             departamento:e.departamento,
             expiracionDelContrato:e.vencimientoDelContrato,
-            Vacaciones:e.Vacaciones
+            vacacionesTomadas:e.vacacionesTomadas,
+            puesto:e.puesto
         }
     })
 
-    const empleadosActivos = empleados?.filter(e =>{
-      return e.estado === true
-  })
+    const empleadosActivos = empleadosDimitidos?.filter(e =>{
+        return e.estado === false
+    })
+
+
     return (
         <div>
             <Table 
-              style={{marginTop:'50px',width:'80%'}}
-              columns={columns} scroll={{x: 1300, }} 
-              dataSource={empleadosActivos}
-              bordered={true}
-              pagination={{pageSize:5,total:empleados?.length}}
+            style={{marginTop:'50px',width:'80%'}}
+           columns={columns} scroll={{x: 1300, }} 
+           dataSource={empleadosActivos}
+           bordered={true}
+           pagination={{pageSize:5,total:empleadosDimitidos?.length}}
            />
-          <Modal title="Despedir empleado" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1000}>
-              <FormDespidos/>
+          <Modal title="Ver Permiso" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1000}>
+            <VerDimitido Dimitido={props.dimitidosSelect}/>
           </Modal>
-          <Modal title="Desvincular empleado" open={isModalOpenVer} onOk={handleOkVER} onCancel={handleCancelVer} width={1000}>
-              <CrearDesvinculo/>
+          <Modal title="Editar Permiso" open={isModalOpenVer} onOk={handleOkVER} onCancel={handleCancelVer} width={1000}>
+          </Modal>
+          <Modal title="Crear Permiso" open={isModalOpenCrear} onOk={handleOkCrear} onCancel={handleCancelCrear} width={1000}>
           </Modal>
         </div>
     );
 }
+
 const StateMapToProps = state =>{
-    return {empleados:state.empleados.empleados, estado:state.cambiarState}
+    return { estado:state.cambiarState,empleados:state.empleados.empleados,dimitidosSelect:state.Dimitidos.Dimitidos}
 }
+
 export default connect(StateMapToProps,{
     cargarEmpleados,
-    avisoSelecionado,
-    CAMBIAR_ESTADO,
-    empleadoSelecionadoVer
+    GET_DIMITIDOS_ACTION
 })(TablePerm);

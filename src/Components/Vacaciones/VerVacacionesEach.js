@@ -1,10 +1,6 @@
 import moment from "moment";
 
 const VerVacaciones = (props) => {
-
-    console.log(props)
-    console.log(props?.vacacion?.diasDeVacaciones)
-
     return (
         <div className='verVacacionesModal'>
 

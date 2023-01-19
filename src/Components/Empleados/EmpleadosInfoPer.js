@@ -62,6 +62,10 @@ const EmpleadosInfoPer = ({usuarioSelecionado,usuarioEditado}) => {
                         <div className='subNombres'>Direccion:</div>
                         <div className='realNombres'>{usuarioSelecionado?.direccion}</div>
                     </div>
+                    <div className='nombres'>
+                        <div className='subNombres'>Contacto de Emergencia:</div>
+                        <div className='realNombres'>{usuarioSelecionado?.contactoDeEmergencia}</div>
+                    </div>
                 </div>
             </div>
         </div>

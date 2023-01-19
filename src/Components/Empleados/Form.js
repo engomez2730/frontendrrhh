@@ -153,6 +153,7 @@ import {
         tipoDeNomina:values.tipoDeNomina,
         costoPorHora:values.costoPorHora,
         createdAt:values.createdAt,
+        contactoDeEmergencia:values.contactoDeEmergencia,
       })
         renderSuccess()
 
@@ -457,6 +458,19 @@ import {
         <Form.Item name="createdAt" label="Inicio Laboral">
           <DatePicker/>
         </Form.Item>
+        <Form.Item
+          name="contactoDeEmergencia"
+          label="Contacto de Emergencia"
+          rules={[
+            {
+              required: true,
+              message: 'Tienes que introducir un contacto de emergencia',
+            },
+          ]}
+        >
+          <Input/>
+        </Form.Item>
+
   
       
         <Form.Item {...tailFormItemLayout}>

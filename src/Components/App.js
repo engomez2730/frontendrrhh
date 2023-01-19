@@ -31,6 +31,8 @@ import StatsEmpleados from './Empleados/Stats/Stats';
 import Puesto from './Puestos/Puesto';
 import DepartamentoStats from './Stats/Departamentos/Departamentos'
 import EmpleadoPage from './Pages/EmpleadoPage';
+import Buscador from './Buscador/Buscador';
+import Dimitidos from './Dimitidos/Dimitidos';
 const {  Content } = Layout;
 
 
@@ -99,6 +101,8 @@ const App = (props) => {
                   <Route path='/statsempleados' element={<StatsEmpleados/>}></Route>
                   <Route path='/puestos' element={<Puesto/>}></Route>
                   <Route path='/departamentosstats' element={<DepartamentoStats/>}></Route>
+                  <Route path='/buscarempleados' element={<Buscador/>}></Route>
+                  <Route path='/dimitidos' element={<Dimitidos/>}></Route>
                 </Routes>
               </Content>
               </Layout>

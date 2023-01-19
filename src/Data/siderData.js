@@ -11,10 +11,10 @@ import {  NotificationOutlined,
     SnippetsOutlined,
     MinusCircleOutlined,
     CloseOutlined,
-    SolutionOutlined,
     DollarCircleOutlined,
-    RiseOutlined,
-    UserSwitchOutlined    
+    UserSwitchOutlined,
+    SearchOutlined,
+    MinusOutlined    
 } from '@ant-design/icons';
 
 export const elementos = [
@@ -22,6 +22,11 @@ export const elementos = [
         nombre:'Empleados',
         icon:UserOutlined,
         childrens:[
+            {
+                key:'buscarEmpleado',
+                label:<Link to='/buscarempleados'>Buscar Empleado</Link>,
+                icon: React.createElement(SearchOutlined)
+            },
             {
                 key:'crearEmpleado',
                 label:<Link to='/crearempleado'>Crear Empleado</Link>,
@@ -37,6 +42,12 @@ export const elementos = [
                 key:'vacacionesEmpleados',
                 label:<Link to='/vacaciones'>Manejar Vacaciones</Link>,
                 icon: React.createElement(SnippetsOutlined)
+
+            },
+            {
+                key:'dimitidosEmpleados',
+                label:<Link to='/dimitidos'>Empleados Dimitidos</Link>,
+                icon: React.createElement(MinusOutlined)
 
             },
             {
@@ -98,7 +109,7 @@ export const elementos = [
             }
         ]
     },
-    /* {
+    {
         nombre:'Avisos',
         icon:BellOutlined,
         childrens:[
@@ -109,7 +120,7 @@ export const elementos = [
 
             }
         ]
-    }, */
+    },
     {
         nombre:'Nomina',
         icon:DollarCircleOutlined,

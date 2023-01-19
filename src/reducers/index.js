@@ -28,6 +28,8 @@ import PuestosReducer from './PuestosReducer'
 import Epp from './Get_Epps'
 import PuestoSelecionado from './PuestoSelect'
 import NominaSelecionadaVer from './NominaSelecionadaVer'
+import BuscadorEmpleados from './BuscadorEmpleados'
+import GetDimitidos from './GetDimitidos'
 
 
 export default combineReducers({
@@ -59,5 +61,7 @@ export default combineReducers({
     epps:Epp,
     puestos: PuestosReducer,
     puestoSelecionado:PuestoSelecionado,
-    NominaSelecionadaVer:NominaSelecionadaVer
+    NominaSelecionadaVer:NominaSelecionadaVer,
+    BuscadorEmpleados:BuscadorEmpleados,
+    Dimitidos:GetDimitidos
 })

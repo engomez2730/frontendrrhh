@@ -59,7 +59,7 @@ const TableFinal = (props) => {
         }else if(text){
             return <>{}</>
         }
-        return <>{item.tiempoDeVacaciones[0]}</>
+        return <>{item?.tiempoDeVacaciones[0]}</>
     }
     },
     {
@@ -72,10 +72,10 @@ const TableFinal = (props) => {
     }
     },
     {
-        title: 'Dia de Vacaciones',
+        title: 'Dia de Vacaciones Tomados',
         dataIndex: 'diasDeVacaciones',
         key: 'diasDeVacaciones',
-        width: 200,
+        width: 250,
       },
     {
       title: 'Siguientes Vacaciones',
@@ -123,15 +123,12 @@ const TableFinal = (props) => {
           siguientesVacacionesFecha:e.siguientesVacacionesFecha,
           diasDeVacaciones:e.diasDeVacaciones,
           createdAt:e.createdAt
-
         }
     })
 
    return (
         <>
-          <Table 
-            style={{marginTop:'50px',width:'100%'}}
-           columns={columns} scroll={{x: 800, }} 
+          <Table style={{marginTop:'50px',width:'100%'}} columns={columns} scroll={{x: 800, }} 
            dataSource={vacaciones}
            bordered={true}
            pagination={{pageSize:6,total:vacaciones?.length}}
