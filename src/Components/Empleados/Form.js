@@ -154,6 +154,8 @@ import {
         costoPorHora:values.costoPorHora,
         createdAt:values.createdAt,
         contactoDeEmergencia:values.contactoDeEmergencia,
+        Dieta:values.Dieta,
+        Incentivos:values.Incentivos,
       })
         renderSuccess()
 
@@ -218,47 +220,6 @@ import {
           <Input />
         </Form.Item>
   
-        <Form.Item
-          name="password"
-          label="Contraseña"
-          rules={[
-            {
-              required: true,
-              message: 'Tienes que introducir una contraseña!',
-            },
-            {
-              min: 8,
-              message: 'La contraseña debe tener almenos 8 caracteres',
-            },
-          ]}
-          hasFeedback
-        >
-          <Input.Password />
-        </Form.Item>
-  
-        <Form.Item
-          name="confirmPassword"
-          label="Confirmar Contraseña"
-          dependencies={['password']}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: 'Tienes que confirmar la contraseña!',
-            },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-  
-                return Promise.reject(new Error('Las contraseñas que introduciste no coinciden'));
-              },
-            }),
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
   
         <Form.Item
           name="cedula"
@@ -458,6 +419,13 @@ import {
         <Form.Item name="createdAt" label="Inicio Laboral">
           <DatePicker/>
         </Form.Item>
+        
+        <Form.Item name="Dieta" label="Costo de la Dieta">
+          <InputNumber style={{width: '100%',}}/>
+        </Form.Item>
+        <Form.Item name="Incentivos" label="Costo de Incentivos">
+          <InputNumber style={{width: '100%',}}/>
+        </Form.Item>
         <Form.Item
           name="contactoDeEmergencia"
           label="Contacto de Emergencia"
@@ -470,8 +438,6 @@ import {
         >
           <Input/>
         </Form.Item>
-
-  
       
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">

@@ -33,6 +33,7 @@ import DepartamentoStats from './Stats/Departamentos/Departamentos'
 import EmpleadoPage from './Pages/EmpleadoPage';
 import Buscador from './Buscador/Buscador';
 import Dimitidos from './Dimitidos/Dimitidos';
+import Compensaciones from './Compensaciones/Compensaciones';
 const {  Content } = Layout;
 
 
@@ -76,7 +77,7 @@ const App = (props) => {
             <Layout>
               {renderSider()}
               <Layout style={{ padding: '0 24px 24px' }}>
-              <Content className="site-layout-background" style={{padding: 24,margin: '20px 0px',minHeight: '85vh'}}>
+              <Content className="site-layout-background" style={{padding: 24,margin:'20px 0px',minHeight:'85vh'}}>
                 <Routes>
                   <Route path='/' element={<Inicio/>}></Route>
                   <Route path='/crearempleado' element={<CrearEmpleado/>}></Route>
@@ -103,6 +104,7 @@ const App = (props) => {
                   <Route path='/departamentosstats' element={<DepartamentoStats/>}></Route>
                   <Route path='/buscarempleados' element={<Buscador/>}></Route>
                   <Route path='/dimitidos' element={<Dimitidos/>}></Route>
+                  <Route path='/compensaciones' element={<Compensaciones/>}></Route>
                 </Routes>
               </Content>
               </Layout>

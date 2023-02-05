@@ -92,7 +92,7 @@ const CrearPermiso = (props) => {
         }}
       >
         <Button type="primary" htmlType="submit">
-          Editar Anuncio
+          Editar Puesto
         </Button>
       </Form.Item>
     </Form>

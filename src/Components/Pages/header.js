@@ -43,7 +43,7 @@ const HeaderFInal = (props) => {
     return (
       <>
         <Header className="header">
-            <div className="logo" >Vargas Sang</div>
+            <div className="logo" >Varg<span style={{color:'#f97e07'}}>Sang </span>RRHH</div>
             <Menu theme="dark" mode="horizontal" selectable={false} className='header' >
                   <Menu.Item key='ddd'>
                     <span>{renderButton()}</span>

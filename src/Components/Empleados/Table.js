@@ -153,7 +153,9 @@ const TableFinal = (props) => {
           sueldoFijo:e.sueldoFijo,
           departamento:e.departamento,
           expiracionDelContrato:e.vencimientoDelContrato,
-          vacacionesTomadas:e.vacacionesTomadas
+          vacacionesTomadas:e.vacacionesTomadas,
+          Dieta:e.Dieta,
+          Incentivos:e.Incentivos
         }
     })
 

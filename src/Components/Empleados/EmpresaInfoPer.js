@@ -38,12 +38,12 @@ const EmpresaInfoPer = ({usuarioSelecionado,usuarioEditado}) => {
                     <div className='realNombres'>{usuarioSelecionado?.tiempoEnLaEmpresa}</div>
                 </div>
                 <div className='nombres'>
-                    <div className='subNombres'>¿Tiene Vacaciones Disponibles?:</div>
-                    <div className='realNombres'>{usuarioSelecionado?.vacacionesDisponibles ? 'Si' : 'No'}</div>
+                    <div className='subNombres'>Incentivos:</div>
+                    <div className='realNombres'>{new Intl.NumberFormat('es-DO').format(usuarioSelecionado?.Incentivos)} RD$</div>
                 </div>
                 <div className='nombres'>
-                    <div className='subNombres'>¿Ha tomado sus vacaciones?:</div>
-                    <div className='realNombres'>{usuarioSelecionado.vacacionesTomadas ? 'Si' : 'No'}</div>
+                    <div className='subNombres'>Precio de Dieta Diaria 350:</div>
+                    <div className='realNombres'>{new Intl.NumberFormat('es-DO').format(usuarioSelecionado?.Dieta)} RD$</div>
                 </div>
             </div>
         </div>

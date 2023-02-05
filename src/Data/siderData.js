@@ -45,6 +45,12 @@ export const elementos = [
 
             },
             {
+                key:'compensacionesEmpleados',
+                label:<Link to='/compensaciones'>Compensaciones y Beneficios</Link>,
+                icon: React.createElement(SnippetsOutlined)
+
+            },
+            {
                 key:'dimitidosEmpleados',
                 label:<Link to='/dimitidos'>Empleados Dimitidos</Link>,
                 icon: React.createElement(MinusOutlined)

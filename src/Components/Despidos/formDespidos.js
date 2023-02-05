@@ -1,32 +1,21 @@
 import React,{useEffect,useState} from 'react';
-import { Button, Form, message,Select, InputNumber, Input } from 'antd';
+import { Button, Form, message,Select, InputNumber, Input,Checkbox,Cascader } from 'antd';
 import Api from '../../apis/rrhhApi'
 import {connect} from 'react-redux'
 import { CAMBIAR_ESTADO } from '../../actions';
 import handleError from '../../Data/errorHandle';
-import {razonesDespidosFinal} from '../../Data/CountriesData'
+import moment from 'moment';
 const {TextArea} = Input
 const {Option} = Select;
 
 
 const CrearPermiso = (props) => {
 
-  const [disableForm,setDisableForm] = useState(false)
-
-  const nominaOpciones = props.nominasCompletas?.map(e =>{
-        return e.nombreNomina
-  })
-
-
-  const renderOpciones = (Countries) =>{
-    return Countries.map((e,index) =>{
-        return <Option value={e.value} key={index}>{e}</Option> 
-    })
-  }
-
-  console.log(razonesDespidosFinal)
-
+  const [vacacionesTomadas,SetVacacionesTomadas] = useState(false)
   const [form] = Form.useForm();
+
+  let UltimasVacaciones  = props?.usuarioSelecionado?.Vacaciones[props?.usuarioSelecionado?.Vacaciones?.length - 1]
+  console.log(moment(UltimasVacaciones?.tiempoDeVacaciones[1])?.format('MMMM Do YYYY'))
 
   useEffect(() => {
 
@@ -34,40 +23,23 @@ const CrearPermiso = (props) => {
       nombreNomina:props.nominaCompletaSelect?.nombreNomina,
       horasMensualesTrabajadas:0
     })
-    const item = props?.usuarioSelecionado?.Nominas.find(e =>{
-      return e.nombreNomina ===  props.nominaCompletaSelect?.nombreNomina
-    })
-    if(props?.usuarioSelecionado?.Nominas.length === 0 || item?.nombreNomina !== props.nominaCompletaSelect?.nombreNomina){
-      setDisableForm(false)
-    }else{
-      setDisableForm(true)
-    }
+
   },[props?.usuarioSelecionado]);
+
+  const onChange = (e) => {
+    SetVacacionesTomadas(e.target.checked);
+  };
 
 
   const onFinish = async(values) => {
     console.log(values)
-    var meses= ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre" ,"Octubre", "Noviembre" ,"Diciembre"];
-    const mes = meses[new Date().getMonth()]
-    const year = new Date().getFullYear()
-    const nombreNomina = `${mes} ${year}`
-
     try{
         await Api.post(`despidos/${props?.usuarioSelecionado?._id}`,{
-            sueldoFijo:props.usuarioSelecionado?.sueldoFijo,
-            Empleados:props.usuarioSelecionado?._id,
-            tipoDeNomina:props.usuarioSelecionado?.tipoDeNomina,
-            costoPorHora:props.usuarioSelecionado?.costoPorHora,
-            horasMensualesTrabajadas:values.horasMensualesTrabajadas || 0,
-            horasExtras:values.horasExtras,
-            horasDobles:values.horasDobles,
-            nombreNomina:nombreNomina,
-            descuentos:values.descuentos,
-            bonus:values.bonus,
+            tipo:values.tipo,
             razon:values.razon,
             descripcion:values.descripcion,
-            tipoDeDespido:'Despido'
-
+            tomoVacaciones:vacacionesTomadas,
+            diasDeVacaciones:values.diasDeVacaciones || 0
           })
         props.CAMBIAR_ESTADO(!props.estado)
         message.success('Empleado despedido con exito',3)
@@ -75,6 +47,16 @@ const CrearPermiso = (props) => {
         handleError(err)
     }
   };
+
+  const optionsVacaciones = props?.usuarioSelecionado?.Vacaciones.map(e =>{
+    return {
+      value:e.tiempoDeVacaciones[0],
+      label:moment(e.tiempoDeVacaciones[0]).format('MMMM Do YYYY'),
+      children:[{label:e.diasDeVacaciones}]
+    }
+  })
+
+
 
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
@@ -88,11 +70,31 @@ const CrearPermiso = (props) => {
       onFinish={onFinish}
       onFinishFailed={onFinishFailed}
       autoComplete="off"
-/*       disabled={disableForm}
- */      form={form}
+      form={form}
     >
        <Form.Item 
-        label="Razon despido" name="razon">
+        label="Tipo de Despido" name="tipo" 
+        rules={[
+          {
+            required: true,
+            message: 'Por favor introduce el tipo de Despido'
+          },
+        ]}>
+        <Select placeholder="Seleciona una razon">
+          <Option value="Renuncia" key={'Renuncia'}>Renuncia</Option>
+          <Option value="Desahucio" key={'Desahucio'}>Desahucio</Option>
+          <Option value="Despido" key={'Despido'}>Despido</Option>
+          <Option value="Dimision" key={'Dimision'}>Dimision </Option>
+          <Option value="Muerte" key={'Muerte'}>Muerte </Option>
+        </Select>
+      </Form.Item>  
+       <Form.Item 
+        label="Razon despido" name="razon"   rules={[
+          {
+            required: true,
+            message: 'Por favor introduce la razon de despido'
+          },
+        ]}>
         <Select placeholder="Seleciona una razon">
           <Option value="Mala Conducta" key={'Mala Conducta'}>Mala Conducta</Option>
           <Option value="Rotacion Laboral" key={'Rotacion Laboral'}>Rotacion Laboral</Option>
@@ -104,6 +106,18 @@ const CrearPermiso = (props) => {
         label="Descripcion" name="descripcion">
         <TextArea />
       </Form.Item>
+      <Form.Item 
+        label="Tomo Vacaciones?" name="vacaciones">
+        <Checkbox onChange={onChange} >Si</Checkbox>
+      </Form.Item>
+      <Form.Item 
+        label="Ultimas Vacaciones Tomadas" name="vacaciones">
+        <Cascader options={optionsVacaciones} onChange={onChange} placeholder="Vacaciones" />
+      </Form.Item>
+      <Form.Item
+        label="Dias de Vacaciones" name="diasDeVacaciones">
+        <InputNumber disabled={vacacionesTomadas}/>
+      </Form.Item>
 
       <Form.Item 
       label="Total Horas Trabajadas" 
@@ -111,7 +125,7 @@ const CrearPermiso = (props) => {
       rules={[
         {
           required: true,
-          message: 'Please input your nickname!'
+          message: 'Por favor introduce las horas trabajadas de este empleado!'
         },
       ]}
       hidden={props.usuarioSelecionado?.tipoDeNomina === 'Por Hora' ? false : true }>
@@ -128,7 +142,6 @@ const CrearPermiso = (props) => {
         label="Total Horas Dobles" 
         name="horasDobles"
         hidden={props.usuarioSelecionado?.tipoDeNomina === 'Por Hora' ? false : true }
-
         >
         <InputNumber/>
       </Form.Item>

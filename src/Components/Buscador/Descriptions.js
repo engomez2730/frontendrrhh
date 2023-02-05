@@ -5,6 +5,19 @@ import moment from 'moment';
 
 
 const App = (props) => {
+  console.log(props.buscadorData)
+
+  const vacaciones = props?.buscadorData?.Vacaciones.map((e,index) =>{
+      return <div style={{fontWeight:'500'}}>
+          {index + 1} -
+          Del {moment(e.tiempoDeVacaciones[0]).format('MMMM Do YYYY')} al {moment(e.tiempoDeVacaciones[1]).format('MMMM Do YYYY')} ----
+          Dias de Vacaciones {e.diasDeVacaciones}
+          <br />
+      </div>
+  })
+
+  console.log(vacaciones)
+
 
  return <>
      <Descriptions title="Informacion del Empleado" layout="horizontal" bordered={true}>
@@ -26,21 +39,12 @@ const App = (props) => {
     <Descriptions.Item contentStyle={{fontWeight:'600'}} label="Ultimas Vacaciones">{props?.buscadorData?.Vacaciones[props?.buscadorData?.Vacaciones?.length - 1]?.tiempoDeVacaciones[0] ? moment(props?.buscadorData?.Vacaciones[props?.buscadorData?.Vacaciones?.length - 1]?.tiempoDeVacaciones[0]).format('MMMM Do YYYY') : 'No Ha tomado aun'}</Descriptions.Item>
     <Descriptions.Item contentStyle={{fontWeight:'600'}} label="Dirreccion">{props?.buscadorData?.direccion}</Descriptions.Item>
     <Descriptions.Item contentStyle={{fontWeight:'600'}} label="Contacto de Emergencia">{props?.buscadorData?.contactoDeEmergencia}</Descriptions.Item>
+    <Descriptions.Item contentStyle={{fontWeight:'600'}} label="Incentivos">{(new Intl.NumberFormat('es-RD').format(props.buscadorData?.Incentivos))}$</Descriptions.Item>
+    <Descriptions.Item contentStyle={{fontWeight:'600'}} label="Dieta">{(new Intl.NumberFormat('es-RD').format(props.buscadorData?.Dieta))}$</Descriptions.Item>
+    <Descriptions.Item label='Historial Laboral'>
+      
+    </Descriptions.Item>
 
-    {/* <Descriptions.Item label="Config Info">
-      Data disk type: MongoDB
-      <br />
-      Database version: 3.4
-      <br />
-      Package: dds.mongo.mid
-      <br />
-      Storage space: 10 GB
-      <br />
-      Replication factor: 3
-      <br />
-      Region: East China 1
-      <br />
-    </Descriptions.Item> */}
   </Descriptions>
  </>
 };

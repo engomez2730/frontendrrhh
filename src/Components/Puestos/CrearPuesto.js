@@ -80,7 +80,7 @@ const CrearPermiso = (props) => {
         }}
       >
         <Button type="primary" htmlType="submit">
-          Crear Anuncio
+          Crear Puesto
         </Button>
       </Form.Item>
     </Form>
