@@ -117,7 +117,7 @@ const TableFinal = (props) => {
       width: 250,
       render: (text) => [
       <Button type='primary' key='ver' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Ver</Button>,
-      <Button type='warning' key='editar'style={{marginLeft:'10px'}} onClick={e => onClickModalEdit(e,text)}>Editar</Button>,
+      <Button type='warning' key='editar'style={{marginLeft:'10px'}} onClick={e => onClickModalEdit(e,text)}>Editar Empleado</Button>,
     ],
     },
   ];
@@ -131,6 +131,8 @@ const TableFinal = (props) => {
 /*     props.editarUsuario(text,text.key)
  */    showModalEdit()
   }
+
+
      
      const empleados = props.empleados?.empleados?.map(e =>{
         return {
@@ -154,8 +156,11 @@ const TableFinal = (props) => {
           departamento:e.departamento,
           expiracionDelContrato:e.vencimientoDelContrato,
           vacacionesTomadas:e.vacacionesTomadas,
-          Dieta:e.Dieta,
-          Incentivos:e.Incentivos
+          licenciasDeConducir:e.licenciasDeConducir,
+          tipoLicencia:e.tipoLicencia,
+          licenciaDeConducirFechaExp:e.licenciaDeConducirFechaExp,
+          contactoDeEmergencia:e.contactoDeEmergencia,
+          puesto:e.puesto
         }
     })
 

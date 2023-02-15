@@ -30,7 +30,9 @@ import {
     VER_DEPARTAMENTO,
     CAMBIAR_STATE,
      GET_VACANTES,
-     GET_DIMITIDOS
+     GET_DIMITIDOS,
+     GET_LICENCIAS,
+     SELECT_LICENCIAS
 } from "./types"
 
 import rrhhApi from "../apis/rrhhApi"
@@ -303,4 +305,20 @@ export const BUSCADOR_EMPLEADOS_GET = (data)  => {
         type:BUSCADOR_EMPLEADOS,
         payload:data
     }
+}
+
+export const GET_LICENCIAS_ACTION = () => async (distpatch) => {
+    const data = await rrhhApi.get(`/licencias`)
+    distpatch({
+        type:GET_LICENCIAS,
+        payload:data.data.data?.verLicencias
+    })
+}
+
+export const SELECT_LICENCIAS_ACTION = (id) => async (distpatch) => {
+    const data = await rrhhApi.get(`/licencias/${id}`)
+    distpatch({
+        type:SELECT_LICENCIAS,
+        payload:data.data.verLicencia
+    })
 }

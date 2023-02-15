@@ -52,6 +52,18 @@ const VerCandidato = ({candidato}) => {
             <div className='verVacacionesLabel'>Vacante Aplicada:</div>
             <div className='verVacacionesValue'>{candidato?.vacanteAplicada}</div>
         </div>
+        <div className='verVacacionesItem'>
+            <div className='verVacacionesLabel'>Licencia de Conducir:</div>
+            <div className='verVacacionesValue'>{candidato?.licenciasDeConducir ? 'Si' : 'No'}</div>
+        </div>
+        <div className='verVacacionesItem'>
+            <div className='verVacacionesLabel'>Fecha de expiración de Licencia:</div>
+            <div className='verVacacionesValue'>{candidato.licenciaDeConducirFechaExp ? moment(candidato?.licenciaDeConducirFechaExp).format('MMMM Do YYYY, h:mm:ss a') : 'No tiene'}</div>
+        </div>
+        <div className='verVacacionesItem'>
+            <div className='verVacacionesLabel'>Tipo de Licencia:</div>
+            <div className='verVacacionesValue'>{candidato.tipoLicencia ? candidato.tipoLicencia : 'No tiene'}</div>
+        </div>
     </div>
     );
 }

@@ -12,29 +12,39 @@ import {paisesFinal,provinciasFinal,departamentosFinal,puestosFinal} from '../..
 import { message } from 'antd';
 import {connect} from 'react-redux'
 import rrhhApi from '../../apis/rrhhApi';
-import Api from '../../apis/rrhhApi'
-import { BUSCAR_CANDIDATO_ACTION,CAMBIAR_ESTADO,GET_PUESTOS_ACTION } from '../../actions';
+import { CAMBIAR_ESTADO,GET_PUESTOS_ACTION } from '../../actions';
 import handleError from '../../Data/errorHandle';
 import moment from 'moment';
-import { tuple } from 'antd/es/_util/type';
 const { Option } = Select;
+
+const opcionesLicencia = ['Si','No']
+const categoriaLicencia = ['Categoria 01','Categoria 02','Categoria 03']
 
 
 const App = (props) => {
 
   const [dateInput,dateInputSet] = useState(true)
   const [hideInputHour,hideInputHourSet] = useState(true) 
+  const [hideInputLic,hideInputLicSet] = useState(true) 
 
   const [form] = Form.useForm();
 
   const onSelectChangeHour = (e) =>{
-    console.log(e)
     if(e === 'Por Hora'){
       hideInputHourSet(false)
     }else{
       hideInputHourSet(true)
     }
   }
+
+  const onSelectChangeLic = (e) =>{
+    if(e === 'No'){
+      hideInputLicSet(true)
+    }else{
+      hideInputLicSet(false)
+    }
+  }
+
 
   useEffect(() => {
     form.setFieldsValue({
@@ -49,7 +59,9 @@ const App = (props) => {
       puesto:props.candidatoSelecionado?.puestoAplicado,
       sexo:props.candidatoSelecionado?.sexo,
       fechaDeNacimiento:moment(props.candidatoSelecionado?.fechaDeNacimiento),
-
+      licenciasDeConducir:props.candidatoSelecionado?.licenciasDeConducir ? 'Si' : 'No',
+      tipoLicencia:props.candidatoSelecionado?.tipoLicencia,
+      fechaDeExpiracion:moment(props.candidatoSelecionado?.licenciaDeConducirFechaExp),
     })    
   },[props.candidatoSelecionado]);
 
@@ -64,7 +76,13 @@ const App = (props) => {
   })
  }
 
+
  const puestosFinalArray = crearSelectArray(puestos)
+ const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia)
+ const opcionesLicenciaCategoria = crearSelectArray(categoriaLicencia)
+
+ 
+
 
   
   const onFinish = async(values) => {
@@ -90,7 +108,11 @@ const App = (props) => {
         costoPorHora:values.costoPorHora,
         sueldoFijo:values.salario,
         fechaDeNacimiento:values.fechaDeNacimiento,
-        createdAt:values.createdAt
+        createdAt:values.createdAt,
+        licenciasDeConducir:values.licenciasDeConducir === 'Si' ? true : false,
+        tipoLicencia:values.tipoLicencia,
+        licenciaDeConducirFechaExp:values.fechaDeExpiracion,
+        contactoDeEmergencia:values.contactoDeEmergencia,
       })
       props.CAMBIAR_ESTADO(!props.estado)
       message.success('Creado con Exito')
@@ -255,49 +277,32 @@ const App = (props) => {
             {renderProvincias(provinciasFinal)}
         </Select>
         </Form.Item>
+        <Form.Item
+        label="Licencia de Conducir?"
+        name="licenciasDeConducir"
+        rules={[{required: true,message: 'Please input your password!',},]}
+      >
+        <Select placeholder="Seleciona el estado de licencia" onChange={(e) => onSelectChangeLic(e)} >
+               {renderProvincias(opcionesLicenciaBolean)}
+          </Select>
+      </Form.Item>
+      <Form.Item
+        label="Fecha de Exp de Licencia"
+        name="fechaDeExpiracion"
+        hidden={hideInputLic}
 
-        
-        <Form.Item
-          name="password"
-          label="Contraseña"
-          rules={[
-            {
-              required: true,
-              message: 'Please input your password!',
-            },
-            {
-              min: 8,
-              message: 'La contraseña debe tener almenos 8 caracteres',
-            },
-          ]}
-          hasFeedback
-        >
-          <Input.Password />
-        </Form.Item>
-  
-        <Form.Item
-          name="confirmPassword"
-          label="Confirmar Contraseña"
-          dependencies={['password']}
-          hasFeedback
-          rules={[
-            {
-              required: true,
-              message: 'Please confirm your password!',
-            },
-            ({ getFieldValue }) => ({
-              validator(_, value) {
-                if (!value || getFieldValue('password') === value) {
-                  return Promise.resolve();
-                }
-  
-                return Promise.reject(new Error('The two passwords that you entered do not match!'));
-              },
-            }),
-          ]}
-        >
-          <Input.Password />
-        </Form.Item>
+      >
+        <DatePicker/>
+      </Form.Item>
+      <Form.Item
+        label="Tipo De Licencia"
+        name="tipoLicencia"
+        hidden={hideInputLic}
+      >
+        <Select placeholder="Seleciona el estado laboral">
+               {renderProvincias(opcionesLicenciaCategoria)}
+          </Select>
+      </Form.Item>
         <Form.Item
           name="salario"
           label="Salario"
@@ -381,7 +386,7 @@ const App = (props) => {
             },
           ]}
         >
-          <Select placeholder="Seleciona el tipo de Departamento">
+          <Select placeholder="Seleciona el puesto">
                {renderDepartamentos(departamentosFinal)}
           </Select>
         </Form.Item>
@@ -402,6 +407,20 @@ const App = (props) => {
 
         <Form.Item name="createdAt" label="Inicio Laboral">
           <DatePicker/>
+        </Form.Item>
+
+             
+        <Form.Item
+          name="contactoDeEmergencia"
+          label="Contacto de Emergencia"
+          rules={[
+            {
+              required: true,
+              message: 'Tienes que introducir un contacto de emergencia',
+            },
+          ]}
+        >
+          <Input/>
         </Form.Item>
       <Form.Item
         wrapperCol={{

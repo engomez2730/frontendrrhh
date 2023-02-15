@@ -103,22 +103,22 @@ const TablePerm = (props) => {
       key: 'cedula',
     },
     {
-      title: 'Celular',
-      dataIndex: 'celular',
-      key: 'cedula',
+      title: 'Estado',
+      dataIndex: 'estadoLaboral',
+      key: 'estado',
     },
     {
       title: 'Acción',
       key: 'operation',
       fixed: 'right', 
-      width: 600,
+      width: 550,
       render: (text) => [
       <Button type='primary' key='ver' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Ver Candidato</Button>, 
       <Button type='warning' key='manejar' style={{marginLeft:'10px'}} onClick={e => onClickModalVer(e,text)}>Manejar Candito</Button>,
       <Button type='warning' key='convertir' style={{marginLeft:'10px'} } onClick={e => onClickModalConvert(e,text)}>Convertir en Empleado</Button>,
-      <Popconfirm title="Estas seguro que quieres eliminar este aviso？" onConfirm={e => eliminaranuncio(e,text)} key="popConfirm" icon={<QuestionCircleOutlined style={{color: 'red',}}/>}>
+/*       <Popconfirm title="Estas seguro que quieres eliminar este candidato" onConfirm={e => eliminaranuncio(e,text)} key="popConfirm" icon={<QuestionCircleOutlined style={{color: 'red',}}/>}>
           <Button type='danger' key='eliminar' style={{marginLeft:'10px'}}>Eliminar</Button>
-      </Popconfirm>
+      </Popconfirm> */
 , 
     ],
     },
@@ -147,7 +147,6 @@ const TablePerm = (props) => {
     showModalCrear()
   }
     const entrevistados = props?.entrevistados?.map(e => {
-      console.log(e)
         return {
             nombre:e.nombre,
             apellido:e.apellido,
@@ -159,6 +158,9 @@ const TablePerm = (props) => {
             provincia:e.provincia,
             pais:e.pais,
             vacanteAplicada:e.vacanteAplicada,
+            licenciasDeConducir:e.licenciasDeConducir,
+            tipoLicencia:e.tipoLicencia,
+            licenciaDeConducirFechaExp:e.licenciaDeConducirFechaExp,
             key:e._id    
         }
     })

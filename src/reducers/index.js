@@ -30,6 +30,8 @@ import PuestoSelecionado from './PuestoSelect'
 import NominaSelecionadaVer from './NominaSelecionadaVer'
 import BuscadorEmpleados from './BuscadorEmpleados'
 import GetDimitidos from './GetDimitidos'
+import LicenciasReducer from './LicenciasReducer'
+import SelectLicencia from './SelectLicencias'
 
 
 export default combineReducers({
@@ -63,5 +65,7 @@ export default combineReducers({
     puestoSelecionado:PuestoSelecionado,
     NominaSelecionadaVer:NominaSelecionadaVer,
     BuscadorEmpleados:BuscadorEmpleados,
-    Dimitidos:GetDimitidos
+    Dimitidos:GetDimitidos,
+    licencias:LicenciasReducer,
+    licenciaSelecionada:SelectLicencia
 })

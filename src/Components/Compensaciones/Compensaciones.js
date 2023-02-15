@@ -4,6 +4,9 @@ import TableBenef from './TableBenef'
 
 export default function Compensaciones() {
   return (
-    <TableBenef/>
+    <div>
+      <h1>Compensaciones y Beneficios</h1>
+      <TableBenef/>
+    </div>
   )
 }

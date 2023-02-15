@@ -51,6 +51,12 @@ export const elementos = [
 
             },
             {
+                key:'Licencias',
+                label:<Link to='/licencias'>Licencias de Incapacidad</Link>,
+                icon: React.createElement(SnippetsOutlined)
+
+            },
+            {
                 key:'dimitidosEmpleados',
                 label:<Link to='/dimitidos'>Empleados Dimitidos</Link>,
                 icon: React.createElement(MinusOutlined)

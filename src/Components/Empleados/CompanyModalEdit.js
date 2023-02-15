@@ -1,14 +1,15 @@
 import React,{useEffect,useState} from 'react';
 import { Button,  Form, Input,Select,DatePicker } from 'antd';
 import {departamentosFinal} from '../../Data/CountriesData'
-import { Switch } from 'antd';
-import { editarUsuario, CAMBIAR_ESTADO } from '../../actions';
+import { editarUsuario, CAMBIAR_ESTADO,GET_PUESTOS_ACTION } from '../../actions';
 import {connect} from 'react-redux'
 import Api from '../../apis/rrhhApi'
 import { message } from 'antd';
-import cambiarState from '../../reducers/cambiarEstadoReducer';
 import handleError from '../../Data/errorHandle';
+import moment from 'moment';
 const { Option } = Select;
+const opcionesLicencia = ['Si','No']
+const categoriaLicencia = ['Categoria 01','Categoria 02','Categoria 03']
 
 
 const CompanyModalEdit = (props) => {
@@ -16,36 +17,87 @@ const CompanyModalEdit = (props) => {
     const [form] = Form.useForm()
     const [errorAlert,errorAlertSet] = useState('')
     const [dateInput,dateInputSet] = useState(true)
-    const [checkedInput,setChecked] = useState(false)
+    const [hideInputLic,hideInputLicSet] = useState(true) 
+
+    const opcionesLicencia = ['Si','No']
+
+
+    const crearSelectArray = (array) =>{
+      return array?.map((e)=>{
+          return{
+              label:e,
+              value:e
+          }
+    })
+   }
+
+    const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia)
+    const opcionesLicenciaCategoria = crearSelectArray(categoriaLicencia)
+
+    const onSelectChangeLic = (e) =>{
+      if(e === 'No'){
+        hideInputLicSet(true)
+      }else{
+        hideInputLicSet(false)
+      }
+    }
+
 
     const renderDepartamentos = (provincas) =>{
-        return provincas.map((e) =>{
+        return provincas?.map((e) =>{
             return <Option value={`${e.label}`} key={e.label}>{e.label}</Option> 
         })
     }
 
- 
+    const renderPaises = (Countries) =>{
+      return Countries?.map((e) =>{
+          return <Option value={`${e.label}`} key={e.label}>{e.label}</Option> 
+      })
+    }
+  
+    const renderProvincias = (provincas) =>{
+      return provincas?.map((e) =>{
+          return <Option value={`${e.label}`} key={e.label}>{e.label}</Option> 
+      })
+    }
+
     useEffect(() => {
+        props.GET_PUESTOS_ACTION()
+        console.log(props.usuarioEditar)
         form.setFieldsValue({
           sueldoFijo:props.usuarioEditar.sueldoFijo,
           contrato:props.usuarioEditar.contrato,
           departamento:props.usuarioEditar.departamento,
           expiracionDelContrato:props.usuarioEditar.expiracionDelContrato,
-          vacacionesTomadas:props.usuarioEditar.vacacionesTomadas
+          vacacionesTomadas:props.usuarioEditar.vacacionesTomadas,
+          contactoDeEmergencia:props.usuarioEditar.contactoDeEmergencia,
+          tipoLicencia:props.usuarioEditar?.tipoLicencia,
+          licenciaDeConducirFechaExp:moment(props.usuarioEditar?.licenciaDeConducirFechaExp),
+          puesto:props.usuarioEditar?.puesto,
+          contactoDeEmergencia:props.usuarioEditar?.contactoDeEmergencia
       })
 
     }, [props.usuarioEditar]);
 
+    const puestos = props?.puestos?.map((e) => e.nombre)
+    const puestosFinalArray = crearSelectArray(puestos)
+
+
     const onFinish = async (values) => {
         console.log('Success:', values);
         try{
-          const data = await Api.patch(`empleados/${props.usuarioEditar.key}`,{
+          const data = await Api.patch(`empleados/${props?.usuarioEditar?.key}`,{
             sueldoFijo:values.sueldoFijo,
             contrato:values.contrato,
             departamento:values.departamento,
             celular:values.celular,
             expiracionDelContrato:values.expiracionDelContrato,
             vacacionesTomadas:values.vacacionesTomadas,
+            contactoDeEmergencia:values.contactoDeEmergencia,
+            licenciasDeConducir:values.licenciasDeConducir === 'Si' ? true : false,
+            tipoLicencia:values.tipoLicencia,
+            licenciaDeConducirFechaExp:values.fechaDeExpiracion,
+            puesto:values.puesto
           })          
           props.CAMBIAR_ESTADO(!props.estado)
           message.success('Empleado Actualizado', 2);
@@ -115,6 +167,53 @@ const CompanyModalEdit = (props) => {
                {renderDepartamentos(departamentosFinal)}
           </Select>
         </Form.Item>
+
+        <Form.Item
+          name="puesto"
+          label="Puesto"
+        >
+          <Select placeholder="Seleciona el puesto">
+               {renderDepartamentos(puestosFinalArray)}
+          </Select>
+        </Form.Item>
+
+        <Form.Item
+        label="Licencia de Conducir?" 
+        name="licenciasDeConducir" 
+        rules={[{required: true,message: 'Please input your password!',},]}
+      >
+        <Select placeholder="Seleciona el estado laboral" onChange={(e) => onSelectChangeLic(e)}>
+               {renderProvincias(opcionesLicenciaBolean)}
+          </Select>
+      </Form.Item>
+
+        <Form.Item
+        label="Fecha de Exp de Licencia"
+        name="fechaDeExpiracion"
+      >
+        <DatePicker/>
+      </Form.Item>
+      <Form.Item
+        label="Tipo De Licencia"
+        name="tipoLicencia"
+      >
+        <Select placeholder="Seleciona el estado laboral">
+               {renderProvincias(opcionesLicenciaCategoria)}
+          </Select>
+      </Form.Item>
+              
+        <Form.Item
+          name="contactoDeEmergencia"
+          label="Contacto de Emergencia"
+          rules={[
+            {
+              required: true,
+              message: 'Tienes que introducir un contacto de emergencia',
+            },
+          ]}
+        >
+          <Input/>
+        </Form.Item>
       <Form.Item wrapperCol={{offset: 8,span: 16,}}>
         <Button type="primary" htmlType="submit">
           Actualizar
@@ -127,10 +226,16 @@ const CompanyModalEdit = (props) => {
 }
 
 const stateMapToProps = (state) =>{
-    return {usuarioEditar:state.usuarioEditarSelecionado, usuarioFinal:state.usuarioEditadoFinal, estado:state.cambiarState}
+    return {usuarioEditar:state.usuarioEditarSelecionado, 
+      usuarioFinal:state.usuarioEditadoFinal, 
+      estado:state.cambiarState,
+      puestos:state.puestos.puestos
+
+    }
 }
 
 export default connect(stateMapToProps,{
   editarUsuario,
-  CAMBIAR_ESTADO
+  CAMBIAR_ESTADO,
+  GET_PUESTOS_ACTION
 })(CompanyModalEdit);

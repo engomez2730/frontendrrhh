@@ -34,6 +34,7 @@ import EmpleadoPage from './Pages/EmpleadoPage';
 import Buscador from './Buscador/Buscador';
 import Dimitidos from './Dimitidos/Dimitidos';
 import Compensaciones from './Compensaciones/Compensaciones';
+import Licencias from './Licencias/Licencias';
 const {  Content } = Layout;
 
 
@@ -105,6 +106,7 @@ const App = (props) => {
                   <Route path='/buscarempleados' element={<Buscador/>}></Route>
                   <Route path='/dimitidos' element={<Dimitidos/>}></Route>
                   <Route path='/compensaciones' element={<Compensaciones/>}></Route>
+                  <Route path='/licencias' element={<Licencias/>}></Route>
                 </Routes>
               </Content>
               </Layout>

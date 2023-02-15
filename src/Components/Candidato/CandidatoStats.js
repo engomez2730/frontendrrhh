@@ -6,8 +6,6 @@ import Api from '../../apis/rrhhApi'
 const StatsCard = (props) => {
 
     const [Permisos,setPermisos] = useState([])
-
-
     useEffect(()=>{
         getData()
     },[])
@@ -25,12 +23,10 @@ const StatsCard = (props) => {
     {
       title:'Permisos Registrados Activos',
       value:3,
-  
     },
     {
       title:'Permisos Registrados Inactivos',
       value:0,
-  
     }
   ]
 

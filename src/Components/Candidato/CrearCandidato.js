@@ -1,4 +1,4 @@
-import { Button, Checkbox, Form, Input,Select,message,DatePicker  } from 'antd';
+import { Button, Checkbox, Form, Input,Select,message,DatePicker, Radio  } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import React,{useEffect,useState} from 'react';
 import rrhhApi from '../../apis/rrhhApi';
@@ -8,12 +8,14 @@ import {paisesFinal,provinciasFinal,departamentosFinal,puestosFinal,estadoCandid
 import handleError from '../../Data/errorHandle';
 const { Option } = Select;
 
-
+const opcionesLicencia = ['Si','No']
+const categoriaLicencia = ['Categoria 01','Categoria 02','Categoria 03']
 
 const App = (props) => {
 
   const [form] = Form.useForm()
   const [vacantes,setVacantes] = useState([])
+  const [hideInputLic,hideInputLicSet] = useState(true) 
 
   const getVacantes = async () =>{
     const vacantes = await rrhhApi.get('vacantes')
@@ -31,7 +33,7 @@ const App = (props) => {
       correo:props.solicitante?.correo,
       pais:props.solicitante?.pais,
       provincia:props.solicitante?.provincia,
-      puestoAplicado:props.solicitante?.puesto,
+      puestoAplicado:props.solicitante?.puesto,      
     },[props.solicitante])
 
     return () =>{
@@ -51,6 +53,16 @@ const App = (props) => {
  }
 
  const puestosFinalArray = crearSelectArray(puestos)
+ const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia)
+ const opcionesLicenciaCategoria = crearSelectArray(categoriaLicencia)
+
+ const onSelectChangeLic = (e) =>{
+  if(e === 'No'){
+    hideInputLicSet(true)
+  }else{
+    hideInputLicSet(false)
+  }
+}
 
   const onFinish = async(values) => {
     try{
@@ -67,7 +79,11 @@ const App = (props) => {
         entrevistado:values.entrevistado,
         estadoLaboral:values.estadoLaboral,
         vacanteAplicada:values.vacanteAplicada,
-        sexo:values.sexo
+        sexo:values.sexo,
+        licenciasDeConducir:values.licenciasDeConducir === 'Si' ? true : false,
+        tipoLicencia:values.tipoLicencia,
+        licenciaDeConducirFechaExp:values.fechaDeExpiracion,
+
       })
 
       props.CAMBIAR_ESTADO(!props.estado)
@@ -217,10 +233,34 @@ const App = (props) => {
         <TextArea />
       </Form.Item>
       <Form.Item
-        label="Estado Laboral"
-        name="estadoLaboral"
+        label="Licencia de Conducir?" 
+        name="licenciasDeConducir" 
         rules={[{required: true,message: 'Please input your password!',},]}
       >
+        <Select placeholder="Seleciona el estado laboral" onChange={(e) => onSelectChangeLic(e)}>
+               {renderProvincias(opcionesLicenciaBolean)}
+          </Select>
+      </Form.Item>
+      <Form.Item
+        label="Fecha de Exp de Licencia"
+        name="fechaDeExpiracion" 
+        hidden={hideInputLic} 
+        >
+        <DatePicker/>
+      </Form.Item>
+      <Form.Item
+        label="Tipo De Licencia"
+        name="tipoLicencia"
+        hidden={hideInputLic} 
+
+      >
+        <Select placeholder="Seleciona el estado laboral">
+               {renderProvincias(opcionesLicenciaCategoria)}
+          </Select>
+      </Form.Item>
+      <Form.Item
+        label="Estado Laboral"
+        name="estadoLaboral"      >
         <Select placeholder="Seleciona el estado laboral">
                {renderProvincias(estadoCandidatoFinal)}
           </Select>

@@ -153,9 +153,7 @@ import {
         tipoDeNomina:values.tipoDeNomina,
         costoPorHora:values.costoPorHora,
         createdAt:values.createdAt,
-        contactoDeEmergencia:values.contactoDeEmergencia,
-        Dieta:values.Dieta,
-        Incentivos:values.Incentivos,
+        contactoDeEmergencia:values.contactoDeEmergencia
       })
         renderSuccess()
 
@@ -420,12 +418,6 @@ import {
           <DatePicker/>
         </Form.Item>
         
-        <Form.Item name="Dieta" label="Costo de la Dieta">
-          <InputNumber style={{width: '100%',}}/>
-        </Form.Item>
-        <Form.Item name="Incentivos" label="Costo de Incentivos">
-          <InputNumber style={{width: '100%',}}/>
-        </Form.Item>
         <Form.Item
           name="contactoDeEmergencia"
           label="Contacto de Emergencia"

@@ -1,3 +1,4 @@
+import moment from 'moment';
 import React,{useEffect} from 'react';
 import {connect} from 'react-redux'
 
@@ -6,10 +7,8 @@ const EmpresaInfoPer = ({usuarioSelecionado,usuarioEditado}) => {
 
 
     useEffect(()=>{
-
+        console.log(usuarioSelecionado?.licenciasDeConducir)
     },[usuarioEditado])
-
-
     return (
         <div className='infoParent'>
         <div className='header-info'>
@@ -38,12 +37,16 @@ const EmpresaInfoPer = ({usuarioSelecionado,usuarioEditado}) => {
                     <div className='realNombres'>{usuarioSelecionado?.tiempoEnLaEmpresa}</div>
                 </div>
                 <div className='nombres'>
-                    <div className='subNombres'>Incentivos:</div>
-                    <div className='realNombres'>{new Intl.NumberFormat('es-DO').format(usuarioSelecionado?.Incentivos)} RD$</div>
+                    <div className='subNombres'>¿Posee Licencia de Conducir?</div>
+                    <div className='realNombres'>{usuarioSelecionado?.licenciasDeConducir ? 'Si' :'No'}</div>
                 </div>
                 <div className='nombres'>
-                    <div className='subNombres'>Precio de Dieta Diaria 350:</div>
-                    <div className='realNombres'>{new Intl.NumberFormat('es-DO').format(usuarioSelecionado?.Dieta)} RD$</div>
+                    <div className='subNombres'>Categoria de la Licencia</div>
+                    <div className='realNombres'>{usuarioSelecionado?.tipoLicencia}</div>
+                </div>
+                <div className='nombres'>
+                    <div className='subNombres'>¿Posee Licencia de Conducir?</div>
+                    <div className='realNombres'>{moment(usuarioSelecionado?.licenciaDeConducirFechaExp).format('MMMM Do YYYY')}</div>
                 </div>
             </div>
         </div>
