@@ -11,6 +11,7 @@ import InfoModalEdit from './InfoModalEdit';
 import { Popconfirm } from 'antd';
 import { QuestionCircleOutlined } from '@ant-design/icons';
 import Api from '../../apis/rrhhApi'
+import SubirFoto from './SubirFoto';
 
 
 
@@ -18,10 +19,23 @@ const TableFinal = (props) => {
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalEditOpen] = useState(false);
+  const [isModalFoto, setisModalFoto] = useState(false);
 
   useEffect(()=>{
     props.cargarEmpleados()
   },[props.estado])
+
+  const showModalFoto = () => {
+    setisModalFoto(true);
+  };
+ 
+  const handleOkFoto = () => {
+    setisModalFoto(false);
+  };
+
+  const handleCancelFoto = () => {
+    setisModalFoto(false);
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -114,10 +128,11 @@ const TableFinal = (props) => {
       title: 'Acción',
       key: 'operation',
       fixed: 'right', 
-      width: 250,
+      width: 350,
       render: (text) => [
       <Button type='primary' key='ver' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Ver</Button>,
       <Button type='warning' key='editar'style={{marginLeft:'10px'}} onClick={e => onClickModalEdit(e,text)}>Editar Empleado</Button>,
+      <Button type='warning' key='foto'style={{marginLeft:'10px'}} onClick={e => showModalFoto(e,text)}>Subir Foto</Button>,
     ],
     },
   ];
@@ -132,8 +147,6 @@ const TableFinal = (props) => {
  */    showModalEdit()
   }
 
-
-     
      const empleados = props.empleados?.empleados?.map(e =>{
         return {
           nombre:e.nombre,
@@ -184,6 +197,9 @@ const TableFinal = (props) => {
           </Modal>
           <Modal title="Editar el Empleado" open={isModalOpenEdit} onOk={handleOkEdit} onCancel={handleCancelEdit} width={1000}>
             <InfoModalEdit />
+          </Modal>
+          <Modal title="Subir Foto del empleado" open={isModalFoto} onOk={handleOkFoto} onCancel={handleCancelFoto} width={1000}>
+            <SubirFoto />
           </Modal>
         </>
    )

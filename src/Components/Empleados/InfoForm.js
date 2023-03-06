@@ -5,9 +5,6 @@ import Api from '../../apis/rrhhApi'
 import { message } from 'antd';
 import {  CAMBIAR_ESTADO } from '../../actions';
 import handleError from '../../Data/errorHandle';
-import Upload from './Upload';
-
-
 
 const InfoForm = (props) => {
 
@@ -126,6 +123,11 @@ const InfoForm = (props) => {
         name="direccion"
       >
         <Input />
+      </Form.Item>
+      <Form.Item
+        label="Foto"
+        name="Photo"
+      >
       </Form.Item>
 
    {/*    <Form.Item label="Photo" name="photo"rules={[{required: true,message: 'Please input your username!',},]} >
