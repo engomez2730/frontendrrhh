@@ -5,6 +5,7 @@ import Api from '../../apis/rrhhApi'
 import { message } from 'antd';
 import {  CAMBIAR_ESTADO } from '../../actions';
 import handleError from '../../Data/errorHandle';
+import CustomUpload from './CustomUpload';
 
 const InfoForm = (props) => {
 
@@ -18,7 +19,9 @@ const InfoForm = (props) => {
           correo:props.usuarioEditar.correo,
           celular:props.usuarioEditar.celular,
           cedula:props.usuarioEditar.cedula,
-          direccion:props.usuarioEditar.direccion
+          direccion:props.usuarioEditar.direccion,
+          photo:props.usuarioEditar.photo
+
       })
     }, [props.usuarioEditar]);
 
@@ -34,6 +37,7 @@ const InfoForm = (props) => {
             celular:values.celular,
             cedula:values.cedula,
             direccion:values.direccion,
+            photo:values.photo
           })
           props.CAMBIAR_ESTADO(!props.estado)
           message.success('Empleado Actualizado', 2);
@@ -124,17 +128,13 @@ const InfoForm = (props) => {
       >
         <Input />
       </Form.Item>
-      <Form.Item
-        label="Foto"
-        name="Photo"
-      >
-      </Form.Item>
-
-   {/*    <Form.Item label="Photo" name="photo"rules={[{required: true,message: 'Please input your username!',},]} >
-        <input type="file" accept='image/*'/>
-      </Form.Item>
- */}
-
+            <CustomUpload
+                      form={form}
+                      previewTitle={'Photo'}
+                      label={'Foto'}
+                      name={'photo'}
+                      labelCol={{ span: 6 }}
+                    />
 
       <Form.Item
         wrapperCol={{

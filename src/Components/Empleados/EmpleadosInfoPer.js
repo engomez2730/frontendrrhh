@@ -19,7 +19,7 @@ const EmpleadosInfoPer = ({usuarioSelecionado,usuarioEditado}) => {
         <div className='infoParent'>
             <div className='header-info'>
                 <div className='imageSpace'>
-                    <img src={`http://localhost:5000/photos/${usuarioSelecionado?.photo}`} alt='imag'/>
+                    <img src={usuarioSelecionado?.photo} alt='imag'/>
                 </div>
                 <div className='infoSpace'>
                     <div className='nombres'>

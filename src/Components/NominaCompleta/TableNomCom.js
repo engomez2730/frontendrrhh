@@ -76,7 +76,7 @@ const TableFinal = (props) => {
           return record.Empleado?.nombre?.toLowerCase().includes(value.toLowerCase())
       },
       render:(text)=>{
-        return text.nombre
+        return text?.nombre
       }
     },
     {
@@ -85,7 +85,7 @@ const TableFinal = (props) => {
       key: 'apellido',
       width: 200,
       render:(text)=>{
-        return text.departamento
+        return text?.departamento
       }
     },
     {

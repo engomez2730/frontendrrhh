@@ -18,6 +18,9 @@ import {
   import handleError from '../../Data/errorHandle';
   import { useNavigate     } from "react-router-dom";
 
+const opcionesLicencia = ['Si','No']
+const categoriaLicencia = ['Categoria 01','Categoria 02','Categoria 03']
+
   
   const { Option } = Select;
 
@@ -59,6 +62,8 @@ import {
     const [dateInput,dateInputSet] = useState(true)
     const [hideInput,hideInputSet] = useState(true) 
     const [hideInputHour,hideInputHourSet] = useState(true) 
+    const [hideInputLic,hideInputLicSet] = useState(true) 
+
 
     const history = useNavigate ()
     const puestos = props?.puestos?.map((e) => e.nombre)
@@ -72,7 +77,8 @@ import {
    }
 
   const puestosFinalArray = crearSelectArray(puestos)
-
+  const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia)
+  const opcionesLicenciaCategoria = crearSelectArray(categoriaLicencia)
 
     const onSelectChange = (e) =>{
       if(e === 'República Dominicana'){
@@ -110,6 +116,14 @@ import {
         props.BUSCAR_CANDIDATO_ACTION()
       }
     },[props.estado]);
+
+    const onSelectChangeLic = (e) =>{
+      if(e === 'No'){
+        hideInputLicSet(true)
+      }else{
+        hideInputLicSet(false)
+      }
+    }
 
     const renderSuccess = () =>{
       message.success('Empleado creado con exito', 2);
@@ -153,7 +167,10 @@ import {
         tipoDeNomina:values.tipoDeNomina,
         costoPorHora:values.costoPorHora,
         createdAt:values.createdAt,
-        contactoDeEmergencia:values.contactoDeEmergencia
+        contactoDeEmergencia:values.contactoDeEmergencia,
+        licenciasDeConducir:values.licenciasDeConducir === 'Si' ? true : false,
+        tipoLicencia:values.tipoLicencia,
+        licenciaDeConducirFechaExp:values.fechaDeExpiracion,
       })
         renderSuccess()
 
@@ -349,8 +366,8 @@ import {
               dateInputSet(false)
             }
           }}>
-            <Option value="definido">Definido</Option>
             <Option value="indefinido">Indefinido</Option>
+            <Option value="definido">Definido</Option>
             <Option value="temporal">Temporal</Option>
           </Select>
         </Form.Item>
@@ -414,6 +431,32 @@ import {
                {renderDepartamentos(puestosFinalArray)}
           </Select>
         </Form.Item>
+        <Form.Item
+        label="Licencia de Conducir?" 
+        name="licenciasDeConducir" 
+        rules={[{required: true,message: 'Please input your password!',},]}
+      >
+        <Select placeholder="Seleciona el estado laboral" onChange={(e) => onSelectChangeLic(e)}>
+               {renderProvincias(opcionesLicenciaBolean)}
+          </Select>
+      </Form.Item>
+      <Form.Item
+        label="Fecha de Exp de Licencia"
+        name="fechaDeExpiracion" 
+        hidden={hideInputLic} 
+        >
+        <DatePicker/>
+      </Form.Item>
+      <Form.Item
+        label="Tipo De Licencia"
+        name="tipoLicencia"
+        hidden={hideInputLic} 
+
+      >
+        <Select placeholder="Seleciona el estado laboral">
+               {renderProvincias(opcionesLicenciaCategoria)}
+          </Select>
+      </Form.Item>
         <Form.Item name="createdAt" label="Inicio Laboral">
           <DatePicker/>
         </Form.Item>

@@ -130,9 +130,8 @@ const TableFinal = (props) => {
       fixed: 'right', 
       width: 350,
       render: (text) => [
-      <Button type='primary' key='ver' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Ver</Button>,
+      <Button type='primary' key='ver' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Ver Empleado</Button>,
       <Button type='warning' key='editar'style={{marginLeft:'10px'}} onClick={e => onClickModalEdit(e,text)}>Editar Empleado</Button>,
-      <Button type='warning' key='foto'style={{marginLeft:'10px'}} onClick={e => showModalFoto(e,text)}>Subir Foto</Button>,
     ],
     },
   ];
@@ -173,7 +172,8 @@ const TableFinal = (props) => {
           tipoLicencia:e.tipoLicencia,
           licenciaDeConducirFechaExp:e.licenciaDeConducirFechaExp,
           contactoDeEmergencia:e.contactoDeEmergencia,
-          puesto:e.puesto
+          puesto:e.puesto,
+          photo:e.photo
         }
     })
 

@@ -99,12 +99,6 @@ export const elementos = [
                 icon: React.createElement(PlusCircleOutlined)
 
                 
-            },
-            {
-                key:'editarDepartamento',
-                label:<Link to='/verempleados'>Estadisticas de Departamento</Link>,
-                icon: React.createElement(LineChartOutlined)
-
             }
         ]
     },

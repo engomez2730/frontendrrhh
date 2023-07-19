@@ -1,18 +1,16 @@
 import React from 'react'
 import { Modal } from 'antd'
-import { ModalProps } from 'antd/lib/modal'
 import { CheckOutlined, StopOutlined } from '@ant-design/icons'
-import { customModalButtonProps } from '../utils/general'
+ 
+
 const CustomModal = ({
   bodyStyle = {},
   cancelText = 'Cancelar',
   cancelButtonProps = {
     icon: <StopOutlined className="disabledColor" />,
-    ...customModalButtonProps,
   },
   okButtonProps = {
     icon: <CheckOutlined />,
-    ...customModalButtonProps,
   },
   centered = true,
   closable = true,
