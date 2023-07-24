@@ -1,17 +1,14 @@
-import { Avatar, Button, Col, Divider, Drawer, List, Row } from 'antd';
-import React, { useState } from 'react';
-import InfoForm from './InfoForm';
-import CompanyModalEdit from './CompanyModalEdit';
-
-
+import { Avatar, Button, Col, Divider, Drawer, List, Row } from "antd";
+import React, { useState } from "react";
+import InfoForm from "./InfoForm";
+import CompanyModalEdit from "./CompanyModalEdit";
 
 const InfoModalEdit = () => {
-
-    const [open, setOpen] = useState(false);
-    const [page,setPage] = useState(1)
+  const [open, setOpen] = useState(false);
+  const [page, setPage] = useState(1);
 
   const showDrawer = (id) => {
-    setPage(id)
+    setPage(id);
     setOpen(true);
   };
 
@@ -19,48 +16,52 @@ const InfoModalEdit = () => {
     setOpen(false);
   };
 
-  const renderComponents = () =>{
-    if(page === 1){
-      return <InfoForm />
-    }else{
-      return <CompanyModalEdit/>
+  const renderComponents = () => {
+    if (page === 1) {
+      return <InfoForm />;
+    } else {
+      return <CompanyModalEdit />;
     }
-  }
+  };
 
-    return (
-        <div>
-            <List
+  return (
+    <div>
+      <List
         dataSource={[
           {
             id: 1,
-            name: 'Editar Informacion Personal',
+            name: "Editar Informacion Personal",
           },
           {
             id: 2,
-            name: 'Editar Informacion Laboral',
+            name: "Editar Informacion Laboral",
           },
         ]}
         bordered
         renderItem={(item) => (
-          <List.Item key={item.id}
+          <List.Item
+            key={item.id}
             actions={[
-              <Button onClick={(e) =>showDrawer(item.id)} key={`a-${item.id}`}>
+              <Button onClick={(e) => showDrawer(item.id)} key={`a-${item.id}`}>
                 Editar Info
               </Button>,
             ]}
           >
-            <List.Item.Meta
-              title={item.name}
-              description="Nombre, etc"
-            />
+            <List.Item.Meta title={item.name} description="Nombre, etc" />
           </List.Item>
         )}
       />
-      <Drawer width={840} placement="right" closable={false} onClose={onClose} open={open}>
-            {renderComponents()}
+      <Drawer
+        width={840}
+        placement="right"
+        closable={false}
+        onClose={onClose}
+        open={open}
+      >
+        {renderComponents()}
       </Drawer>
-        </div>
-    );
-}
+    </div>
+  );
+};
 
 export default InfoModalEdit;

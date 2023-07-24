@@ -128,14 +128,14 @@ const InfoForm = (props) => {
       >
         <Input />
       </Form.Item>
-            <CustomUpload
+         {/*    <CustomUpload
                       form={form}
                       previewTitle={'Photo'}
                       label={'Foto'}
                       name={'photo'}
                       labelCol={{ span: 6 }}
                     />
-
+ */}
       <Form.Item
         wrapperCol={{
           offset: 8,

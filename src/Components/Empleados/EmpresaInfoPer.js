@@ -12,9 +12,7 @@ const EmpresaInfoPer = ({usuarioSelecionado,usuarioEditado}) => {
     return (
         <div className='infoParent'>
         <div className='header-info'>
-            <div className='imageSpace'>
-                <img src={`http://localhost:5000/photos/${usuarioSelecionado.photo}`} alt='prueba'/>
-            </div>
+
             <div className='infoSpace'>
                 <div className='nombres'>
                     <div className='subNombres'>Tipo de Contrato:</div>

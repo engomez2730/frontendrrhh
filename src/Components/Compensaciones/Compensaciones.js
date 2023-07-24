@@ -1,12 +1,12 @@
-import React from 'react'
-import TableBenef from './TableBenef'
+import React from "react";
+import TableBenef from "./TableBenef";
+import requireAuth from "../requireAuth";
 
-
-export default function Compensaciones() {
+export default requireAuth(function Compensaciones() {
   return (
     <div>
       <h1>Compensaciones y Beneficios</h1>
-      <TableBenef/>
+      <TableBenef />
     </div>
-  )
-}
+  );
+});
