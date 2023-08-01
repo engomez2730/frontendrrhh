@@ -18,11 +18,18 @@ const TableFinal = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalEditOpen] = useState(false);
   const [isModalFoto, setisModalFoto] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   console.log(Object.keys(props.empleados).length === 0);
 
   useEffect(() => {
-    props.cargarEmpleados();
+    try {
+      props.cargarEmpleados();
+    } catch (err) {
+    } finally {
+      console.log("FInal");
+      setIsLoading(false);
+    }
   }, [props.estado]);
 
   const showModalFoto = () => {
@@ -200,7 +207,19 @@ const TableFinal = (props) => {
 
   return (
     <>
-      <Table
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <Table
+          style={{ marginTop: "50px", width: "80%" }}
+          columns={columns}
+          scroll={{ x: 1300 }}
+          dataSource={estadoP ? empleadosActivos : empleados}
+          bordered={true}
+          pagination={{ pageSize: 6, total: empleados?.length }}
+        />
+      )}
+      {/*   <Table
         style={{ marginTop: "50px", width: "80%" }}
         columns={columns}
         scroll={{ x: 1300 }}
@@ -208,7 +227,7 @@ const TableFinal = (props) => {
         bordered={true}
         pagination={{ pageSize: 6, total: empleados?.length }}
       />
-
+ */}
       <Modal
         title="Informacion del Empleado"
         open={isModalOpen}

@@ -162,6 +162,7 @@ const TableFinal = (props) => {
           <Modal title="Nomina del empleado" open={isModalOpenVer} onOk={handleOkVER} onCancel={handleCancelVer} width={1000}>
             <VerNominaEach nominaSelecionada={props?.nominaSelecionadaVer}/>
           </Modal>
+
         </>
    )
 };

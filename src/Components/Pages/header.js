@@ -36,12 +36,9 @@ const HeaderFInal = (props) => {
       );
     } else if (userLocal) {
       return (
-        <>
-          <Button color="inherit" onClick={() => logOut()}>
-            Salir
-          </Button>
-          ,<Button color="inherit">Mi Perfil</Button>
-        </>
+        <Button color="inherixt" onClick={() => logOut()}>
+          Salir
+        </Button>
       );
     }
   };

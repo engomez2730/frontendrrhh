@@ -12,7 +12,7 @@ const PermisoVer = (props) => {
         <div className='verVacacionesModal'>
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Meds:</div>
-                <div className='verVacacionesValue'> {props?.nominaSelecionada?.mes} </div>
+                <div className='verVacacionesValue'> {props?.nominaSelecionada?.mes || 'indefinido'} </div>
             </div>
             <div className='verVacacionesItem'>
                 <div className='verVacacionesLabel'>Año:</div>

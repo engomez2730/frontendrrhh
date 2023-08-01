@@ -154,6 +154,33 @@ const StateMapToProps = state =>{
 }
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 export default connect(StateMapToProps,{
   CAMBIAR_ESTADO
 })(CrearPermiso);
