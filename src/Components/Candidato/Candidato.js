@@ -8,7 +8,6 @@ const Candidato = () => {
         <div className='verAnuncios'>
             <h1>Candidatos</h1>
             <div className='tableDataPer'>
-                <CandidatoStats/>
                 <TableCandi/>    
             </div>
     </div>

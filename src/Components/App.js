@@ -7,7 +7,12 @@ import Sider from "./Empleados/Sidebar";
 import CrearEmpleado from "./Empleados/CrearEmpleado";
 import { Routes, Route } from "react-router-dom";
 import { /* Breadcrumb, */ Layout } from "antd";
-import { setUser, loggedUserIn, loggedUserOut } from "../actions";
+import {
+  setUser,
+  loggedUserIn,
+  loggedUserOut,
+  cargarEmpleados,
+} from "../actions";
 import Login from "../Components/Pages/login";
 import VerEmpleados from "./Empleados/VerEmpleados";
 import Inicio from "./Pages/Inicio";
@@ -44,6 +49,7 @@ const App = (props) => {
 
   useEffect(() => {
     props.setUser(userActive);
+    props.cargarEmpleados();
   }, []);
 
   const USER = JSON.parse(localStorage.getItem("user"));
@@ -89,7 +95,12 @@ const App = (props) => {
                   path="/crearempleado"
                   element={<CrearEmpleado />}
                 ></Route>
-                <Route path="/verempleados" element={<VerEmpleados />}></Route>
+                <Route
+                  path="/verempleados"
+                  element={
+                    <VerEmpleados empleados={props.empleados?.empleados} />
+                  }
+                ></Route>
                 <Route path="/login" element={<Login />}></Route>
                 <Route
                   path="/creardepartamento"
@@ -151,6 +162,7 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.isLoggedIn,
     usuario: state.user,
+    empleados: state.empleados,
   };
 };
 
@@ -158,4 +170,5 @@ export default connect(mapStateToProps, {
   loggedUserIn,
   loggedUserOut,
   setUser,
+  cargarEmpleados,
 })(App);

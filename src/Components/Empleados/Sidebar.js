@@ -4,8 +4,6 @@ import { items2 } from '../../Data/siderData';
 const {  Sider } = Layout;
 
 
-
-
 const Sidebar = () => {
     return (
         <Sider className="site-layout-background" width={250}>

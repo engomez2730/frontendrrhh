@@ -7,7 +7,6 @@ import {BUSCAR_CANDIDATO_ACTION,CAMBIAR_ESTADO} from '../../actions/index'
 
 const App = (props) => {
     const onFinish = async (values) => {
-    console.log('Success:', values);
     const dataCandidato = await rrhhApi.get(`entrevistados?cedula=${values.candidato}`)
     props.BUSCAR_CANDIDATO_ACTION(dataCandidato.data.Entrevistados[0])
     props.CAMBIAR_ESTADO(!props.estado)
