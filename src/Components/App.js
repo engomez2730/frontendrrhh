@@ -12,11 +12,11 @@ import {
   loggedUserIn,
   loggedUserOut,
   cargarEmpleados,
+  cargarDepartamentos,
 } from "../actions";
 import Login from "../Components/Pages/login";
 import VerEmpleados from "./Empleados/VerEmpleados";
 import Inicio from "./Pages/Inicio";
-import CrearDepartamento from "./Departamentos/CrearDepartamento";
 import VerDepartamentos from "../Components/Departamentos/VerDepartamentos";
 import Vacaciones from "./Vacaciones/Vacaciones.js";
 import Nomina from "./Nomina/Nomina";
@@ -40,6 +40,7 @@ import Buscador from "./Buscador/Buscador";
 import Dimitidos from "./Dimitidos/Dimitidos";
 import Compensaciones from "./Compensaciones/Compensaciones";
 import Licencias from "./Licencias/Licencias";
+import Amonestaciones from "./Amonestaciones/Amonestaciones";
 const { Content } = Layout;
 
 const App = (props) => {
@@ -48,9 +49,14 @@ const App = (props) => {
   );
 
   useEffect(() => {
-    props.setUser(userActive);
-    props.cargarEmpleados();
-  }, []);
+    const userLocal = JSON.parse(localStorage.getItem("user"));
+    if (userLocal && userLocal.rol === "admin") {
+      props.loggedUserIn();
+      props.setUser(userLocal);
+      props.cargarEmpleados();
+      props.cargarDepartamentos();
+    }
+  }, [props.estado]);
 
   const USER = JSON.parse(localStorage.getItem("user"));
 
@@ -87,7 +93,7 @@ const App = (props) => {
           <Layout style={{ padding: "0 24px 24px" }}>
             <Content
               className="site-layout-background"
-              style={{ padding: 24, margin: "20px 0px", minHeight: "85vh" }}
+              style={{ padding: 50, margin: "20px 0px", minHeight: "85vh" }}
             >
               <Routes>
                 <Route path="/" element={<Inicio />}></Route>
@@ -103,12 +109,10 @@ const App = (props) => {
                 ></Route>
                 <Route path="/login" element={<Login />}></Route>
                 <Route
-                  path="/creardepartamento"
-                  element={<CrearDepartamento />}
-                ></Route>
-                <Route
                   path="/verdepartamentos"
-                  element={<VerDepartamentos />}
+                  element={
+                    <VerDepartamentos departamentos={props.departamentos} />
+                  }
                 ></Route>
                 <Route path="/vacaciones" element={<Vacaciones />}></Route>
                 <Route path="/nomina" element={<Nomina />}></Route>
@@ -146,7 +150,15 @@ const App = (props) => {
                 <Route path="/dimitidos" element={<Dimitidos />}></Route>
                 <Route
                   path="/compensaciones"
-                  element={<Compensaciones />}
+                  element={
+                    <Compensaciones empleados={props.empleados?.empleados} />
+                  }
+                ></Route>
+                <Route
+                  path="/amonestaciones"
+                  element={
+                    <Amonestaciones empleados={props.empleados?.empleados} />
+                  }
                 ></Route>
                 <Route path="/licencias" element={<Licencias />}></Route>
               </Routes>
@@ -163,6 +175,8 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.isLoggedIn,
     usuario: state.user,
     empleados: state.empleados,
+    departamentos: state.departamentos.Departamentos,
+    estado: state.cambiarState,
   };
 };
 
@@ -171,4 +185,5 @@ export default connect(mapStateToProps, {
   loggedUserOut,
   setUser,
   cargarEmpleados,
+  cargarDepartamentos,
 })(App);

@@ -1,13 +1,13 @@
 import {
   Button,
-  Checkbox,
   Form,
   Input,
   Select,
   message,
   DatePicker,
-  Radio,
+  InputNumber,
 } from "antd";
+import moment from "moment";
 import TextArea from "antd/lib/input/TextArea";
 import React, { useEffect, useState } from "react";
 import rrhhApi from "../../apis/rrhhApi";
@@ -20,10 +20,9 @@ import { connect } from "react-redux";
 import {
   paisesFinal,
   provinciasFinal,
-  departamentosFinal,
-  puestosFinal,
   estadoCandidatoFinal,
 } from "../../Data/CountriesData";
+
 import handleError from "../../Data/errorHandle";
 const { Option } = Select;
 
@@ -38,6 +37,31 @@ const App = (props) => {
   const getVacantes = async () => {
     const vacantes = await rrhhApi.get("vacantes");
     setVacantes(vacantes.data.data?.Vacantes.map((e) => e.nombre));
+  };
+
+  const validateMinLength = (minLength) => (rule, value, callback) => {
+    if (value && value.length < minLength) {
+      callback(`Necesita tener al menos ${minLength} `);
+    } else {
+      callback();
+    }
+  };
+
+  const validateAge = (rule, date, callback) => {
+    if (date && moment().diff(date, "years") < 18) {
+      callback("Debes ser mayor de 18 años.");
+    } else {
+      callback();
+    }
+  };
+
+  const validateAllNumbers = (rule, value, callback) => {
+    const regex = /^\d+$/;
+    if (!regex.test(value)) {
+      callback("Deben ser solo numeros");
+    } else {
+      callback();
+    }
   };
 
   useEffect(() => {
@@ -107,6 +131,8 @@ const App = (props) => {
         puesto: values.puestoAplicado,
       });
 
+      form.resetFields();
+
       props.CAMBIAR_ESTADO(!props.estado);
       message.success("Candidato creado con exito");
     } catch (err) {
@@ -174,55 +200,91 @@ const App = (props) => {
         rules={[
           {
             required: true,
-            message: "Please input your username!",
+            message: "Tienes que introducir el nombre del candidato",
           },
         ]}
       >
-        <Input />
+        <Input maxLength={30} showCount />
       </Form.Item>
 
       <Form.Item
         label="Apellido"
         name="apellido"
-        rules={[{ required: true, message: "Please input your password!" }]}
+        rules={[
+          {
+            required: true,
+            message: "Tienes que introducir el apellido del candidato",
+          },
+        ]}
+      >
+        <Input maxLength={30} showCount />
+      </Form.Item>
+
+      <Form.Item
+        label="Correo"
+        name="correo"
+        rules={[
+          {
+            type: "email",
+            message: "Introduce un verdadero correo",
+          },
+          {
+            required: true,
+            message: "Tienes que introducir un correo",
+          },
+        ]}
       >
         <Input />
       </Form.Item>
       <Form.Item
         label="Cedula"
         name="cedula"
-        rules={[{ required: true, message: "Please input your password!" }]}
+        rules={[
+          {
+            required: true,
+            message: "Tienes que introducir una cedula!",
+          },
+          {
+            validator: validateMinLength(11),
+          },
+          {
+            validator: validateAllNumbers,
+          },
+        ]}
       >
-        <Input />
+        <Input maxLength={11} />
       </Form.Item>
       <Form.Item
         label="Celular"
         name="celular"
-        rules={[{ required: true, message: "Please input your password!" }]}
+        rules={[
+          {
+            required: true,
+            message: "Tienes que introducir una celular!",
+          },
+          {
+            validator: validateMinLength(10),
+          },
+          {
+            validator: validateAllNumbers,
+          },
+        ]}
       >
-        <Input />
+        <Input maxLength={10} />
       </Form.Item>
       <Form.Item
-        label="Correo"
-        name="correo"
-        rules={[{ required: true, message: "Por Favor introduce tu correo" }]}
+        label="Direccion"
+        name="direccion"
+        rules={[
+          {
+            required: true,
+            message: "Tienes que introducir una direcion!",
+          },
+        ]}
       >
-        <Input />
+        <TextArea />
       </Form.Item>
-      <Form.Item
-        label="Pais"
-        name="pais"
-        rules={[{ required: true, message: "Por Favor introduce tu pais" }]}
-      >
-        <Select placeholder="Seleciona el Pais">
-          {renderPaises(paisesFinal)}
-        </Select>
-      </Form.Item>
-      <Form.Item label="Provincia" name="provincia">
-        <Select placeholder="Seleciona la provincia">
-          {renderProvincias(provinciasFinal)}
-        </Select>
-      </Form.Item>
+
       <Form.Item
         name="sexo"
         label="Genero"
@@ -246,32 +308,44 @@ const App = (props) => {
         rules={[
           {
             required: true,
-            message: "Necesita intruducir su fecha de nacimiento",
+            message: "Tienes que introducir la fecha de nacimiento",
+          },
+          {
+            validator: validateAge,
           },
         ]}
       >
         <DatePicker />
       </Form.Item>
       <Form.Item
-        label="Puesto"
-        name="puestoAplicado"
-        rules={[{ required: true, message: "Por Favor introduce tu puesto!" }]}
+        label="Pais"
+        name="pais"
+        rules={[
+          {
+            required: true,
+            message: "Tienes que introducir un numero de telefono!",
+          },
+        ]}
       >
-        <Select placeholder="Seleciona el tipo de puesto">
-          {renderDepartamentos(puestosFinalArray)}
+        <Select placeholder="Seleciona el Pais">
+          {renderPaises(paisesFinal)}
         </Select>
       </Form.Item>
-      <Form.Item
-        label="Direccion"
-        name="direccion"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <TextArea />
+      <Form.Item label="Provincia" name="provincia">
+        <Select placeholder="Seleciona la provincia">
+          {renderProvincias(provinciasFinal)}
+        </Select>
       </Form.Item>
+
       <Form.Item
         label="Licencia de Conducir?"
         name="licenciasDeConducir"
-        rules={[{ required: true, message: "Please input your password!" }]}
+        rules={[
+          {
+            required: true,
+            message: "Tienes que especificar si tienes licencia de conducir",
+          },
+        ]}
       >
         <Select
           placeholder="Seleciona el estado laboral"
@@ -318,7 +392,7 @@ const App = (props) => {
         }}
       >
         <Button type="primary" htmlType="submit">
-          Crear
+          Crear Candidato
         </Button>
       </Form.Item>
     </Form>

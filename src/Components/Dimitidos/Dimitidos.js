@@ -7,7 +7,6 @@ const Despidos = () => {
         <div className='verAnuncios'>
         <h1>Dimitidos</h1>
         <div className='tableDataPer'>
-              <DimitidosStats/>
               <DimitidosTable/>
         </div>
     </div>

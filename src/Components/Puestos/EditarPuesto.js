@@ -1,48 +1,39 @@
-import React,{useState,useEffect} from 'react';
-import { Button, Form, Input,DatePicker,message,Select } from 'antd';
-import { useForm } from 'antd/lib/form/Form';
-import Api from '../../apis/rrhhApi'
-import {connect} from 'react-redux'
-import { CAMBIAR_ESTADO } from '../../actions';
-import handleError from '../../Data/errorHandle';
-const { Option } = Select;
+import React, { useEffect } from "react";
+import { Button, Form, Input, message, Select } from "antd";
+import { useForm } from "antd/lib/form/Form";
+import Api from "../../apis/rrhhApi";
+import { connect } from "react-redux";
+import { CAMBIAR_ESTADO } from "../../actions";
+import handleError from "../../Data/errorHandle";
 
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
-};
 const { TextArea } = Input;
 
 const CrearPermiso = (props) => {
+  const [form] = useForm();
 
-  const [form] = useForm()
-
-  useEffect(()=>{
-    console.log(props)
+  useEffect(() => {
     form.setFieldsValue({
-        nombre:props.puesto?.nombre,
-        descripcion:props.puesto?.descripcion,
-    })
-},[props.puestoSelecionado])
+      nombre: props.puesto?.nombre,
+      descripcion: props.puesto?.descripcion,
+    });
+  }, [props.puestoSelecionado]);
 
-  const onFinish = async(values) => {
-    console.log('Success:', values);
-    try{
-    
-        const crearPermiso = await Api.patch(`/puestos/${props.puesto._id}`,{
-            nombre:values.nombre,
-            descripcion:values.descripcion,
-        })
-        console.log(crearPermiso)
-        props.CAMBIAR_ESTADO(!props.estado)
-        message.success('Permiso Editado con exito',3)
-
-
-    }catch(err){
-        handleError(err)
+  const onFinish = async (values) => {
+    console.log("Success:", values);
+    try {
+      await Api.patch(`/puestos/${props.puesto._id}`, {
+        nombre: values.nombre,
+        descripcion: values.descripcion,
+      });
+      form.resetFields();
+      props.CAMBIAR_ESTADO(!props.estado);
+      message.success("Permiso Editado con exito", 3);
+    } catch (err) {
+      handleError(err);
     }
   };
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
   return (
     <Form
@@ -67,9 +58,10 @@ const CrearPermiso = (props) => {
         rules={[
           {
             required: true,
-            message: 'Por Favor Introduce un Nombre',
+            message: "Por Favor Introduce un Nombre",
           },
-        ]}>
+        ]}
+      >
         <Input />
       </Form.Item>
 
@@ -79,7 +71,7 @@ const CrearPermiso = (props) => {
         rules={[
           {
             required: true,
-            message: 'Por Favor Introduce una descripcion',
+            message: "Por Favor Introduce una descripcion",
           },
         ]}
       >
@@ -99,12 +91,13 @@ const CrearPermiso = (props) => {
   );
 };
 
+const StateMapToProps = (state) => {
+  return {
+    estado: state.cambiarState,
+    puestoSelecionado: state.puestoSelecionado.puestoSelecionado,
+  };
+};
 
-
-const StateMapToProps = state =>{
-  return {estado:state.cambiarState,puestoSelecionado:state.puestoSelecionado.puestoSelecionado}
-}
-
-export default connect(StateMapToProps,{
-  CAMBIAR_ESTADO
+export default connect(StateMapToProps, {
+  CAMBIAR_ESTADO,
 })(CrearPermiso);

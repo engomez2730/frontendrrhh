@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Modal, Input, Popconfirm } from "antd";
-import { SearchOutlined, QuestionCircleOutlined } from "@ant-design/icons";
-import { connect } from "react-redux";
+import { Table, Button, Modal, Input } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import {
+  empleadoSelecionadoVer,
   cargarEmpleados,
   CAMBIAR_ESTADO,
-  empleadoSelecionadoVer,
 } from "../../actions/index";
-import VerLicencias from "./VerLicencias";
-import CrearLicencia from "./CrearLicencia";
-import TableEachLic from "./TableEachLic";
+
+import ManejarAmos from "./ManejarAmos";
+import { connect } from "react-redux";
 import moment from "moment";
-import Api from "../../apis/rrhhApi";
+import VerAmonestaciones from "./VerAmonestaciones";
+moment.locale("uk");
 
 const TablePerm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -56,7 +56,7 @@ const TablePerm = (props) => {
   const columns = [
     {
       title: "Nombre",
-      width: 100,
+      width: 200,
       dataIndex: "nombre",
       key: "name",
       fixed: "left",
@@ -85,25 +85,25 @@ const TablePerm = (props) => {
       },
     },
     {
-      title: "Cedula",
-      dataIndex: "cedula",
+      title: "Apellido",
+      dataIndex: "apellido",
       key: "apellido",
     },
     {
-      title: "Departamento",
-      dataIndex: "departamento",
+      title: "Cedula",
+      dataIndex: "cedula",
       key: "cedula",
     },
     {
       title: "Puesto",
       dataIndex: "puesto",
-      key: "Puesto",
+      key: "puesto",
     },
     {
       title: "Acción",
       key: "operation",
       fixed: "right",
-      width: 370,
+      width: 400,
       render: (text) => [
         <Button
           type="primary"
@@ -111,15 +111,15 @@ const TablePerm = (props) => {
           style={{ marginLeft: "10px" }}
           onClick={(e) => onClickModal(e, text)}
         >
-          Ver Licencias
+          Ver Amonestaciones
         </Button>,
         <Button
-          type=""
+          type="warning"
           key="manejar"
           style={{ marginLeft: "10px" }}
           onClick={(e) => onClickModalVer(e, text)}
         >
-          Crear Licencia
+          Manejar Amonestaciones
         </Button>,
       ],
     },
@@ -131,15 +131,16 @@ const TablePerm = (props) => {
   };
 
   /*   const eliminaranuncio = async (e,text) =>{
-    const res = await Api.delete(`permisos/${text.key}`)
+    const res = await Api.delete(`anuncios/${text.key}`)
     props.CAMBIAR_ESTADO(!props.estado)
-  }
- */
+  } */
+
   const onClickModalVer = (e, text) => {
     props.empleadoSelecionadoVer(text.key);
     showModalEdit();
   };
   const onClickModalCrear = (e, text) => {
+    props.empleadoSelecionadoVer(text.key);
     showModalCrear();
   };
 
@@ -150,6 +151,7 @@ const TablePerm = (props) => {
       correo: e.correo,
       celular: e.celular,
       cedula: e.cedula,
+      departamento: e.cedula,
       key: e.id,
       DiaDeVacaciones: e.DiaDeVacaciones,
       PrestacionesLaborales: e.PrestacionesLaborales,
@@ -163,16 +165,17 @@ const TablePerm = (props) => {
       sueldoFijo: e.sueldoFijo,
       departamento: e.departamento,
       expiracionDelContrato: e.vencimientoDelContrato,
+      vacacionesTomadas: e.vacacionesTomadas,
+      Dieta: e.Dieta,
       Incentivos: e.Incentivos,
       puesto: e.puesto,
-      Licencias: e.Licencias,
     };
   });
 
+  const estadoP = true;
   const empleadosActivos = empleados?.filter((e) => {
     return e.estado === true;
   });
-
   return (
     <div>
       <Table
@@ -184,25 +187,25 @@ const TablePerm = (props) => {
         pagination={{ pageSize: 5, total: empleadosActivos?.length }}
       />
       <Modal
-        title="Ver Licencia"
+        title="Ver Amonestaciones"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         width={1000}
       >
-        <VerLicencias />
+        <VerAmonestaciones empleadoSelecionado={props.empleadoSelecionado} />
       </Modal>
       <Modal
-        title="Crear Licencia"
+        title="Manejar Amonestaciones"
         open={isModalOpenVer}
         onOk={handleOkVER}
         onCancel={handleCancelVer}
         width={1000}
       >
-        <CrearLicencia />
+        <ManejarAmos usuario={props?.empleadoSelecionado} />
       </Modal>
       <Modal
-        title="Crear Licencia"
+        title="Crear Amonestaciones"
         open={isModalOpenCrear}
         onOk={handleOkCrear}
         onCancel={handleCancelCrear}
@@ -215,8 +218,8 @@ const TablePerm = (props) => {
 const StateMapToProps = (state) => {
   return {
     empleados: state.empleados.empleados,
-    permisoSelecioandoData: state.permisoSelecionado,
     estado: state.cambiarState,
+    empleadoSelecionado: state.usuarioSelecionadoVer.usuarioSelecionadoVer,
   };
 };
 

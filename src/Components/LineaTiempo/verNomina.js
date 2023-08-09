@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import moment from "moment"; // without this line it didn't work
 moment.locale("es");
 
+
 const PermisoVer = (props) => {
   console.log(props.nominaSelecionada);
   return (

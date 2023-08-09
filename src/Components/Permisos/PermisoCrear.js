@@ -1,41 +1,44 @@
-import React,{useState} from 'react';
-import { Button, Form, Input,DatePicker,message } from 'antd';
-import Api from '../../apis/rrhhApi'
-import {connect} from 'react-redux'
-import { CAMBIAR_ESTADO } from '../../actions';
-import handleError from '../../Data/errorHandle';
+import React, { useState } from "react";
+import { Button, Form, Input, DatePicker, message } from "antd";
+import Api from "../../apis/rrhhApi";
+import { connect } from "react-redux";
+import { CAMBIAR_ESTADO } from "../../actions";
+import handleError from "../../Data/errorHandle";
 
 const { TextArea } = Input;
 
 const CrearPermiso = (props) => {
+  const [usuarioSelec, usuarioSelecSet] = useState([]);
+  const [form] = Form.useForm();
 
-  const [usuarioSelec, usuarioSelecSet] = useState([])
+  const onFinish = async (values) => {
+    console.log("Success:", values);
+    try {
+      const usuarioPer = await Api.get(
+        `permisos/verempleados?cedula=${values.Empleado}`
+      );
+      usuarioSelecSet(usuarioPer.data.empleados[0]);
+      await Api.post(`permisos`, {
+        nombre: values.nombre,
+        descripcion: values.descripcion,
+        fecha: values.fecha,
+        empleado: usuarioPer.data.empleados[0]._id,
+      });
 
-  const onFinish = async(values) => {
-    console.log('Success:', values);
-    try{
-        const usuarioPer = await Api.get(`permisos/verempleados?cedula=${values.Empleado}`)
-        usuarioSelecSet(usuarioPer.data.empleados[0])
-        
-        const crearPermiso = await Api.post(`permisos`,{
-            nombre:values.nombre,
-            descripcion:values.descripcion,
-            fecha:values.fecha,
-            empleado:usuarioPer.data.empleados[0]._id
-        })
-        props.CAMBIAR_ESTADO(!props.estado)
-        message.success('Permiso Creado con exito',3)
+      form.resetFields();
 
-
-    }catch(err){
-        handleError(err)
+      props.CAMBIAR_ESTADO(!props.estado);
+      message.success("Permiso Creado con exito", 3);
+    } catch (err) {
+      handleError(err);
     }
   };
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
   return (
     <Form
+      form={form}
       name="basic"
       labelCol={{
         span: 8,
@@ -56,7 +59,7 @@ const CrearPermiso = (props) => {
         rules={[
           {
             required: true,
-            message: 'Por Favor Introduce un Nombre',
+            message: "Por Favor Introduce un Nombre",
           },
         ]}
       >
@@ -69,7 +72,7 @@ const CrearPermiso = (props) => {
         rules={[
           {
             required: true,
-            message: 'Por Favor Introduce una descripcion',
+            message: "Por Favor Introduce una descripcion",
           },
         ]}
       >
@@ -82,11 +85,11 @@ const CrearPermiso = (props) => {
         rules={[
           {
             required: true,
-            message: 'Por Favor Introduce una fecha',
+            message: "Por Favor Introduce una fecha",
           },
         ]}
       >
-            <DatePicker />
+        <DatePicker />
       </Form.Item>
       <Form.Item
         label="Cedula del empleado:"
@@ -94,16 +97,14 @@ const CrearPermiso = (props) => {
         rules={[
           {
             required: true,
-            message: 'Por Favor Introduce la cedula del empleado',
+            message: "Por Favor Introduce la cedula del empleado",
           },
         ]}
       >
-            <Input />
+        <Input />
       </Form.Item>
-      <Form.Item
-      label="USUARIO SELECIONADO"
-      >
-         {`${usuarioSelec?.nombre || ''} ${usuarioSelec?.apellido || ''}`}
+      <Form.Item label="USUARIO SELECIONADO">
+        {`${usuarioSelec?.nombre || ""} ${usuarioSelec?.apellido || ""}`}
       </Form.Item>
 
       <Form.Item
@@ -120,12 +121,14 @@ const CrearPermiso = (props) => {
   );
 };
 
+const StateMapToProps = (state) => {
+  return {
+    permisos: state.permisos.permisos,
+    permisoSelecioandoData: state.permisoSelecionado,
+    estado: state.cambiarState,
+  };
+};
 
-
-const StateMapToProps = state =>{
-  return {permisos:state.permisos.permisos,permisoSelecioandoData:state.permisoSelecionado, estado:state.cambiarState}
-}
-
-export default connect(StateMapToProps,{
-  CAMBIAR_ESTADO
+export default connect(StateMapToProps, {
+  CAMBIAR_ESTADO,
 })(CrearPermiso);

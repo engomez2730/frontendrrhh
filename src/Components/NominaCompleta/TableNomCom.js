@@ -127,7 +127,6 @@ const TableFinal = (props) => {
           key:e.id,
           sueldoBruto:e.sueldoBruto,
           sueldoNeto:e.sueldoNeto,
-          sueldoFijo:e.sueldoFijo,
           sueldoAnual:e.sueldoAnual,
           afp:e.afp,
           sfs:e.sfs,

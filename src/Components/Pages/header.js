@@ -1,77 +1,76 @@
 import { connect } from "react-redux";
-import "./header.css";
-import { loggedUserOut, loggedUserIn } from "../../actions/index";
-import { Routes, Route, Link } from "react-router-dom";
-import { Button } from "antd/lib/radio";
-import { Layout, Menu } from "antd";
-import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { loggedUserOut, setUser } from "../../actions/index";
+import { Button, Layout, Menu } from "antd";
+import "./Header.css";
+
 const { Header } = Layout;
 
-const HeaderFInal = (props) => {
-  const [userLocal, userLocalSet] = useState();
-  const [estadoFake, estadoFakeSer] = useState(false);
+const stylesHeder = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+};
 
-  useEffect(() => {
-    getUserLocal();
-  }, [estadoFake]);
+const stylesLogo = { color: "#f97e07" };
 
-  function getUserLocal() {
-    userLocalSet(JSON.parse(localStorage.getItem("user")));
-    estadoFakeSer(true);
-  }
-
-  const logOut = () => {
-    document.cookie = "jwt=; expires=Thu, 01 J  `an 1970 00:00:00 UTC; path=/;";
-    localStorage.removeItem("user");
-    props.loggedUserOut();
-    window.location.href = "/";
-  };
-
-  const renderButton = () => {
-    if (!userLocal) {
-      return (
-        <Button color="inherit">
-          <Link to="/login">Log In</Link>
-        </Button>
-      );
-    } else if (userLocal) {
-      return (
-        <Button color="inherixt" onClick={() => logOut()}>
+const HeaderFInal = ({ isLoggedIn, loggedUserOut, setUser }) => {
+  const elementosHeader = [
+    {
+      label: (
+        <Button
+          onClick={() => {
+            loggedUserOut();
+            setUser(null);
+            localStorage.setItem("user", JSON.stringify(null));
+          }}
+        >
           Salir
         </Button>
-      );
-    }
-  };
+      ),
+    },
+    {
+      label: <Button onClick={() => alert("HOla")}>Perfil</Button>,
+    },
+  ];
+
+  const elementosHeader2 = [
+    {
+      label: (
+        <Link to="/login">
+          <Button>Log In</Button>,
+        </Link>
+      ),
+    },
+  ];
+
   return (
     <>
-      <Header className="header">
+      <Header style={stylesHeder}>
         <div className="logo">
-          Varg<span style={{ color: "#f97e07" }}>Sang </span>RRHH
+          Varg<span style={stylesLogo}>Sang </span>RRHH
         </div>
         <Menu
+          style={{ width: "250px" }}
           theme="dark"
           mode="horizontal"
-          selectable={false}
-          className="header"
-        >
-          <Menu.Item key="ddd">
-            <span>{renderButton()}</span>
-          </Menu.Item>
-        </Menu>
+          defaultSelectedKeys={["2"]}
+          items={isLoggedIn?.isLoggedIn ? elementosHeader : elementosHeader2}
+        />
       </Header>
-      <Routes>{<Route path="/menu" element={<Menu />}></Route>}</Routes>
     </>
   );
 };
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedInState: state.isLoggedIn,
-    cambiarState: state.cambiarState,
+    isLoggedIn: state.isLoggedIn,
+    /*     usuario: state.user,
+    empleados: state.empleados, */
   };
 };
 
 export default connect(mapStateToProps, {
-  loggedUserIn,
   loggedUserOut,
+  setUser,
 })(HeaderFInal);

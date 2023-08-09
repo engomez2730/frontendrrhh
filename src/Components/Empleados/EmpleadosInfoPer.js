@@ -49,7 +49,7 @@ const EmpleadosInfoPer = ({ usuarioSelecionado, usuarioEditado }) => {
           </div>
           <div className="nombres">
             <div className="subNombres">Sexo:</div>
-            <div className="realNombres">{usuarioSelecionado?.sexo}</div>
+            <div className="realNombres">{usuarioSelecionado?.genero}</div>
           </div>
           <div className="nombres">
             <div className="subNombres">Pais:</div>

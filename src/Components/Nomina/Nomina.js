@@ -7,7 +7,6 @@ const Nomina = () => {
     return (
         <div className='nomina'>
             <h1>Nomina</h1>
-            <NominaStats/>
             <TableNom/>
         </div>
     );

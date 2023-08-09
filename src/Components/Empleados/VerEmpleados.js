@@ -8,7 +8,6 @@ const VerEmpleados = ({ empleados }) => {
     <div className="verEmpleados">
       <h1>Manejar Empleados</h1>
       <div className="tabledata">
-        <StatsCard />
         <Table empleadosProps={empleados} />
       </div>
     </div>

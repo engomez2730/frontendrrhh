@@ -213,7 +213,7 @@ const TableFinal = (props) => {
         width={1000}
       >
         <VerNomina nomina={props?.nomina} />
-      </Modal>
+      </Modal>  
       <Modal
         title="Crear Nomina"
         open={isModalOpenCrear}

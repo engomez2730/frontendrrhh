@@ -7,8 +7,7 @@ const Permisos = () => {
         <div className='verPermisos'>
              <h1>Permisos</h1>
             <div className='tableDataPer'>
-                <StatsPerm/>
-                <TablePerm/>    
+                    <TablePerm/>    
             </div>
         </div>
     );

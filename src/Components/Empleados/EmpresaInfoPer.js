@@ -19,10 +19,24 @@ const EmpresaInfoPer = ({ usuarioSelecionado, usuarioEditado }) => {
             <div className="realNombres">{usuarioSelecionado?.rol}</div>
           </div>
           <div className="nombres">
+            <div className="subNombres">Tipo de Nomina</div>
+            <div className="realNombres">
+              {usuarioSelecionado?.tipoDeNomina}
+            </div>
+          </div>
+          <div className="nombres">
+            <div className="subNombres">Costo por Hora:</div>
+            <div className="realNombres">
+              {usuarioSelecionado?.costoPorHora
+                ? usuarioSelecionado?.costoPorHora
+                : "No tiene, Nomina FIja"}
+            </div>
+          </div>
+          <div className="nombres">
             <div className="subNombres">Salario:</div>
             <div className="realNombres">
               {new Intl.NumberFormat("es-DO").format(
-                usuarioSelecionado?.sueldoFijo
+                usuarioSelecionado?.salarioBruto
               )}{" "}
               RD$
             </div>

@@ -192,7 +192,7 @@ const TablePerm = (props) => {
       estado: e.estado,
       pais: e.pais,
       provincia: e.provincia,
-      salario: e.salarioBruto,
+      salarioBruto: e.salarioBruto,
       departamento: e.departamento,
       expiracionDelContrato: e.vencimientoDelContrato,
       vacacionesTomadas: e.vacacionesTomadas,

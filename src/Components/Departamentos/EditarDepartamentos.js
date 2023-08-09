@@ -1,93 +1,108 @@
-import React,{useState} from 'react';
-import { Button, Form, Input, Radio,message } from 'antd';
-import TextArea from 'antd/lib/input/TextArea';
-import Api from '../../apis/rrhhApi'
-import {connect} from 'react-redux'
-import { CAMBIAR_ESTADO } from '../../actions';
-import handleError from '../../Data/errorHandle';
+import React, { useState, useEffect } from "react";
+import { Button, Form, Input, DatePicker, message } from "antd";
+import Api from "../../apis/rrhhApi";
+import { connect } from "react-redux";
+import { CAMBIAR_ESTADO } from "../../actions";
+import { useForm } from "antd/lib/form/Form";
+import moment from "moment";
+const { TextArea } = Input;
 
+const CrearPermiso = (props) => {
+  const [form] = useForm();
 
+  useEffect(() => {
+    form.setFieldsValue({
+      nombre: props.departamento?.nombre,
+      encargado: props.departamento?.encargado,
+      descripcion: props.departamento?.descripcion,
+    });
+  }, [props?.departamento]);
 
+  const onFinish = async (values) => {
+    try {
+      await Api.patch(`departamentos/${props?.departamento?.key}`, {
+        nombre: values.nombre,
+        encargado: values.encargado,
+        descripcion: values.descripcion,
+      });
+      props?.CAMBIAR_ESTADO(!props?.estado);
+      message.success("Departamento actualizado con exito", 3);
+    } catch (err) {
+      console.log(err.response.data.message);
+      message.error(err.response.data.message, 3);
+    }
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+  return (
+    <Form
+      name="basic"
+      form={form}
+      labelCol={{
+        span: 8,
+      }}
+      wrapperCol={{
+        span: 8,
+      }}
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <Form.Item
+        label="Nombre del departamento"
+        name="nombre"
+        rules={[
+          {
+            required: true,
+            message: "Por Favor Introduce un Nombre",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
 
+      <Form.Item
+        label="Encargado del departamento"
+        name="encargado"
+        rules={[
+          {
+            required: true,
+            message: "Por Favor Introduce un encargado",
+          },
+        ]}
+      >
+        <TextArea showCount maxLength={100} />
+      </Form.Item>
 
-const EditarEmpleados = (props) => {
-    
-    const [form] = Form.useForm()
+      <Form.Item label="Descripcion del Departamento" name="descripcion">
+        <Input.TextArea />
+      </Form.Item>
 
-    useState(()=>{
-        form.setFieldsValue({
-            nombre:props.departamento?.nombre,
-            encargado:props.departamento?.encargado,
-            descripcion:props.departamento?.descripcion
-        })
-    },[props.departamento])
+      <Form.Item
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
+        <Button type="primary" htmlType="submit">
+          Editar Departamento
+        </Button>
+      </Form.Item>
+    </Form>
+  );
+};
 
+const StateMapToProps = (state) => {
+  return {
+    anuncios: state.AvisoSelecionado?.avisoSelecionado,
+    estado: state.cambiarState,
+  };
+};
 
-    const onFinish = async (values) => {
-        try{
-          const response = await Api.patch(`departamentos/${props.departamento.key}`,{
-            nombre:values.nombre,
-            encargado:values.encargado,
-            descripcion:values.descripcion
-          })
-          props.CAMBIAR_ESTADO(!props.estado)
-          message.success('Departamento editado con exito', 2);
-
-
-        }catch(err){
-            handleError(err)
-
-        }
-      };
-    
-      const onFinishFailed = (errorInfo) => {
-        console.log('Failed:', errorInfo);
-      };
-    return (
-        <div className='crearDepartamento'>
-            <Form   layout="vertical" 
-                    size='large' 
-                    className='formCrearEmpleado' 
-                    onFinish={onFinish} 
-                    onFinishFailed={onFinishFailed}
-                    initialValues={{remember: true}} 
-                    form={form}>
-                <Form.Item label="Nombre del Departamento" name='nombre' rules={[
-            {
-              required: true,
-              message: 'Tienes que introducir el nombre del departamento',
-            },
-          ]}>
-                    <Input placeholder="input placeholder" />
-                </Form.Item>
-                <Form.Item label="Nombre del Encargado" name='encargado' rules={[
-            {
-              required: true,
-              message: 'Tienes que introducir el nombre del encargado',
-            },
-          ]}>
-                    <Input placeholder="input placeholder" />
-                </Form.Item>
-                <Form.Item label="Descripción" name='descripcion'rules={[
-            {
-              required: true,
-              message: 'Tienes que introducir una descripcion',
-            },
-          ]}>
-                    <TextArea placeholder="input placeholder" />
-                </Form.Item>
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">Editar Departamento</Button>
-                </Form.Item>
-            </Form>
-        </div>
-    );
-}
-
-const StateMapToProps = (state) =>{
-    return {departamento:state.departamentoSelecionado.departamentoSelecionado, estado:state.cambiarState}
-}
-
-export default connect(StateMapToProps,{
-    CAMBIAR_ESTADO
-})(EditarEmpleados);
+export default connect(StateMapToProps, {
+  CAMBIAR_ESTADO,
+})(CrearPermiso);

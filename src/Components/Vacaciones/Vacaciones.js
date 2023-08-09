@@ -9,8 +9,7 @@ const Vacaciones = () => {
         <div className='verVacaciones'>
             <h1>Vacaciones</h1>
             <div className='tableDataVac'>
-                <StatsVacaciones/>
-{                <TableVac/>
+ {                <TableVac/>
 }            </div>
         </div>
     );

@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Modal, Input, Popconfirm } from "antd";
-import { SearchOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { Table, Button, Modal, Input, Tag } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import {
   GET_LICENCIAS_ACTION,
   CAMBIAR_ESTADO,
   SELECT_LICENCIAS_ACTION,
 } from "../../actions/index";
-import VerLicencias from "./VerLicencias";
 import moment from "moment";
 import VerLicenEach from "./VerLicenEach";
-import Api from "../../apis/rrhhApi";
 
 const TablePerm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -98,8 +96,20 @@ const TablePerm = (props) => {
       key: "cedula",
       width: 310,
       render: (e) => {
-        console.log(e);
         return moment(e[1]).format("MMMM Do YYYY");
+      },
+    },
+    {
+      title: "Feach de Finalizacion",
+      dataIndex: "tiempoDeLicencia",
+      key: "cedula",
+      width: 310,
+      render: (e, text) => {
+        return (
+          <Tag color={moment(e[1]).isBefore(moment()) ? "red" : "blue"}>
+            {moment(e[1]).isBefore(moment()) ? "Vencida" : "Activa"}
+          </Tag>
+        );
       },
     },
     {

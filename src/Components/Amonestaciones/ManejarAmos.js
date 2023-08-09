@@ -1,30 +1,44 @@
-import React, { useState } from "react";
-import { Button, Form, Input, DatePicker, message, Select } from "antd";
+import React from "react";
+import moment from "moment";
+import { Button, Form, Input, message, Select } from "antd";
 import Api from "../../apis/rrhhApi";
 import { connect } from "react-redux";
 import { CAMBIAR_ESTADO } from "../../actions";
 import handleError from "../../Data/errorHandle";
-const { Option } = Select;
+import { useForm } from "antd/lib/form/Form";
 
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
+const validateMinLength = (minLength) => (rule, value, callback) => {
+  if (value && value.length < minLength) {
+    callback(`Necesita tener al menos ${minLength} `);
+  } else {
+    callback();
+  }
 };
-const { TextArea } = Input;
+
+const validateAllNumbers = (rule, value, callback) => {
+  const regex = /^\d+$/;
+  if (!regex.test(value)) {
+    callback("Debe ser solo numeros");
+  } else {
+    callback();
+  }
+};
 
 const CrearPermiso = (props) => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
     console.log("Success:", values);
+    console.log(props);
     try {
-      await Api.post("departamentos/", {
-        nombre: values.nombre,
-        encargado: values.encargado,
-        descripcion: values.descripcion,
+      await Api.post(`amonestaciones`, {
+        nombreAmonestacion: values.nombreAmonestacion,
+        cantidadAmonestacion: values.cantidadAmonestacion,
+        key: props?.usuarioSelecionado._id,
       });
       props.CAMBIAR_ESTADO(!props.estado);
+      message.success("Amonestacion Creada con exitos", 3);
       form.resetFields();
-      message.success("Departamento Creado con exito", 3);
     } catch (err) {
       handleError(err);
     }
@@ -50,43 +64,36 @@ const CrearPermiso = (props) => {
       autoComplete="off"
     >
       <Form.Item
-        label="Nombre del Departamento"
-        name="nombre"
+        label="Nombre de la amonestación"
+        name="nombreAmonestacion"
         rules={[
           {
             required: true,
-            message: "Por Favor Introduce un Nombre",
+            message: "Por Favor introduce el nombre de la amonestación",
           },
         ]}
       >
-        <Input />
+        <Input style={{ width: "150px" }} />
+      </Form.Item>
+      <Form.Item
+        label="Cantidad de la amonestación"
+        name="cantidadAmonestacion"
+        rules={[
+          {
+            required: true,
+            message: "Por favor introduce la cantidad de la amonestación",
+          },
+          {
+            validator: validateMinLength(1),
+          },
+          {
+            validator: validateAllNumbers,
+          },
+        ]}
+      >
+        <Input style={{ width: "150px" }} />
       </Form.Item>
 
-      <Form.Item
-        label="Encargado del Departamento"
-        name="encargado"
-        rules={[
-          {
-            required: true,
-            message: "Por Favor Introduce una fecha",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        label="Descripcion"
-        name="descripcion"
-        rules={[
-          {
-            required: true,
-            message: "Por Favor Introduce una descripcion",
-          },
-        ]}
-      >
-        <TextArea showCount maxLength={100} />
-      </Form.Item>
       <Form.Item
         wrapperCol={{
           offset: 8,
@@ -94,7 +101,7 @@ const CrearPermiso = (props) => {
         }}
       >
         <Button type="primary" htmlType="submit">
-          Crear Departamento
+          Agregar Amonestación
         </Button>
       </Form.Item>
     </Form>
@@ -103,8 +110,7 @@ const CrearPermiso = (props) => {
 
 const StateMapToProps = (state) => {
   return {
-    permisos: state.permisos.permisos,
-    permisoSelecioandoData: state.permisoSelecionado,
+    usuarioSelecionado: state.usuarioSelecionadoVer?.usuarioSelecionadoVer,
     estado: state.cambiarState,
   };
 };

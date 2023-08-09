@@ -1,102 +1,120 @@
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Form, Input, Space, message } from 'antd';
-import {connect} from 'react-redux'
-import { CAMBIAR_ESTADO } from '../../actions';
-import handleError from '../../Data/errorHandle';
-import rrhhApi from '../../apis/rrhhApi';
+import React from "react";
+import moment from "moment";
+import { Button, Form, Input, message, Select } from "antd";
+import Api from "../../apis/rrhhApi";
+import { connect } from "react-redux";
+import { CAMBIAR_ESTADO } from "../../actions";
+import handleError from "../../Data/errorHandle";
+import { useForm } from "antd/lib/form/Form";
 
-
-
-
-
-const App = (props) => {
-
-  const onFinish = async (values)  => {
-    try{
-      const response = await rrhhApi.patch(`empleados/beneficios/${props?.usuario?._id}`,{
-        Beneficios:values.beneficios,
-      }) 
-      props.CAMBIAR_ESTADO(!props.estado)
-      message.success('Beneficios Agregados con exito',3) 
-    }catch(err){
-      handleError(err)
-    }
+const validateMinLength = (minLength) => (rule, value, callback) => {
+  if (value && value.length < minLength) {
+    callback(`Necesita tener al menos ${minLength} `);
+  } else {
+    callback();
   }
-
-
-   return (
-   <Form
-    name="dynamic_form_nest_item"
-    onFinish={onFinish}
-    style={{
-      maxWidth: 600,
-    }}
-    autoComplete="off"
-  >
-    <Form.List name="beneficios">
-      {(fields, { add, remove }) => (
-        <>
-          {fields.map(({ key, name, ...restField }) => (
-            <Space
-              key={key}
-              style={{
-                display: 'flex',
-                marginBottom: 8,
-              }}
-              align="baseline"
-            >
-              <Form.Item
-                {...restField}
-                name={[name, 'nombre']}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Tienes que poner un nombre',
-                  },
-                ]}
-              >
-                <Input placeholder="Nombre Beneficio" />
-              </Form.Item>
-              <Form.Item
-                {...restField}
-                name={[name, 'cantidad']}
-                rules={[
-                  {
-                    required: true,
-                    message: 'Tienes que poner una cantidad',
-                  },
-                ]}
-              >
-                <Input placeholder="Cantidad" />
-              </Form.Item>
-              <MinusCircleOutlined onClick={() => remove(name)} />
-            </Space>
-          ))}
-          <Form.Item>
-            <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-              Añadir Beneficio
-            </Button>
-          </Form.Item>
-        </>
-      )}
-    </Form.List>
-    <Form.Item>
-      <Button type="primary" htmlType="submit">
-        Agregar Beneficios
-      </Button>
-    </Form.Item>
-  </Form>)
 };
 
+const validateAllNumbers = (rule, value, callback) => {
+  const regex = /^\d+$/;
+  if (!regex.test(value)) {
+    callback("Debe ser solo numeros");
+  } else {
+    callback();
+  }
+};
 
-const StateMapToProps = state =>{
+const CrearPermiso = (props) => {
+  const [form] = Form.useForm();
+
+  const onFinish = async (values) => {
+    console.log("Success:", values);
+    console.log(props);
+    try {
+      await Api.post(`beneficios`, {
+        cantidadBeneficio: values.cantidadBeneficio,
+        nombreBeneficio: values.nombreBeneficio,
+        key: props?.usuarioSelecionado._id,
+      });
+      props.CAMBIAR_ESTADO(!props.estado);
+      message.success("Permiso Creado con exito", 3);
+      form.resetFields();
+    } catch (err) {
+      handleError(err);
+    }
+  };
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+  return (
+    <Form
+      form={form}
+      name="basic"
+      labelCol={{
+        span: 8,
+      }}
+      wrapperCol={{
+        span: 8,
+      }}
+      initialValues={{
+        remember: true,
+      }}
+      onFinish={onFinish}
+      onFinishFailed={onFinishFailed}
+      autoComplete="off"
+    >
+      <Form.Item
+        label="Nombre del Beneficio"
+        name="nombreBeneficio"
+        rules={[
+          {
+            required: true,
+            message: "Por Favor introduce el nombre del beneficio",
+          },
+        ]}
+      >
+        <Input style={{ width: "150px" }} />
+      </Form.Item>
+      <Form.Item
+        label="Cantidad del beneficio"
+        name="cantidadBeneficio"
+        rules={[
+          {
+            required: true,
+            message: "Por favor introduce la cantidad del beneficio",
+          },
+          {
+            validator: validateMinLength(1),
+          },
+          {
+            validator: validateAllNumbers,
+          },
+        ]}
+      >
+        <Input style={{ width: "150px" }} />
+      </Form.Item>
+
+      <Form.Item
+        wrapperCol={{
+          offset: 8,
+          span: 16,
+        }}
+      >
+        <Button type="primary" htmlType="submit">
+          Agregar Beneficio
+        </Button>
+      </Form.Item>
+    </Form>
+  );
+};
+
+const StateMapToProps = (state) => {
   return {
-          empleados:state.empleados.empleados, 
-          estado:state.cambiarState, 
-          anuncioSelecionado:state.AvisoSelecionado.avisoSelecionado}
-         }
+    usuarioSelecionado: state.usuarioSelecionadoVer?.usuarioSelecionadoVer,
+    estado: state.cambiarState,
+  };
+};
 
-
-export default connect(StateMapToProps,{
-  CAMBIAR_ESTADO
-})(App);
+export default connect(StateMapToProps, {
+  CAMBIAR_ESTADO,
+})(CrearPermiso);

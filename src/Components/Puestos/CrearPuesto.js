@@ -1,40 +1,37 @@
-import React,{useState} from 'react';
-import { Button, Form, Input,DatePicker,message,Select } from 'antd';
-import Api from '../../apis/rrhhApi'
-import {connect} from 'react-redux'
-import { CAMBIAR_ESTADO } from '../../actions';
-import handleError from '../../Data/errorHandle';
+import React from "react";
+import { Button, Form, Input,  message, Select } from "antd";
+import Api from "../../apis/rrhhApi";
+import { connect } from "react-redux";
+import { CAMBIAR_ESTADO } from "../../actions";
+import handleError from "../../Data/errorHandle";
 const { Option } = Select;
 
-const handleChange = (value) => {
-  console.log(`selected ${value}`);
-};
+
 const { TextArea } = Input;
 
 const CrearPermiso = (props) => {
+  const [form] = Form.useForm();
 
-  const onFinish = async(values) => {
-    console.log('Success:', values);
-    try{
-    
-        const crearPermiso = await Api.post(`puestos`,{
-            nombre:values.nombre,
-            descripcion:values.descripcion,
-        })
-        console.log(crearPermiso)
-        props.CAMBIAR_ESTADO(!props.estado)
-        message.success('Permiso Creado con exito',3)
-
-
-    }catch(err){
-        handleError(err)
+  const onFinish = async (values) => {
+    console.log("Success:", values);
+    try {
+      await Api.post(`puestos`, {
+        nombre: values.nombre,
+        descripcion: values.descripcion,
+      });
+      form.resetFields();
+      props.CAMBIAR_ESTADO(!props.estado);
+      message.success("Puesto Creado con exito", 3);
+    } catch (err) {
+      handleError(err);
     }
   };
   const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
+    console.log("Failed:", errorInfo);
   };
   return (
     <Form
+      form={form}
       name="basic"
       labelCol={{
         span: 8,
@@ -55,9 +52,10 @@ const CrearPermiso = (props) => {
         rules={[
           {
             required: true,
-            message: 'Por Favor Introduce un Nombre',
+            message: "Por Favor Introduce un Nombre",
           },
-        ]}>
+        ]}
+      >
         <Input />
       </Form.Item>
 
@@ -67,7 +65,7 @@ const CrearPermiso = (props) => {
         rules={[
           {
             required: true,
-            message: 'Por Favor Introduce una descripcion',
+            message: "Por Favor Introduce una descripcion",
           },
         ]}
       >
@@ -87,12 +85,14 @@ const CrearPermiso = (props) => {
   );
 };
 
+const StateMapToProps = (state) => {
+  return {
+    permisos: state.permisos.permisos,
+    permisoSelecioandoData: state.permisoSelecionado,
+    estado: state.cambiarState,
+  };
+};
 
-
-const StateMapToProps = state =>{
-  return {permisos:state.permisos.permisos,permisoSelecioandoData:state.permisoSelecionado, estado:state.cambiarState}
-}
-
-export default connect(StateMapToProps,{
-  CAMBIAR_ESTADO
+export default connect(StateMapToProps, {
+  CAMBIAR_ESTADO,
 })(CrearPermiso);

@@ -1,16 +1,19 @@
-import React,{useEffect,useState} from 'react';
-import { Table,Button,Modal,Input,Popconfirm } from 'antd';
-import {SearchOutlined} from '@ant-design/icons'
-import {connect} from 'react-redux'
-import {avisoSelecionado,GET_ENTREVISTADOS,CAMBIAR_ESTADO,ENTREVISTADOS_SELECIONADO_ACTION} from '../../actions/index'
-import { QuestionCircleOutlined } from '@ant-design/icons';
-import Api from '../../apis/rrhhApi'
-import ModalData from './ModalData';
-import VerCandidato from './verCandidato';
-import EditarCandidato from './editarCandidato';
-import CrearEmpleado from './CrearEmpleado'
-
-
+import React, { useEffect, useState } from "react";
+import { Table, Button, Modal, Input, Popconfirm } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
+import { connect } from "react-redux";
+import {
+  avisoSelecionado,
+  GET_ENTREVISTADOS,
+  CAMBIAR_ESTADO,
+  ENTREVISTADOS_SELECIONADO_ACTION,
+} from "../../actions/index";
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import Api from "../../apis/rrhhApi";
+import VerCandidato from "./verCandidato";
+import EditarCandidato from "./editarCandidato";
+import CrearEmpleado from "./CrearEmpleado";
+import CrearCandidato from "./CrearCandidato";
 
 const TablePerm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -18,10 +21,9 @@ const TablePerm = (props) => {
   const [isModalOpenCrear, setIsModalVerOpenCrear] = useState(false);
   const [isModalOpenConvertir, setIsModalVerOpenConvertir] = useState(false);
 
-
-  useEffect(()=>{
-    props.GET_ENTREVISTADOS()
-  },[props.estado])
+  useEffect(() => {
+    props.GET_ENTREVISTADOS();
+  }, [props.estado]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -35,7 +37,7 @@ const TablePerm = (props) => {
   const showModalConvertir = () => {
     setIsModalVerOpenConvertir(true);
   };
- 
+
   const handleOk = () => {
     setIsModalOpen(false);
   };
@@ -65,140 +67,197 @@ const TablePerm = (props) => {
 
   const columns = [
     {
-      title: 'Nombre',
+      title: "Nombre",
       width: 200,
-      dataIndex: 'nombre',
-      key: 'name',
-      fixed: 'left',
-      filterDropdown:({setSelectedKeys,selectedKeys,confirm}) =>{
-        return <Input 
-          autoFocus={true}
-          value={selectedKeys[0]}
-          onChange={(e)=>{
-            setSelectedKeys(e.target.value?[e.target.value]:[])
-          }}
-          onPressEnter={()=>{
-            confirm()
-          }}
-          onBlur={()=>{
-            confirm()
-          }}
-        ></Input>
+      dataIndex: "nombre",
+      key: "name",
+      fixed: "left",
+      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => {
+        return (
+          <Input
+            autoFocus={true}
+            value={selectedKeys[0]}
+            onChange={(e) => {
+              setSelectedKeys(e.target.value ? [e.target.value] : []);
+            }}
+            onPressEnter={() => {
+              confirm();
+            }}
+            onBlur={() => {
+              confirm();
+            }}
+          ></Input>
+        );
       },
-      filterIcon:() =>{
-        return <SearchOutlined />
+      filterIcon: () => {
+        return <SearchOutlined />;
       },
-      onFilter:(value,record) =>{
-          return record.nombre.toLowerCase().includes(value.toLowerCase())
-      }
+      onFilter: (value, record) => {
+        return record.nombre.toLowerCase().includes(value.toLowerCase());
+      },
     },
     {
-      title: 'Apellido',
-      dataIndex: 'apellido',
-      key: 'apellido',
+      title: "Apellido",
+      dataIndex: "apellido",
+      key: "apellido",
     },
     {
-      title: 'Cedula',
-      dataIndex: 'cedula',
-      key: 'cedula',
+      title: "Cedula",
+      dataIndex: "cedula",
+      key: "cedula",
     },
     {
-      title: 'Estado',
-      dataIndex: 'estadoLaboral',
-      key: 'estado',
+      title: "Estado",
+      dataIndex: "estadoLaboral",
+      key: "estado",
     },
     {
-      title: 'Acción',
-      key: 'operation',
-      fixed: 'right', 
-      width: 550,
+      title: "Acción",
+      key: "operation",
+      fixed: "right",
+      width: 600,
       render: (text) => [
-      <Button type='primary' key='ver' style={{marginLeft:'10px'}} onClick={e => onClickModal(e,text)}>Ver Candidato</Button>, 
-      <Button type='warning' key='manejar' style={{marginLeft:'10px'}} onClick={e => onClickModalVer(e,text)}>Manejar Candito</Button>,
-      <Button type='warning' key='convertir' style={{marginLeft:'10px'} } onClick={e => onClickModalConvert(e,text)}>Convertir en Empleado</Button>,
-/*       <Popconfirm title="Estas seguro que quieres eliminar este candidato" onConfirm={e => eliminaranuncio(e,text)} key="popConfirm" icon={<QuestionCircleOutlined style={{color: 'red',}}/>}>
+        <Button
+          type="primary"
+          key="ver"
+          style={{ marginLeft: "10px" }}
+          onClick={(e) => onClickModal(e, text)}
+        >
+          Ver Candidato
+        </Button>,
+        <Button
+          type="warning"
+          key="manejar"
+          style={{ marginLeft: "10px" }}
+          onClick={(e) => onClickModalVer(e, text)}
+        >
+          Manejar Candito
+        </Button>,
+        <Button
+          type="warning"
+          key="convertir"
+          style={{ marginLeft: "10px" }}
+          onClick={(e) => onClickModalConvert(e, text)}
+        >
+          Convertir en Empleado
+        </Button>,
+        /*       <Popconfirm title="Estas seguro que quieres eliminar este candidato" onConfirm={e => eliminaranuncio(e,text)} key="popConfirm" icon={<QuestionCircleOutlined style={{color: 'red',}}/>}>
           <Button type='danger' key='eliminar' style={{marginLeft:'10px'}}>Eliminar</Button>
       </Popconfirm> */
-, 
-    ],
+        ,
+      ],
     },
   ];
 
-  const onClickModal = (e,text) =>{
-    props.ENTREVISTADOS_SELECIONADO_ACTION(text)
-    showModal()
-  }
+  const onClickModal = (e, text) => {
+    props.ENTREVISTADOS_SELECIONADO_ACTION(text);
+    showModal();
+  };
 
-  const eliminaranuncio = async (e,text) =>{
-    const res = await Api.delete(`anuncios/${text.key}`)
-    props.CAMBIAR_ESTADO(!props.estado)
-  }
+  const eliminaranuncio = async (e, text) => {
+    const res = await Api.delete(`anuncios/${text.key}`);
+    props.CAMBIAR_ESTADO(!props.estado);
+  };
 
-  const onClickModalVer = (e,text) =>{
-    props.ENTREVISTADOS_SELECIONADO_ACTION(text)
-    showModalEdit()
-  }
+  const onClickModalVer = (e, text) => {
+    props.ENTREVISTADOS_SELECIONADO_ACTION(text);
+    showModalEdit();
+  };
 
-  const onClickModalConvert = (e,text) =>{
-    props.ENTREVISTADOS_SELECIONADO_ACTION(text)
-    showModalConvertir()
-  }
-  const onClickModalCrear = (e,text) =>{
-    showModalCrear()
-  }
-    const entrevistados = props?.entrevistados?.map(e => {
-        return {
-            nombre:e.nombre,
-            apellido:e.apellido,
-            cedula:e.cedula,
-            direccion:e.direccion,
-            celular:e.celular,
-            correo:e.correo,
-            estadoLaboral:e.estadoLaboral,
-            provincia:e.provincia,
-            pais:e.pais,
-            vacanteAplicada:e.vacanteAplicada,
-            licenciasDeConducir:e.licenciasDeConducir,
-            tipoLicencia:e.tipoLicencia,
-            licenciaDeConducirFechaExp:e.licenciaDeConducirFechaExp,
-            key:e._id    
-        }
-    })
-    return (
-        <div>
-          <Button type='primary' key='crear' style={{marginLeft:'10px', marginTop:'90px'}} onClick={e => onClickModalCrear(e)}>Crear Candidato</Button>, 
-            <Table 
-            style={{marginTop:'50px',width:'90%'}}
-           columns={columns} scroll={{x: 1300, }} 
-           dataSource={entrevistados}
-           bordered={true}
-           pagination={{pageSize:5,total:entrevistados?.length}}
-           />
-          <Modal title="Ver Candidato" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1000}>
-            <VerCandidato candidato={props?.candidatoSelecionado}/>
-          </Modal>
-          <Modal title="Editar Candidato" open={isModalOpenVer} onOk={handleOkVER} onCancel={handleCancelVer} width={1000}>
-            <EditarCandidato candidato={props?.candidatoSelecionado}/>
-          </Modal>
-          <Modal title="Crear Candidato" open={isModalOpenCrear} onOk={handleOkCrear} onCancel={handleCancelCrear} width={1000} >
-            <ModalData />
-          </Modal>
-          <Modal title="Convertir a empleado" open={isModalOpenConvertir} onOk={handleOkConvertir} onCancel={handleCancelConvertir} width={1000} >
-            <CrearEmpleado />
-          </Modal>
-        </div>
-    );
-}
+  const onClickModalConvert = (e, text) => {
+    props.ENTREVISTADOS_SELECIONADO_ACTION(text);
+    showModalConvertir();
+  };
+  const onClickModalCrear = (e, text) => {
+    showModalCrear();
+  };
+  const entrevistados = props?.entrevistados?.map((e) => {
+    return {
+      nombre: e.nombre,
+      apellido: e.apellido,
+      cedula: e.cedula,
+      direccion: e.direccion,
+      celular: e.celular,
+      correo: e.correo,
+      estadoLaboral: e.estadoLaboral,
+      provincia: e.provincia,
+      pais: e.pais,
+      vacanteAplicada: e.vacanteAplicada,
+      licenciasDeConducir: e.licenciasDeConducir,
+      tipoLicencia: e.tipoLicencia,
+      licenciaDeConducirFechaExp: e.licenciaDeConducirFechaExp,
+      key: e._id,
+    };
+  });
+  return (
+    <div>
+      <Button
+        type="primary"
+        key="crear"
+        style={{ marginLeft: "10px", marginTop: "90px" }}
+        onClick={(e) => onClickModalCrear(e)}
+      >
+        Crear Candidato
+      </Button>
+      ,
+      <Table
+        style={{ marginTop: "50px", width: "90%" }}
+        columns={columns}
+        scroll={{ x: 1300 }}
+        dataSource={entrevistados}
+        bordered={true}
+        pagination={{ pageSize: 5, total: entrevistados?.length }}
+      />
+      <Modal
+        title="Ver Candidato"
+        open={isModalOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        width={800}
+      >
+        <VerCandidato candidato={props?.candidatoSelecionado} />
+      </Modal>
+      <Modal
+        title="Editar Candidato"
+        open={isModalOpenVer}
+        onOk={handleOkVER}
+        onCancel={handleCancelVer}
+        width={800}
+      >
+        <EditarCandidato candidato={props?.candidatoSelecionado} />
+      </Modal>
+      <Modal
+        title="Crear Candidato"
+        open={isModalOpenCrear}
+        onOk={handleOkCrear}
+        onCancel={handleCancelCrear}
+        width={800}
+      >
+        <CrearCandidato />
+      </Modal>
+      <Modal
+        title="Convertir a empleado"
+        open={isModalOpenConvertir}
+        onOk={handleOkConvertir}
+        onCancel={handleCancelConvertir}
+        width={800}
+      >
+        <CrearEmpleado />
+      </Modal>
+    </div>
+  );
+};
 
-const StateMapToProps = state =>{
-    return {entrevistados:state.entrevistados.entrevistados,
-            estado:state.cambiarState,
-            candidatoSelecionado:state.candidatoSelecionado.candidatoSelec
-      }
-}
+const StateMapToProps = (state) => {
+  return {
+    entrevistados: state.entrevistados.entrevistados,
+    estado: state.cambiarState,
+    candidatoSelecionado: state.candidatoSelecionado.candidatoSelec,
+  };
+};
 
-export default connect(StateMapToProps,{
-    GET_ENTREVISTADOS,
-    CAMBIAR_ESTADO,
-    ENTREVISTADOS_SELECIONADO_ACTION
+export default connect(StateMapToProps, {
+  GET_ENTREVISTADOS,
+  CAMBIAR_ESTADO,
+  ENTREVISTADOS_SELECIONADO_ACTION,
 })(TablePerm);

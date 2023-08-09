@@ -73,6 +73,7 @@ const TableFinal = (props) => {
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => {
         return (
           <Input
+          size="large"
             autoFocus
             value={selectedKeys[0]}
             onChange={(e) => {
@@ -181,7 +182,6 @@ const TableFinal = (props) => {
       estado: e.estado,
       pais: e.pais,
       provincia: e.provincia,
-      sueldoFijo: e.sueldoFijo,
       departamento: e.departamento,
       expiracionDelContrato: e.vencimientoDelContrato,
       vacacionesTomadas: e.vacacionesTomadas,
@@ -191,6 +191,8 @@ const TableFinal = (props) => {
       contactoDeEmergencia: e.contactoDeEmergencia,
       puesto: e.puesto,
       photo: e.photo,
+      fechaDeNacimieno: e.fechaDeNacimiento,
+      salarioBruto: e.salarioBruto,
     };
   });
 

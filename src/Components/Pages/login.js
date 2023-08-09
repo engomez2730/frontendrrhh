@@ -1,4 +1,5 @@
 import { Button, Form, Input } from "antd";
+import { useNavigate } from "react-router-dom";
 import React from "react";
 import { connect } from "react-redux";
 import { setUser, loggedUserIn, CAMBIAR_ESTADO } from "../../actions/index";
@@ -6,8 +7,11 @@ import API from "../../apis/rrhhApi";
 import { Col, Row } from "antd";
 import "./login.css";
 import handleError from "../../Data/errorHandle";
+import { UserOutlined } from "@ant-design/icons";
 
 const Login = (props) => {
+  const navigate = useNavigate();
+
   const onFinish = async (values) => {
     try {
       const response = await API.post("http://localhost:5000/api/v1/login", {
@@ -16,10 +20,11 @@ const Login = (props) => {
       });
 
       if (response.data.status === "success") {
+        let currentUser = response.data.data.user;
         props.loggedUserIn();
-        localStorage.setItem("user", JSON.stringify(response.data.data.user));
-        props.setUser(response.data.data.user);
-        window.location.href = "/";
+        localStorage.setItem("user", JSON.stringify(currentUser));
+        props.setUser(currentUser);
+        navigate("/");
       }
     } catch (err) {
       handleError(err);
@@ -33,10 +38,17 @@ const Login = (props) => {
   return (
     <>
       {!props?.isLoggedIn.isLoggedIn ? (
-        <Row gutter={12} justify="center" align="middle " className="row">
-          <Col>
+        <div className="login">
+          <div className="logoContent"> 
+            <img src="logoVargSang.JPG" />
+            <h2 className="headingLogo">Gestor de Recursos Humanos</h2>
+          </div>
+          <div className="formContent">
+            <h3 className="heading">
+              Login <UserOutlined />
+            </h3>
             <Form
-              className="formLogin"
+              className="form"
               name="basic"
               labelCol={{ span: 8 }}
               wrapperCol={{ span: 24 }}
@@ -85,8 +97,8 @@ const Login = (props) => {
                 </Button>
               </Form.Item>
             </Form>
-          </Col>
-        </Row>
+          </div>
+        </div>
       ) : null}
     </>
   );

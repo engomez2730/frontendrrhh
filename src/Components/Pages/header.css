@@ -1,14 +1,12 @@
-.header{
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-}
-
-.logo{
+  }
+  
+  .logo {
     color: #fff;
     text-transform: uppercase;
     font-size: 1.5rem;
-}
-
-
-
+  }
+  

@@ -9,7 +9,6 @@ const Epp = () => {
         <div className='verAnuncios'>
             <h1>Epp</h1>
             <div className='tableDataPer'>
-                <EppStats/>
                 <TableEpp/>    
             </div>
         </div>

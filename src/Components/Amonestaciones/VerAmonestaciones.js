@@ -7,16 +7,16 @@ moment.locale("es");
 const PermisoVer = ({ empleadoSelecionado }) => {
   return (
     <div className="verVacacionesModal">
-      {empleadoSelecionado?.Beneficios?.map((e, index) => {
+      {empleadoSelecionado?.Amonestaciones?.map((e, index) => {
         return (
           <div className="verVacacionesItem">
-            <div className="verVacacionesLabel">{e?.nombreBeneficio}:</div>
+            <div className="verVacacionesLabel">{e?.nombreAmonestacion}:</div>
             <div className="verVacacionesValue">
               {" "}
               {new Intl.NumberFormat("es-RD", {
                 maximumSignificantDigits: 4,
-              }).format(e?.cantidadBeneficio)}{" "}
-              $RD
+              }).format(e?.cantidadAmonestacion)}{" "}
+              $RD   
             </div>
           </div>
         );

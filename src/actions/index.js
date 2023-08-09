@@ -34,6 +34,7 @@ import {
   GET_DIMITIDOS,
   GET_LICENCIAS,
   SELECT_LICENCIAS,
+  GET_DEPARTAMENTOS,
 } from "./types";
 
 import rrhhApi from "../apis/rrhhApi";
@@ -69,6 +70,14 @@ export const cargarEmpleados = () => async (distpatch) => {
   distpatch({
     type: LOAD_EMPLEADOS,
     payload: response.data.empleados.Empleados,
+  });
+};
+
+export const cargarDepartamentos = () => async (distpatch) => {
+  const response = await rrhhApi.get("departamentos");
+  distpatch({
+    type: GET_DEPARTAMENTOS,
+    payload: response.data.data.Departamentos,
   });
 };
 
@@ -141,6 +150,7 @@ export const avisoSelecionado = (dataKey) => async (distpatch) => {
     payload: data.data.anuncio,
   });
 };
+
 
 export const GET_AVISOS_ACTION = () => async (distpatch) => {
   const data = await rrhhApi.get("anuncios");

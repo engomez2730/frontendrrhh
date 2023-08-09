@@ -9,7 +9,6 @@ const Avisos = () => {
         <div className='verAnuncios'>
             <h1>Puestos</h1>
             <div className='tableDataPer'>
-                <PuestoStats/>
                 <TablePuestos/>    
             </div>
         </div>

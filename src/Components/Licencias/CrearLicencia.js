@@ -1,39 +1,37 @@
-import React,{useState} from 'react';
-import { Button, Form, Input,DatePicker,message } from 'antd';
-import Api from '../../apis/rrhhApi'
-import {connect} from 'react-redux'
-import { CAMBIAR_ESTADO } from '../../actions';
-import handleError from '../../Data/errorHandle';
+import React, { useState } from "react";
+import { Button, Form, Input, DatePicker, message, Select } from "antd";
+import Api from "../../apis/rrhhApi";
+import { connect } from "react-redux";
+import { CAMBIAR_ESTADO } from "../../actions";
+import handleError from "../../Data/errorHandle";
 const { RangePicker } = DatePicker;
 const { TextArea } = Input;
+const { Option } = Select;
 
 const CrearPermiso = (props) => {
+  const [form] = Form.useForm();
+  const rangeConfig = { rules: [{ type: "array" }] };
 
-  const [usuarioSelec, usuarioSelecSet] = useState([])
-
-  const rangeConfig = {rules: [{type: 'array'},],};
-
-  const onFinish = async(values) => {
-    try{
-        const crearPermiso = await Api.post(`licencias`,{
-            razon:values.razon,
-            descripcion:values.descripcion,
-            tiempoDeLicencia:values.tiempoDeLicencia,
-            lugarDelReposo:values.lugarDelReposo,
-            empleado:props?.usuario?._id
-        })
-        props.CAMBIAR_ESTADO(!props.estado)
-        message.success('Licencia Creada con exito',3)
-
-
-    }catch(err){
-        handleError(err)
+  const onFinish = async (values) => {
+    try {
+      await Api.post(`licencias`, {
+        razon: values.razon,
+        descripcion: values.descripcion,
+        tiempoDeLicencia: values.tiempoDeLicencia,
+        lugarDelReposo: values.lugarDelReposo,
+        empleado: props?.usuario?._id,
+      });
+      form.resetFields();
+      props.CAMBIAR_ESTADO(!props.estado);
+      message.success("Licencia Creada con exito", 3);
+    } catch (err) {
+      handleError(err);
     }
   };
-  const onFinishFailed = (errorInfo) => {
-  };
+  const onFinishFailed = (errorInfo) => {};
   return (
     <Form
+      form={form}
       name="basic"
       labelCol={{
         span: 8,
@@ -54,11 +52,16 @@ const CrearPermiso = (props) => {
         rules={[
           {
             required: true,
-            message: 'Por Favor Introduce una razon',
+            message: "Por Favor Introduce una razon",
           },
         ]}
       >
-        <Input />
+        <Select placeholder="Seleciona el tipo de licencia">
+          <Option value="medica">Medica</Option>
+          <Option value="embarazo">Embarazo</Option>
+          <Option value="accidente">Accidente</Option>
+          <Option value="otro">Otro</Option>
+        </Select>
       </Form.Item>
 
       <Form.Item
@@ -67,36 +70,43 @@ const CrearPermiso = (props) => {
         rules={[
           {
             required: true,
-            message: 'Por Favor Introduce una descripcion',
+            message: "Por Favor Introduce una descripcion",
           },
         ]}
       >
         <TextArea showCount maxLength={100} />
       </Form.Item>
 
-      <Form.Item name="tiempoDeLicencia" label="Tiempo de Licencia"  {...rangeConfig} rules={[
+      <Form.Item
+        name="tiempoDeLicencia"
+        label="Tiempo de Licencia"
+        {...rangeConfig}
+        rules={[
           {
             required: true,
-            message: 'Por Favor Introduce la cedula del empleado',
+            message: "Por Favor introduce el timepo de la licencia",
           },
-        ]}>
-                  <RangePicker/>
-    </Form.Item>
-    <Form.Item
+        ]}
+      >
+        <RangePicker />
+      </Form.Item>
+      <Form.Item
         label="Lugar de Reposo"
         name="lugarDelReposo"
         rules={[
           {
             required: true,
-            message: 'Por Favor Introduce un lugar de reposo',
+            message: "Por Favor Introduce un lugar de reposo",
           },
         ]}
       >
-        <Input />
+        <Select placeholder="Seleciona el lugar de reposo">
+          <Option value="casa">Casa</Option>
+          <Option value="hospital">Hospital</Option>
+          <Option value="otro">Otro</Option>
+        </Select>
       </Form.Item>
-      <Form.Item label="Empleado Selecionado">
-         <Input  value={props?.usuario?.nombre}/> 
-      </Form.Item>
+
       <Form.Item
         wrapperCol={{
           offset: 8,
@@ -111,12 +121,14 @@ const CrearPermiso = (props) => {
   );
 };
 
+const StateMapToProps = (state) => {
+  return {
+    usuario: state.usuarioSelecionadoVer.usuarioSelecionadoVer,
+    permisoSelecioandoData: state.permisoSelecionado,
+    estado: state.cambiarState,
+  };
+};
 
-
-const StateMapToProps = state =>{
-  return {usuario:state.usuarioSelecionadoVer.usuarioSelecionadoVer,permisoSelecioandoData:state.permisoSelecionado, estado:state.cambiarState}
-}
-
-export default connect(StateMapToProps,{
-  CAMBIAR_ESTADO
+export default connect(StateMapToProps, {
+  CAMBIAR_ESTADO,
 })(CrearPermiso);
