@@ -36,7 +36,7 @@ const App = (props) => {
 
   const getVacantes = async () => {
     const vacantes = await rrhhApi.get("vacantes");
-    setVacantes(vacantes.data.data?.Vacantes.map((e) => e.nombre));
+    setVacantes(vacantes.data.data?.Vacantes?.map((e) => e.nombre));
   };
 
   const validateMinLength = (minLength) => (rule, value, callback) => {
@@ -78,13 +78,13 @@ const App = (props) => {
         provincia: props.solicitante?.provincia,
         puestoAplicado: props.solicitante?.puesto,
       },
-      [props.solicitante]
+      [props?.solicitante]
     );
 
     return () => {
-      props.BUSCAR_SOLICITANTE_ACTION();
+      props?.BUSCAR_SOLICITANTE_ACTION();
     };
-  }, [props.estado]);
+  }, [props?.estado]);
 
   const puestos = props?.puestos?.map((e) => e.nombre);
 
@@ -133,7 +133,7 @@ const App = (props) => {
 
       form.resetFields();
 
-      props.CAMBIAR_ESTADO(!props.estado);
+      props?.CAMBIAR_ESTADO(!props?.estado);
       message.success("Candidato creado con exito");
     } catch (err) {
       handleError(err);

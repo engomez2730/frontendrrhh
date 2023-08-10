@@ -23,7 +23,7 @@ const TablePerm = (props) => {
 
   useEffect(() => {
     props.GET_ENTREVISTADOS();
-  }, [props.estado]);
+  }, [props?.estado]);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -93,7 +93,7 @@ const TablePerm = (props) => {
         return <SearchOutlined />;
       },
       onFilter: (value, record) => {
-        return record.nombre.toLowerCase().includes(value.toLowerCase());
+        return record?.nombre?.toLowerCase().includes(value.toLowerCase());
       },
     },
     {

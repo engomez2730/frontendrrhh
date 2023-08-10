@@ -70,11 +70,10 @@ const App = (props) => {
       ),
       salarioBruto: props.candidatoSelecionado?.salarioBruto,
     });
-  }, [props.candidatoSelecionado]);
+  }, [props?.candidatoSelecionado]);
 
   const puestos = props?.puestos?.map((e) => e.nombre);
-  console.log(props);
-    const departamentos = props.departamentos.map((e) => e.nombre);
+    const departamentos = props.departamentos?.map((e) => e.nombre);
   
   const crearSelectArray = (array) => {
     return array?.map((e) => {
@@ -119,7 +118,7 @@ const App = (props) => {
         contactoDeEmergencia: values.contactoDeEmergencia,
       });
       form.resetFields();
-      props.CAMBIAR_ESTADO(!props.estado);
+      props?.CAMBIAR_ESTADO(!props?.estado);
       message.success("Creado con Exito");
     } catch (err) {
       handleError(err);
