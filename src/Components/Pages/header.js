@@ -30,7 +30,11 @@ const HeaderFInal = ({ isLoggedIn, loggedUserOut, setUser }) => {
       ),
     },
     {
-      label: <Button onClick={() => alert("HOla")}>Perfil</Button>,
+      label: (
+        <Button>
+          <Link to="/perfil">Perfil</Link>
+        </Button>
+      ),
     },
   ];
 

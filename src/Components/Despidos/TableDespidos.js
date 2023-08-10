@@ -42,9 +42,6 @@ const TablePerm = (props) => {
   const handleOkVER = () => {
     setIsModalVerOpen(false);
   };
-  const handleOkCrear = () => {
-    setIsModalVerOpenCrear(false);
-  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -52,9 +49,6 @@ const TablePerm = (props) => {
 
   const handleCancelVer = () => {
     setIsModalVerOpen(false);
-  };
-  const handleCancelCrear = () => {
-    setIsModalVerOpenCrear(false);
   };
 
   const columns = [
@@ -141,13 +135,7 @@ const TablePerm = (props) => {
     props.DESPIDO_SELECIONADO_ACTION(text.key);
     showModal();
   };
-  const onClickModalVer = (e, text) => {
-    props.avisoSelecionado(text);
-    showModalEdit();
-  };
-  const onClickModalCrear = (e, text) => {
-    showModalCrear();
-  };
+
   const despidos = props?.despidos?.map((e) => {
     return {
       razon: e.razon,
@@ -161,6 +149,8 @@ const TablePerm = (props) => {
 
   return (
     <div>
+      <h1>Ver Despidos</h1>
+
       <Table
         style={{ marginTop: "50px", width: "80%" }}
         columns={columns}

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import BarChart from "../../Nomina/BarChart";
-import LineChart from "../../Nomina/LineChart";
-import PieChart from "../../Nomina/PieChart";
-import Api from "../../../apis/rrhhApi";
+import BarChart from "./BarChart";
+import LineChart from "./LineChart";
+import PieChart from "./PieCart";
+import Api from "../../apis/rrhhApi";
 import "./Stats.css";
 import { Pie } from "react-chartjs-2";
 import { Select } from "antd";
-import requireAuth from "../../requireAuth";
+import requireAuth from "../requireAuth";
+import Empleados from "./Empleados";
 
 export default requireAuth(function Stats() {
   const [empleados, setEmpleadosData] = useState();
@@ -14,25 +15,54 @@ export default requireAuth(function Stats() {
 
   const getData = async () => {
     const data = await Api.get(`empleados/stats/?query=${state}`);
-    setEmpleadosData(data.data.stats);
+    setEmpleadosData(data.data.statsFinal);
   };
 
   useEffect(() => {
-    console.log("Boo llegue");
     getData();
   }, [state]);
 
   const handleChangeData = (value) => {
-    console.log(state);
     stateSet(value.value);
   };
 
+  console.log(empleados);
+
   const dataFinal = {
-    labels: empleados?.map((e) => e._id),
+    labels: empleados?.employeesByCountry?.map((e) => e._id),
     datasets: [
       {
         label: `Cantidad de empleados por ${state}`,
-        data: empleados?.map((e) => e.numEmpleados),
+        data: empleados?.employeesByCountry?.map((e) => e.activeEmployees),
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.2)",
+          "rgba(255, 159, 64, 0.2)",
+          "rgba(255, 205, 86, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(54, 162, 235, 0.2)",
+          "rgba(153, 102, 255, 0.2)",
+          "rgba(201, 203, 207, 0.2)",
+        ],
+        borderColor: [
+          "rgb(255, 99, 132)",
+          "rgb(25   5, 159, 64)",
+          "rgb(255, 205, 86)",
+          "rgb(75, 192, 192)",
+          "rgb(54, 162, 235)",
+          "rgb(153, 102, 255)",
+          "rgb(201, 203, 207)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const dataFinal2 = {
+    labels: empleados?.employeesByDepartment?.map((e) => e._id),
+    datasets: [
+      {
+        label: `Salario promedio de empleados por ${state}`,
+        data: empleados?.employeesByDepartment?.map((e) => e.activeEmployees),
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(255, 159, 64, 0.2)",
@@ -57,11 +87,11 @@ export default requireAuth(function Stats() {
   };
 
   const dataFinal3 = {
-    labels: empleados?.map((e) => e._id),
+    labels: empleados?.employeesByNominaType?.map((e) => e._id),
     datasets: [
       {
         label: `Salario promedio de empleados por ${state}`,
-        data: empleados?.map((e) => e.avgSalario),
+        data: empleados?.employeesByNominaType?.map((e) => e.activeEmployees),
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(255, 159, 64, 0.2)",
@@ -99,13 +129,15 @@ export default requireAuth(function Stats() {
 
   return (
     <>
-      <Select
+      {/*     <Select
         labelInValue
         onChange={handleChangeData}
         defaultValue={{ value: state, label: state }}
         options={finalData}
         style={{ width: 120 }}
-      />
+      /> */}
+      <h1>Estadisticas</h1>
+      <Empleados stats={empleados} />
       <div className="Stats">
         <div className="stats-item">
           <h1>Cantidad de empleados</h1>
@@ -117,7 +149,7 @@ export default requireAuth(function Stats() {
         </div>
         <div className="stats-item">
           <h1>Estadisticas de Empleados por Departamento</h1>
-          <BarChart charData={dataFinal3} />
+          <BarChart charData={dataFinal2} />
         </div>
       </div>
     </>

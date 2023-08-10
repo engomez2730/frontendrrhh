@@ -4,8 +4,9 @@ import { BUSCADOR_EMPLEADOS_GET } from "../../actions";
 import rrhhApi from "../../apis/rrhhApi";
 import handleError from "../../Data/errorHandle";
 import { useState } from "react";
-import TableMini from "./TableMini.js";
-
+import TableMini from "./TableMiniPerfil.js";
+/* import TableMini from "./TableMini.js";
+ */
 const App = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);

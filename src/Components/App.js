@@ -28,19 +28,19 @@ import Candidatos from "./Candidato/Candidato";
 import CrearDespidos from "./Despidos/CrearDespido";
 import NominaCompleta from "./NominaCompleta/NominaCompleta";
 import LinaDeTiempo from "./LineaTiempo/LineaDeTiempo";
-import Stats from "./Nomina/Stats";
 import Despidos from "./Despidos/CrearDespido";
 import DespidosVer from "./Despidos/TableDespidos";
 import Epp from "./Epp/Epp";
-import StatsEmpleados from "./Empleados/Stats/Stats";
 import Puesto from "./Puestos/Puesto";
-import DepartamentoStats from "./Stats/Departamentos/Departamentos";
 import EmpleadoPage from "./Pages/EmpleadoPage";
 import Buscador from "./Buscador/Buscador";
 import Dimitidos from "./Dimitidos/Dimitidos";
 import Compensaciones from "./Compensaciones/Compensaciones";
 import Licencias from "./Licencias/Licencias";
 import Amonestaciones from "./Amonestaciones/Amonestaciones";
+import Stats from "./Stats/Stats";
+import Print from "./Print/Print";
+import Perfil from "./Perfil/Perfil";
 const { Content } = Layout;
 
 const App = (props) => {
@@ -90,7 +90,7 @@ const App = (props) => {
         <Header />
         <Layout>
           {renderSider()}
-          <Layout style={{ padding: "0 24px 24px" }}>
+          <Layout style={{ padding: "0 14px 14px" }}>
             <Content
               className="site-layout-background"
               style={{ padding: 50, margin: "20px 0px", minHeight: "85vh" }}
@@ -115,6 +115,10 @@ const App = (props) => {
                   }
                 ></Route>
                 <Route path="/vacaciones" element={<Vacaciones />}></Route>
+                <Route
+                  path="/perfil"
+                  element={<Perfil empleados={props.empleados?.empleados} />}
+                ></Route>
                 <Route path="/nomina" element={<Nomina />}></Route>
                 <Route path="/permisos" element={<Permisos />}></Route>
                 <Route path="/avisos" element={<Avisos />}></Route>
@@ -124,7 +128,6 @@ const App = (props) => {
                   element={<VerVacantesPage />}
                 ></Route>
                 <Route path="/candidatos" element={<Candidatos />}></Route>
-                <Route path="/statsnomina" element={<Stats />}></Route>
                 <Route
                   path="/creardespidos"
                   element={<CrearDespidos />}
@@ -137,15 +140,9 @@ const App = (props) => {
                 <Route path="/despidos" element={<Despidos />}></Route>
                 <Route path="/despidosVer" element={<DespidosVer />}></Route>
                 <Route path="/epp" element={<Epp />}></Route>
-                <Route
-                  path="/statsempleados"
-                  element={<StatsEmpleados />}
-                ></Route>
+                <Route path="/stats" element={<Stats />}></Route>
                 <Route path="/puestos" element={<Puesto />}></Route>
-                <Route
-                  path="/departamentosstats"
-                  element={<DepartamentoStats />}
-                ></Route>
+
                 <Route path="/buscarempleados" element={<Buscador />}></Route>
                 <Route path="/dimitidos" element={<Dimitidos />}></Route>
                 <Route
@@ -161,6 +158,7 @@ const App = (props) => {
                   }
                 ></Route>
                 <Route path="/licencias" element={<Licencias />}></Route>
+                <Route path="/print" element={<Print />}></Route>
               </Routes>
             </Content>
           </Layout>

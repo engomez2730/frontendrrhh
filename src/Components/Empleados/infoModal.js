@@ -44,7 +44,7 @@ const InfoModal = (props) => {
             </List.Item>
           )}
         />
-        <Drawer width={740} placement="right" closable={false} onClose={onClose} open={open}>
+        <Drawer width={740} placement="right" closable={true} onClose={onClose} open={open}>
           <h1 className="site-description-item-profile-p" style={{marginBottom: 24,}}>
             Informacion de Empleados 
           </h1>

@@ -40,6 +40,7 @@ import {
 import rrhhApi from "../apis/rrhhApi";
 
 export const setUser = (User) => {
+  console.log(User);
   return {
     type: SET_USER,
     payload: User,
@@ -150,7 +151,6 @@ export const avisoSelecionado = (dataKey) => async (distpatch) => {
     payload: data.data.anuncio,
   });
 };
-
 
 export const GET_AVISOS_ACTION = () => async (distpatch) => {
   const data = await rrhhApi.get("anuncios");

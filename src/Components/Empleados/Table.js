@@ -73,7 +73,7 @@ const TableFinal = (props) => {
       filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => {
         return (
           <Input
-          size="large"
+            size="large"
             autoFocus
             value={selectedKeys[0]}
             onChange={(e) => {
@@ -193,13 +193,13 @@ const TableFinal = (props) => {
       photo: e.photo,
       fechaDeNacimieno: e.fechaDeNacimiento,
       salarioBruto: e.salarioBruto,
+      rol: e.rol,
     };
   });
 
-  const estadoP = true;
-
   const empleadosActivos = empleados?.filter((e) => {
-    return e.estado === true;
+    console.log(e?.nombre);
+    return e.estado === true && e.rol === "empleado";
   });
 
   return (
@@ -208,7 +208,7 @@ const TableFinal = (props) => {
         style={{ marginTop: "50px", width: "80%" }}
         columns={columns}
         scroll={{ x: 1300 }}
-        dataSource={estadoP ? empleadosActivos : empleados}
+        dataSource={empleadosActivos}
         bordered={true}
         pagination={{ pageSize: 6, total: empleados?.length }}
       />

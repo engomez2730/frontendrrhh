@@ -8,7 +8,6 @@ const Despidos = () => {
     <div className="verAnuncios">
       <h1>Despidos</h1>
       <div className="tableDataPer">
-        <StatsDespidos />
         <TableDespidos />
       </div>
     </div>

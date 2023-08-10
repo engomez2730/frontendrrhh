@@ -1,0 +1,35 @@
+/* 
+
+.select {
+  width: 15%;
+}
+
+.statsContent {
+  padding: 40px;
+}
+
+.cardContent {
+  display: flex;
+  align-items: center;
+}
+ */
+
+.Stats {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 100px;
+}
+
+.stats-item {
+  width: 30%;
+  height: 30vh;
+}
+
+.cardContent {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+}

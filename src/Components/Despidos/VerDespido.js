@@ -14,10 +14,6 @@ const VerDespido = ({despido}) => {
             <div className='verVacacionesValue'> {`${despido?.Usuario?.nombre} ${despido?.Usuario?.apellido}`}</div>
         </div>
         <div className='verVacacionesItem'>
-            <div className='verVacacionesLabel'>Razon:</div>
-            <div className='verVacacionesValue'> {despido?.razon}</div>
-        </div>
-        <div className='verVacacionesItem'>
             <div className='verVacacionesLabel'>Tipo de Despido:</div>
             <div className='verVacacionesValue'> {despido?.tipoDeDespido}</div>
         </div>

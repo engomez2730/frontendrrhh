@@ -71,7 +71,12 @@ export const elementos = [
       },
       {
         key: "statsempleado",
-        label: <Link to="/statsempleados">Estadisticas de Empleados</Link>,
+        label: <Link to="/stats">Estadisticas</Link>,
+        icon: React.createElement(LineChartOutlined),
+      },
+      {
+        key: "print",
+        label: <Link to="/print">Print</Link>,
         icon: React.createElement(LineChartOutlined),
       },
     ],
@@ -120,7 +125,7 @@ export const elementos = [
       },
     ],
   },
-  {
+  /*  {
     nombre: "Nomina",
     icon: DollarCircleOutlined,
     childrens: [
@@ -135,7 +140,7 @@ export const elementos = [
         icon: React.createElement(PlusCircleOutlined),
       },
     ],
-  },
+  }, */
   {
     nombre: "Despidos",
     icon: CloseOutlined,

@@ -169,12 +169,12 @@ const TablePerm = (props) => {
       Dieta: e.Dieta,
       Incentivos: e.Incentivos,
       puesto: e.puesto,
+      rol: e.rol,
     };
   });
 
-  const estadoP = true;
   const empleadosActivos = empleados?.filter((e) => {
-    return e.estado === true;
+    return e.estado === true && e.rol === "empleado";
   });
   return (
     <div>

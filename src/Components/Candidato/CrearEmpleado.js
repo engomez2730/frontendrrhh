@@ -73,7 +73,9 @@ const App = (props) => {
   }, [props.candidatoSelecionado]);
 
   const puestos = props?.puestos?.map((e) => e.nombre);
-
+  console.log(props);
+    const departamentos = props.departamentos.map((e) => e.nombre);
+  
   const crearSelectArray = (array) => {
     return array?.map((e) => {
       return {
@@ -84,7 +86,8 @@ const App = (props) => {
   };
 
   const puestosFinalArray = crearSelectArray(puestos);
-  const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia);
+    const departamentosFinalArray = crearSelectArray(departamentos);
+   const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia);
   const opcionesLicenciaCategoria = crearSelectArray(categoriaLicencia);
 
   const onFinish = async (values) => {
@@ -282,7 +285,7 @@ const App = (props) => {
         rules={[
           {
             required: true,
-            message: "Please select gender!",
+            message: "Por favor seleciona un pais",
           },
         ]}
       >
@@ -419,7 +422,7 @@ const App = (props) => {
         ]}
       >
         <Select placeholder="Seleciona el puesto">
-          {renderDepartamentos(departamentosFinal)}
+          {renderDepartamentos(departamentosFinalArray)}
         </Select>
       </Form.Item>
 
@@ -473,6 +476,7 @@ const StateMapToProps = (state) => {
     estado: state.cambiarState,
     candidatoSelecionado: state.candidatoSelecionado.candidatoSelec,
     puestos: state.puestos.puestos,
+    departamentos: state.departamentos.Departamentos,
   };
 };
 
