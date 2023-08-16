@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Modal, Input, Popconfirm } from "antd";
+import { Table, Button, Modal, Input, Popconfirm, Upload } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import {
@@ -14,16 +14,31 @@ import VerCandidato from "./verCandidato";
 import EditarCandidato from "./editarCandidato";
 import CrearEmpleado from "./CrearEmpleado";
 import CrearCandidato from "./CrearCandidato";
+import UploadDocument from "./UploadDocument";
 
 const TablePerm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenVer, setIsModalVerOpen] = useState(false);
   const [isModalOpenCrear, setIsModalVerOpenCrear] = useState(false);
   const [isModalOpenConvertir, setIsModalVerOpenConvertir] = useState(false);
+  const [isModalOpenDocument, setIsModalVerOpenDocument] = useState(false);
 
   useEffect(() => {
     props.GET_ENTREVISTADOS();
   }, [props?.estado]);
+
+  const showModalDocument = (e, text) => {
+    setIsModalVerOpenDocument(true);
+    props.ENTREVISTADOS_SELECIONADO_ACTION(text);
+  };
+
+  const handleOkDocument = () => {
+    setIsModalVerOpenDocument(false);
+  };
+
+  const handleCancelDocument = () => {
+    setIsModalVerOpenDocument(false);
+  };
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -102,11 +117,6 @@ const TablePerm = (props) => {
       key: "apellido",
     },
     {
-      title: "Cedula",
-      dataIndex: "cedula",
-      key: "cedula",
-    },
-    {
       title: "Estado",
       dataIndex: "estadoLaboral",
       key: "estado",
@@ -115,7 +125,7 @@ const TablePerm = (props) => {
       title: "Acción",
       key: "operation",
       fixed: "right",
-      width: 600,
+      width: 700,
       render: (text) => [
         <Button
           type="primary"
@@ -141,10 +151,14 @@ const TablePerm = (props) => {
         >
           Convertir en Empleado
         </Button>,
-        /*       <Popconfirm title="Estas seguro que quieres eliminar este candidato" onConfirm={e => eliminaranuncio(e,text)} key="popConfirm" icon={<QuestionCircleOutlined style={{color: 'red',}}/>}>
-          <Button type='danger' key='eliminar' style={{marginLeft:'10px'}}>Eliminar</Button>
-      </Popconfirm> */
-        ,
+        <Button
+          type="primary"
+          key="convertir"
+          style={{ marginLeft: "10px" }}
+          onClick={(e) => showModalDocument(e, text)}
+        >
+          Subir Curriculum
+        </Button>,
       ],
     },
   ];
@@ -243,6 +257,15 @@ const TablePerm = (props) => {
         width={800}
       >
         <CrearEmpleado />
+      </Modal>
+      <Modal
+        title="Convertir a empleado"
+        open={isModalOpenDocument}
+        onOk={handleOkDocument}
+        onCancel={handleCancelDocument}
+        width={800}
+      >
+        <UploadDocument candidato={props.candidatoSelecionado} />
       </Modal>
     </div>
   );

@@ -1,73 +1,70 @@
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import handleError from "../../Data/errorHandle";
+import moment from "moment";
+import { connect } from "react-redux";
+import CustomFomItem from "../Custom/CustomFomItem";
+import { Link } from "react-router-dom";
+import UploadPhoto from "./UploadPhoto";
 import {
-  Alert,
+  Steps,
   Button,
   Form,
   Input,
-  InputNumber,
   Select,
   DatePicker,
+  message,
+  Result,
 } from "antd";
-import React, { useState, useEffect } from "react";
-import moment from "moment";
 import {
   paisesFinal,
   provinciasFinal,
   departamentosFinal,
+  departamentosFinalArray,
+  pues,
+  puestosFinal,
 } from "../../Data/CountriesData";
-import { message } from "antd";
-import { connect } from "react-redux";
-import Api from "../../apis/rrhhApi";
-import { BUSCAR_CANDIDATO_ACTION, GET_PUESTOS_ACTION } from "../../actions";
-import "./Form.css";
-import handleError from "../../Data/errorHandle";
-import { useNavigate } from "react-router-dom";
-
-const opcionesLicencia = ["Si", "No"];
-const categoriaLicencia = ["Categoria 01", "Categoria 02", "Categoria 03"];
-
+import { render } from "@testing-library/react";
+import rrhhApi from "../../apis/rrhhApi";
+import "./Steps.css";
+const { TextArea } = Input;
+const { Step } = Steps;
 const { Option } = Select;
 
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 8,
-    },
-  },
-  wrapperCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 16,
-    },
-  },
-};
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
+const validateMinLength = (value, minLength) => {
+  if (value && value.length < minLength) {
+    return Promise.reject(`Debe tener al menos ${minLength} digitos.`);
+  }
+  return Promise.resolve();
 };
 
-const App = (props) => {
-  const [form] = Form.useForm();
-  const [errorAlert, seterrorAlert] = useState(null);
-  const [dateInput, dateInputSet] = useState(true);
-  const [hideInput, hideInputSet] = useState(true);
-  const [hideInputHour, hideInputHourSet] = useState(true);
+const renderPaises = (Countries) => {
+  return Countries?.map((e) => {
+    return (
+      <Option value={`${e.label}`} key={e.label}>
+        {e.label}
+      </Option>
+    );
+  });
+};
+
+const MultiStepComponent = (props) => {
+  const [currentStep, setCurrentStep] = useState(0);
   const [hideInputLic, hideInputLicSet] = useState(true);
+  const [dateInput, dateInputSet] = useState(true);
+  const [hideInputHour, hideInputHourSet] = useState(true);
 
-  const history = useNavigate();
+  const [formData, setFormData] = useState({});
+
   const puestos = props?.puestos?.map((e) => e.nombre);
+  const departamentos = props.departamentos?.map((e) => e.nombre);
+  /*   const navigate = useNavigate();
+   */
+  const navigate = useNavigate();
+
+  const opcionesLicencia = ["Si", "No"];
+  const categoriaLicencia = ["Categoria 01", "Categoria 02", "Categoria 03"];
+
   const crearSelectArray = (array) => {
     return array?.map((e) => {
       return {
@@ -77,114 +74,11 @@ const App = (props) => {
     });
   };
 
-  const puestosFinalArray = crearSelectArray(puestos);
-  const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia);
-  const opcionesLicenciaCategoria = crearSelectArray(categoriaLicencia);
-
-  const onSelectChange = (e) => {
-    if (e === "República Dominicana") {
-      hideInputSet(false);
-    } else {
-      hideInputSet(true);
-    }
-  };
-
   const onSelectChangeHour = (e) => {
-    console.log(e);
     if (e === "Por Hora") {
       hideInputHourSet(false);
     } else {
       hideInputHourSet(true);
-    }
-  };
-
-  useEffect(() => {
-    props.GET_PUESTOS_ACTION();
-
-    form.setFieldsValue({
-      nombre: props.candidato?.nombre,
-      apellido: props.candidato?.apellido,
-      cedula: props.candidato?.cedula,
-      celular: props.candidato?.celular,
-      correo: props.candidato?.correo,
-      provincia: props.candidato?.provincia,
-      pais: props.candidato?.pais,
-      puesto: props.candidato?.puestoAplicado,
-      direccion: props.candidato?.direccion,
-    });
-    return () => {
-      props.BUSCAR_CANDIDATO_ACTION();
-    };
-  }, [props.estado]);
-
-  const onSelectChangeLic = (e) => {
-    if (e === "No") {
-      hideInputLicSet(true);
-    } else {
-      hideInputLicSet(false);
-    }
-  };
-
-  const renderSuccess = () => {
-    message.success("Empleado creado con exito", 2);
-    setTimeout(() => {
-      seterrorAlert(null);
-      history("/verempleados");
-    }, 3000);
-  };
-
-  const onFinishFailed = (errorInfo) => {
-    console.log("Failed:", errorInfo);
-  };
-
-  const onFinish = async (values) => {
-    const fechaDeSiguientesVacaciones = new Date();
-    const month = fechaDeSiguientesVacaciones.getMonth();
-    const day = fechaDeSiguientesVacaciones.getDate();
-    const year = fechaDeSiguientesVacaciones.getFullYear();
-
-    try {
-      const response = await Api.post(
-        "http://localhost:5000/api/v1/empleados",
-        {
-          nombre: values.nombre,
-          apellido: values.apellido,
-          cedula: values.cedula,
-          direccion: values.direccion,
-          celular: values.celular,
-          correo: values.correo,
-          provincia: values.provincia,
-          genero: values.sexo,
-          pais: values.pais,
-          password: values.password,
-          vencimientoDelContrato: values.vencimientoDelContrato?._d,
-          confirmPassword: values.confirmPassword,
-          contrato: values.contrato,
-          sueldoFijo: values.salario,
-          departamento: values.departamento,
-          fechaDeNacimiento: values.fechaDeNacimiento,
-          puesto: values.puesto,
-          tipoDeNomina: values.tipoDeNomina,
-          costoPorHora: values.costoPorHora,
-          createdAt: values.createdAt,
-          contactoDeEmergencia: values.contactoDeEmergencia,
-          licenciasDeConducir:
-            values.licenciasDeConducir === "Si" ? true : false,
-          tipoLicencia: values.tipoLicencia,
-          licenciaDeConducirFechaExp: values.fechaDeExpiracion,
-        }
-      );
-      renderSuccess();
-    } catch (err) {
-      handleError(err);
-    }
-  };
-
-  const validateMinLength = (minLength) => (rule, value, callback) => {
-    if (value && value.length < minLength) {
-      callback(`Necesita tener al menos ${minLength} `);
-    } else {
-      callback();
     }
   };
 
@@ -196,380 +90,468 @@ const App = (props) => {
     }
   };
 
-  const validateMinimumValue = (minValue) => (rule, value, callback) => {
-    if (value < minValue) {
-      callback(`El numero deber ser al menos${minValue}.`);
-    } else {
-      callback();
-    }
-  };
-
   const validateAllNumbers = (rule, value, callback) => {
     const regex = /^\d+$/;
     if (!regex.test(value)) {
-      callback("Debe ser solo numeros");
+      callback("Deben ser solo numeros");
     } else {
       callback();
     }
   };
 
-  const renderPaises = (Countries) => {
-    return Countries?.map((e) => {
-      return (
-        <Option value={`${e.label}`} key={e.label}>
-          {e.label}
-        </Option>
-      );
-    });
+  const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia);
+  const opcionesLicenciaBolean2 = crearSelectArray(categoriaLicencia);
+
+  const onSelectChangeLic = (e) => {
+    if (e === "No") {
+      hideInputLicSet(true);
+    } else {
+      hideInputLicSet(false);
+    }
   };
 
-  const renderProvincias = (provincas) => {
-    return provincas?.map((e) => {
-      return (
-        <Option value={`${e.label}`} key={e.label}>
-          {e.label}
-        </Option>
-      );
-    });
+  const [form] = Form.useForm(); // Create a form instance
+  const departamentosFinalArray = crearSelectArray(departamentos);
+  const PuestosFinalArray = crearSelectArray(puestos);
+  console.log(props);
+
+  const steps = [
+    {
+      title: "Informacion Personal",
+      content: [
+        <CustomFomItem
+          label="Nombre"
+          name="nombre"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce el apellido del nombre",
+            },
+          ]}
+        >
+          <Input maxLength={30} />
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Apellido"
+          name="apellido"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce el apellido del empleado",
+            },
+          ]}
+        >
+          <Input maxLength={30} />
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Correo"
+          name="correo"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce tu nombre",
+            },
+            {
+              type: "email",
+              message: "Introduce un verdadero correo",
+            },
+          ]}
+        >
+          <Input maxLength={30} />
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Cedula"
+          name="cedula"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce la cedula del empleado",
+            },
+            {
+              validator: (_, value) => validateMinLength(value, 11),
+            },
+            {
+              validator: validateAllNumbers,
+            },
+          ]}
+        >
+          <Input maxLength={11} />
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Celular"
+          name="celular"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce tu numero de telefono",
+            },
+            {
+              validator: (_, value) => validateMinLength(value, 10),
+            },
+            {
+              validator: validateAllNumbers,
+            },
+          ]}
+        >
+          <Input maxLength={10} />
+        </CustomFomItem>,
+
+        <CustomFomItem
+          label="Genero"
+          name="genero"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce tu nombre",
+            },
+          ]}
+        >
+          <Select placeholder="Seleciona tu genero">
+            <Option value="Hombre">Hombre</Option>
+            <Option value="Mujer">Mujer</Option>
+            <Option value="Otro">Otro</Option>
+          </Select>
+        </CustomFomItem>,
+
+        <CustomFomItem
+          label="Fecha de Nacimiento"
+          name="fechaDeNacimiento"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce tu fecha de nacimiento",
+            },
+            {
+              validator: validateAge,
+            },
+          ]}
+        >
+          <DatePicker defaultValue={moment("1995-01-01")} />
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Pais"
+          name="pais"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce el pais donde recide",
+            },
+          ]}
+        >
+          <Select
+            placeholder="Seleciona el pais"
+            defaultValue="Republica Dominicana"
+          >
+            {renderPaises(paisesFinal)}
+          </Select>
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Provincia"
+          name="provincia"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce el pais donde recide",
+            },
+          ]}
+        >
+          <Select placeholder="Seleciona el pais">
+            {renderPaises(provinciasFinal)}
+          </Select>
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Dirección"
+          name="direccion"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce tu dirección",
+            },
+          ]}
+        >
+          <TextArea maxLength={60} />
+        </CustomFomItem>,
+      ],
+    },
+    {
+      title: "Informacion Empresarial",
+      content: [
+        <CustomFomItem
+          label="Salario"
+          name="salarioBruto"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce un salario",
+            },
+            {
+              validator: validateAllNumbers,
+            },
+          ]}
+        >
+          <Input />
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Tipo de Nomina"
+          name="tipoDeNomina"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce el tipo de nomina",
+            },
+          ]}
+        >
+          <Select
+            placeholder="Seleciona el tipo de nomina"
+            onChange={(e) => onSelectChangeHour(e)}
+          >
+            <Option value="Nomina Fija">Nomina Fija</Option>
+            <Option value="Por Hora">Por Hora</Option>
+          </Select>
+        </CustomFomItem>,
+        <CustomFomItem
+          name="departamento"
+          label="Departamento"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce un departamento",
+            },
+          ]}
+        >
+          <Select placeholder="Seleciona el puesto">
+            {renderPaises(departamentosFinalArray)}
+          </Select>
+        </CustomFomItem>,
+        <CustomFomItem
+          name="puesto"
+          label="Puestos"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce un pueto",
+            },
+          ]}
+        >
+          <Select placeholder="Seleciona el puesto">
+            {renderPaises(PuestosFinalArray)}
+          </Select>
+        </CustomFomItem>,
+        <CustomFomItem
+          name="contrato"
+          label="Contrato"
+          rules={[
+            {
+              required: true,
+              message: "Please select gender!",
+            },
+          ]}
+        >
+          <Select
+            placeholder="Seleciona el tipo de contrato"
+            onChange={(e) => {
+              if (e === "definido") {
+                dateInputSet(false);
+              } else if (e === "indefinido") {
+                dateInputSet(true);
+              } else if (e === "temporal") {
+                dateInputSet(false);
+              }
+            }}
+          >
+            <Option value="definido">Definido</Option>
+            <Option value="indefinido">Indefinido</Option>
+            <Option value="temporal">Temporal</Option>
+          </Select>
+        </CustomFomItem>,
+
+        <CustomFomItem
+          name="vencimientoDelContrato"
+          label="Expiración de contrato"
+        >
+          <DatePicker disabled={dateInput} />
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Licencia de Conducir?"
+          name="licenciasDeConducir"
+          rules={[{ required: true, message: "Please input your password!" }]}
+        >
+          <Select
+            placeholder="Seleciona el estado de licencia"
+            onChange={(e) => onSelectChangeLic(e)}
+          >
+            {renderPaises(opcionesLicenciaBolean)}
+          </Select>
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Fecha de Exp de Licencia"
+          name="fechaDeExpiracion"
+          hidden={hideInputLic}
+        >
+          <DatePicker />
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Tipo De Licencia"
+          name="tipoLicencia"
+          hidden={hideInputLic}
+        >
+          <Select placeholder="Seleciona el estado laboral">
+            {renderPaises(opcionesLicenciaBolean2)}
+          </Select>
+        </CustomFomItem>,
+        <CustomFomItem
+          name="contactoDeEmergencia"
+          label="Contacto de Emergencia"
+          rules={[
+            {
+              required: true,
+              message: "Tienes que introducir un contacto de emergencia",
+            },
+            {
+              validator: validateAllNumbers,
+            },
+          ]}
+        >
+          <Input />
+        </CustomFomItem>,
+      ],
+    },
+    {
+      title: "Crear Empleado",
+      content: <div></div>,
+    },
+    {
+      title: "Empleado Creado",
+      content: (
+        <div className="finalStep">
+          <Result
+            status="success"
+            title={`Empleado ${formData.nombre} creado con exito`}
+            subTitle={`Ya el empleado forma parte de la empresa Vargang`}
+            extra={[
+              <Button type="primary">
+                <Link to="/verempleados">Ir a Empleados</Link>
+              </Button>,
+            ]}
+          ></Result>
+        </div>
+      ),
+    },
+  ];
+
+  const handleNext = async () => {
+    try {
+      const values = await form.validateFields();
+      setFormData({ ...formData, ...values });
+      setCurrentStep(currentStep + 1);
+    } catch (err) {
+      alert(err.message);
+      handleError(err);
+    }
   };
-  const renderDepartamentos = (provincas) => {
-    return provincas?.map((e) => {
-      return (
-        <Option value={`${e.label}`} key={e.label}>
-          {e.label}
-        </Option>
-      );
-    });
+
+  const handlePrev = () => {
+    setCurrentStep(currentStep - 1);
+  };
+
+  const handleFinalSubmit = async () => {
+    try {
+      const values = await form.validateFields();
+      setFormData({ ...formData, ...values });
+      const data = await rrhhApi.post("empleados", {
+        nombre: formData.nombre,
+        apellido: formData.apellido,
+        correo: formData.correo,
+        celular: formData.celular,
+        cedula: formData.cedula,
+        provincia: formData.provincia,
+        pais: formData.pais,
+        direccion: formData.direccion,
+        puesto: formData.puesto,
+        departamento: formData.departamento,
+        genero: formData.genero,
+        tipoDeNomina: formData.tipoDeNomina,
+        costoPorHora: formData.costoPorHora,
+        salarioBruto: formData.salarioBruto,
+        fechaDeNacimiento: formData.fechaDeNacimiento,
+        createdAt: formData.createdAt,
+        licenciasDeConducir:
+          formData.licenciasDeConducir === "Si" ? true : false,
+        tipoLicencia: formData.tipoLicencia,
+        licenciaDeConducirFechaExp: formData.fechaDeExpiracion,
+        contactoDeEmergencia: formData.contactoDeEmergencia,
+      });
+      form.resetFields();
+      message.success("Creado con Éxito", 3);
+      handleNext();
+    } catch (errorInfo) {
+      handleError(errorInfo);
+    }
   };
 
   return (
-    <Form
-      {...formItemLayout}
-      size="small"
-      className="form"
-      form={form}
-      name="register"
-      onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
-      initialValues={{
-        residence: ["zhejiang", "hangzhou", "xihu"],
-        prefix: "86",
-      }}
-      scrollToFirstError
-    >
-      <Form.Item
-        name="nombre"
-        label="Nombre"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir el nombre del empleado",
-          },
-        ]}
-      >
-        <Input maxLength={30} showCount />
-      </Form.Item>
-      <Form.Item
-        name="apellido"
-        label="Apellido"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir el apellido del empleado",
-          },
-        ]}
-      >
-        <Input maxLength={30} showCount />
-      </Form.Item>
-      <Form.Item
-        name="correo"
-        label="Correo"
-        rules={[
-          {
-            type: "email",
-            message: "Introduce un verdadero correo",
-          },
-          {
-            required: true,
-            message: "Tienes que introducir un correo",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
+    <div className="steps">
+      <Steps current={currentStep} className="stepInfo">
+        {steps.map((step) => (
+          <Step key={step.title} title={step.title} />
+        ))}
+      </Steps>
 
-      <Form.Item
-        name="cedula"
-        label="Cedula"
-        tooltip="Dcumento de identificacion del empleado"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir una cedula!",
-          },
-          {
-            validator: validateMinLength(11),
-          },
-          {
-            validator: validateAllNumbers,
-          },
-        ]}
-      >
-        <Input maxLength={11} showCount />
-      </Form.Item>
-
-      <Form.Item
-        name="celular"
-        label="Numero de Telefono"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir un numero de telefono!",
-          },
-          {
-            validator: validateMinLength(10),
-          },
-          {
-            validator: validateAllNumbers,
-          },
-        ]}
-      >
-        <Input maxLength={11} showCount minLength={3} />
-      </Form.Item>
-
-      <Form.Item
-        name="direccion"
-        label="Direccion"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir una direcion!",
-          },
-        ]}
-      >
-        <Input.TextArea showCount maxLength={100} />
-      </Form.Item>
-
-      <Form.Item
-        name="sexo"
-        label="Genero"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir un genero",
-          },
-        ]}
-      >
-        <Select placeholder="Seleciona tu genero">
-          <Option value="Hombre">Hombre</Option>
-          <Option value="Mujer">Mujer</Option>
-          <Option value="Otro">Otro</Option>
-        </Select>
-      </Form.Item>
-
-      <Form.Item
-        name="fechaDeNacimiento"
-        label="Fecha de Nacimiento"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir la fecha de nacimiento",
-          },
-          {
-            validator: validateAge,
-          },
-        ]}
-      >
-        <DatePicker />
-      </Form.Item>
-
-      <Form.Item
-        name="pais"
-        label="Pais"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir una pais",
-          },
-        ]}
-      >
-        <Select
-          placeholder="Seleciona el pais"
-          onChange={(e) => onSelectChange(e)}
+      {currentStep === steps.length - 2 ? ( // Only render form for the last step
+        <div className="stepsForm" /* style={{ display: "none" }} */>
+          <Form form={form} onFinish={handleFinalSubmit}>
+            {steps[currentStep].content}
+            <div className="submitStep">
+              <Button
+                style={{ marginRight: 8 }}
+                onClick={handlePrev}
+                size="large"
+              >
+                Anterior
+              </Button>
+              <Button type="primary" htmlType="submit" size="large">
+                Crear Empleado
+              </Button>
+            </div>
+          </Form>
+        </div>
+      ) : (
+        // Render form for other steps
+        <Form
+          name="basic"
+          labelCol={{ span: 32 }}
+          wrapperCol={{ span: 32 }}
+          form={form}
+          onFinish={handleNext}
+          className="stepsForm"
+          labelAlign="left"
         >
-          {renderPaises(paisesFinal)}
-        </Select>
-      </Form.Item>
-      <Form.Item name="provincia" label="Provincia" hidden={hideInput}>
-        <Select placeholder="Seleciona el pais">
-          {renderProvincias(provinciasFinal)}
-        </Select>
-      </Form.Item>
-
-      <Form.Item
-        name="salario"
-        label="Sueldo Fijo"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir un sueldo fijo",
-          },
-          {
-            validator: validateMinimumValue(1),
-          },
-        ]}
-      >
-        <InputNumber minLength={1} />
-      </Form.Item>
-
-      <Form.Item
-        name="contrato"
-        label="Contrato"
-        rules={[
-          {
-            required: true,
-            message: "Seleciona el tipo de contrato",
-          },
-        ]}
-      >
-        <Select
-          placeholder="Seleciona el tipo de contrato"
-          onChange={(e) => {
-            if (e === "definido") {
-              dateInputSet(false);
-            } else if (e === "indefinido") {
-              dateInputSet(true);
-            } else if (e === "temporal") {
-              dateInputSet(false);
-            }
-          }}
-        >
-          <Option value="indefinido">Indefinido</Option>
-          <Option value="definido">Definido</Option>
-          <Option value="temporal">Temporal</Option>
-        </Select>
-      </Form.Item>
-      <Form.Item name="vencimientoDelContrato" label="Expiración de contrato">
-        <DatePicker disabled={dateInput} />
-      </Form.Item>
-      <Form.Item
-        name="tipoDeNomina"
-        label="Tipo de Nomina"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir el tipo de nomina",
-          },
-        ]}
-      >
-        <Select
-          placeholder="Seleciona el tipo de nomina"
-          onChange={(e) => onSelectChangeHour(e)}
-        >
-          <Option value="Nomina Fija">Nomina Fija</Option>
-          <Option value="Por Hora">Por Hora</Option>
-        </Select>
-      </Form.Item>
-      <Form.Item
-        name="costoPorHora"
-        label="Costo de Hora"
-        hidden={hideInputHour}
-        rules={[{ validator: validateMinimumValue(1) }]}
-      >
-        <InputNumber />
-      </Form.Item>
-      <Form.Item
-        name="departamento"
-        label="Departamento"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir un departamento",
-          },
-        ]}
-      >
-        <Select placeholder="Seleciona el tipo de Departamento">
-          {renderDepartamentos(departamentosFinal)}
-        </Select>
-      </Form.Item>
-      <Form.Item
-        name="puesto"
-        label="Puesto"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir un puesto",
-          },
-        ]}
-      >
-        <Select placeholder="Seleciona el tipo de Puesto">
-          {renderDepartamentos(puestosFinalArray)}
-        </Select>
-      </Form.Item>
-      <Form.Item
-        label="Licencia de Conducir?"
-        name="licenciasDeConducir"
-        rules={[{ required: true, message: "Please input your password!" }]}
-      >
-        <Select
-          placeholder="Seleciona el estado laboral"
-          onChange={(e) => onSelectChangeLic(e)}
-        >
-          {renderProvincias(opcionesLicenciaBolean)}
-        </Select>
-      </Form.Item>
-      <Form.Item
-        label="Fecha de Exp de Licencia"
-        name="fechaDeExpiracion"
-        hidden={hideInputLic}
-      >
-        <DatePicker />
-      </Form.Item>
-      <Form.Item
-        label="Tipo De Licencia"
-        name="tipoLicencia"
-        hidden={hideInputLic}
-      >
-        <Select placeholder="Seleciona el estado laboral">
-          {renderProvincias(opcionesLicenciaCategoria)}
-        </Select>
-      </Form.Item>
-      <Form.Item name="createdAt" label="Inicio Laboral">
-        <DatePicker />
-      </Form.Item>
-
-      <Form.Item
-        name="contactoDeEmergencia"
-        label="Contacto de Emergencia"
-        rules={[
-          {
-            required: true,
-            message: "Tienes que introducir un contacto de emergencia",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item {...tailFormItemLayout}>
-        <Button type="primary" htmlType="submit">
-          Crear Empleado
-        </Button>
-      </Form.Item>
-      {errorAlert}
-    </Form>
+          {steps[currentStep].content}
+          <div>
+            {currentStep > 0 && (
+              <Button style={{ marginRight: 8 }} onClick={handlePrev}>
+                Anterior
+              </Button>
+            )}
+            <Button
+              type="primary"
+              htmlType="submit"
+              disabled={currentStep === 3 ? true : false}
+            >
+              Siguiente
+            </Button>
+          </div>
+        </Form>
+      )}
+    </div>
   );
 };
 
-const stateMapToProps = (state) => {
+const StateMapToProps = (state) => {
   return {
-    candidato: state.buscarCandidato.buscarCandidato,
-    estado: state.cambiarState,
     puestos: state.puestos.puestos,
+    departamentos: state.departamentos.Departamentos,
   };
 };
 
-export default connect(stateMapToProps, {
-  BUSCAR_CANDIDATO_ACTION,
-  GET_PUESTOS_ACTION,
-})(App);
+export default connect(StateMapToProps, {})(MultiStepComponent);

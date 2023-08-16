@@ -17,9 +17,18 @@ const EmpleadosInfoPer = ({ usuarioSelecionado, usuarioEditado }) => {
   return (
     <div className="infoParent">
       <div className="header-info">
-      {/*   <div className="imageSpace">
-          <img src="../../../public/default.png" alt="imag" />
-        </div> */}
+        {
+          <div className="imageSpace">
+            <img
+              src={
+                usuarioSelecionado.photo
+                  ? `http://localhost:5000/photos/${usuarioSelecionado?.photo}`
+                  : "http://localhost:5000/photos/default.png"
+              }
+              alt="imag"
+            />
+          </div>
+        }
         <div className="infoSpace">
           <div className="nombres">
             <div className="subNombres">Nombre:</div>

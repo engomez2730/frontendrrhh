@@ -33,7 +33,7 @@ import GetDimitidos from "./GetDimitidos";
 import LicenciasReducer from "./LicenciasReducer";
 import SelectLicencia from "./SelectLicencias";
 import Departamentos from "./CargarDepartamentos";
-
+import StepsCrearEmpleado from "./StepsCrearEmpleado";
 export default combineReducers({
   user: setUser,
   departamentos: Departamentos,
@@ -69,4 +69,5 @@ export default combineReducers({
   Dimitidos: GetDimitidos,
   licencias: LicenciasReducer,
   licenciaSelecionada: SelectLicencia,
+  StepsCrearEmpleado: StepsCrearEmpleado,
 });

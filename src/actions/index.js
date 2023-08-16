@@ -35,12 +35,12 @@ import {
   GET_LICENCIAS,
   SELECT_LICENCIAS,
   GET_DEPARTAMENTOS,
+  STEPS_CREAR_EMPLEADO,
 } from "./types";
 
 import rrhhApi from "../apis/rrhhApi";
 
 export const setUser = (User) => {
-  console.log(User);
   return {
     type: SET_USER,
     payload: User,
@@ -327,4 +327,11 @@ export const SELECT_LICENCIAS_ACTION = (id) => async (distpatch) => {
     type: SELECT_LICENCIAS,
     payload: data.data.verLicencia,
   });
+};
+
+export const STEPS_CREAR_EMPLEADO_ACTION = (userData) => {
+  return {
+    type: STEPS_CREAR_EMPLEADO,
+    payload: userData,
+  };
 };

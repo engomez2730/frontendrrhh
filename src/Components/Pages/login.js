@@ -4,7 +4,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { setUser, loggedUserIn, CAMBIAR_ESTADO } from "../../actions/index";
 import API from "../../apis/rrhhApi";
-import { Col, Row } from "antd";
 import "./login.css";
 import handleError from "../../Data/errorHandle";
 import { UserOutlined } from "@ant-design/icons";

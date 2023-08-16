@@ -20,6 +20,7 @@ import rrhhApi from "../../apis/rrhhApi";
 import { CAMBIAR_ESTADO, GET_PUESTOS_ACTION } from "../../actions";
 import handleError from "../../Data/errorHandle";
 import moment from "moment";
+import CustomForItem from "../Custom/CustomFomItem";
 const { Option } = Select;
 
 const opcionesLicencia = ["Si", "No"];
@@ -73,8 +74,8 @@ const App = (props) => {
   }, [props?.candidatoSelecionado]);
 
   const puestos = props?.puestos?.map((e) => e.nombre);
-    const departamentos = props.departamentos?.map((e) => e.nombre);
-  
+  const departamentos = props.departamentos?.map((e) => e.nombre);
+
   const crearSelectArray = (array) => {
     return array?.map((e) => {
       return {
@@ -85,8 +86,8 @@ const App = (props) => {
   };
 
   const puestosFinalArray = crearSelectArray(puestos);
-    const departamentosFinalArray = crearSelectArray(departamentos);
-   const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia);
+  const departamentosFinalArray = crearSelectArray(departamentos);
+  const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia);
   const opcionesLicenciaCategoria = crearSelectArray(categoriaLicencia);
 
   const onFinish = async (values) => {
@@ -167,7 +168,7 @@ const App = (props) => {
       size="small"
       form={form}
     >
-      <Form.Item
+      <CustomForItem
         name="nombre"
         label="Nombre"
         rules={[
@@ -178,7 +179,7 @@ const App = (props) => {
         ]}
       >
         <Input />
-      </Form.Item>
+      </CustomForItem>
       <Form.Item
         name="apellido"
         label="Apellido"

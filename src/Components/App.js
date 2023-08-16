@@ -4,7 +4,7 @@ import "./App.css";
 import "antd/dist/antd.min.css";
 import Header from "./Pages/header";
 import Sider from "./Empleados/Sidebar";
-import CrearEmpleado from "./Empleados/CrearEmpleado";
+import Form from "./Empleados/Form";
 import { Routes, Route } from "react-router-dom";
 import { /* Breadcrumb, */ Layout } from "antd";
 import {
@@ -13,6 +13,7 @@ import {
   loggedUserOut,
   cargarEmpleados,
   cargarDepartamentos,
+  GET_PUESTOS_ACTION,
 } from "../actions";
 import Login from "../Components/Pages/login";
 import VerEmpleados from "./Empleados/VerEmpleados";
@@ -55,6 +56,7 @@ const App = (props) => {
       props.setUser(userLocal);
       props.cargarEmpleados();
       props.cargarDepartamentos();
+      props.GET_PUESTOS_ACTION();
     }
   }, [props.estado]);
 
@@ -99,7 +101,12 @@ const App = (props) => {
                 <Route path="/" element={<Inicio />}></Route>
                 <Route
                   path="/crearempleado"
-                  element={<CrearEmpleado />}
+                  element={
+                    <Form
+                      departamentos={props?.departamentos}
+                      puestos={props?.puestos}
+                    />
+                  }
                 ></Route>
                 <Route
                   path="/verempleados"
@@ -111,7 +118,7 @@ const App = (props) => {
                 <Route
                   path="/verdepartamentos"
                   element={
-                    <VerDepartamentos departamentos={props.departamentos} />
+                    <VerDepartamentos departamentos={props?.departamentos} />
                   }
                 ></Route>
                 <Route path="/vacaciones" element={<Vacaciones />}></Route>
@@ -175,6 +182,7 @@ const mapStateToProps = (state) => {
     empleados: state.empleados,
     departamentos: state.departamentos.Departamentos,
     estado: state.cambiarState,
+    puestos: state.puestos.puestos,
   };
 };
 
@@ -184,4 +192,5 @@ export default connect(mapStateToProps, {
   setUser,
   cargarEmpleados,
   cargarDepartamentos,
+  GET_PUESTOS_ACTION,
 })(App);

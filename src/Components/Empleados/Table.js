@@ -11,8 +11,10 @@ import {
 } from "../../actions/index";
 import { SearchOutlined } from "@ant-design/icons";
 import InfoModalEdit from "./InfoModalEdit";
+import UploadPhoto from "./UploadPhoto";
 import SubirFoto from "./SubirFoto";
 import Loader from "../Utils/Loader";
+import { CustomTable } from "../Custom/CustomTable";
 
 const TableFinal = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -27,8 +29,9 @@ const TableFinal = (props) => {
     }
   }, [props.estado]);
 
-  const showModalFoto = () => {
+  const showModalFoto = (e, text) => {
     setisModalFoto(true);
+    props.empleadoSelecionadoVer(text.key);
   };
 
   const handleOkFoto = () => {
@@ -132,7 +135,7 @@ const TableFinal = (props) => {
       title: "Acción",
       key: "operation",
       fixed: "right",
-      width: 350,
+      width: 450,
       render: (text) => [
         <Button
           type="primary"
@@ -149,6 +152,14 @@ const TableFinal = (props) => {
           onClick={(e) => onClickModalEdit(e, text)}
         >
           Editar Empleado
+        </Button>,
+        <Button
+          type="warning"
+          key="editar"
+          style={{ marginLeft: "10px" }}
+          onClick={(e) => showModalFoto(e, text)}
+        >
+          Subir Foto
         </Button>,
       ],
     },
@@ -198,13 +209,12 @@ const TableFinal = (props) => {
   });
 
   const empleadosActivos = empleados?.filter((e) => {
-    console.log(e?.nombre);
     return e.estado === true && e.rol === "empleado";
   });
 
   return (
     <>
-      <Table
+      <CustomTable
         style={{ marginTop: "50px", width: "80%" }}
         columns={columns}
         scroll={{ x: 1300 }}
@@ -212,15 +222,6 @@ const TableFinal = (props) => {
         bordered={true}
         pagination={{ pageSize: 6, total: empleados?.length }}
       />
-      {/*   <Table
-        style={{ marginTop: "50px", width: "80%" }}
-        columns={columns}
-        scroll={{ x: 1300 }}
-        dataSource={estadoP ? empleadosActivos : empleados}
-        bordered={true}
-        pagination={{ pageSize: 6, total: empleados?.length }}
-      />
- */}
       <Modal
         title="Informacion del Empleado"
         open={isModalOpen}
@@ -246,7 +247,7 @@ const TableFinal = (props) => {
         onCancel={handleCancelFoto}
         width={1000}
       >
-        <SubirFoto />
+        <UploadPhoto empleado={props.usuarioSelecionado} />
       </Modal>
     </>
   );
@@ -257,6 +258,7 @@ const stateMapToProps = (state) => {
     empleados: state.empleados,
     usuarioFinal: state.usuarioEditadoFinal,
     estado: state.cambiarState,
+    usuarioSelecionado: state.usuarioSelecionadoVer.usuarioSelecionadoVer,
   };
 };
 
