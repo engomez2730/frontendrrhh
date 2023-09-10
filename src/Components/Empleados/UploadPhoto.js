@@ -31,14 +31,10 @@ const PhotoUploadForm = ({ empleado }) => {
           body: formData,
         }
       );
-
-      if (response.ok) {
-        console.log("Photo uploaded successfully!");
-        message.success("Foto Subida", 3);
-      } else {
-        throw new Error("Photo upload failed.", 402);
-      }
+      console.log("Photo uploaded successfully!");
+      message.success("Foto Subida", 3);
     } catch (error) {
+      console.log(error);
       handleError(error);
     }
   };

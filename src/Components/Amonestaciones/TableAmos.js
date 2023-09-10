@@ -1,11 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Modal, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
-import {
-  empleadoSelecionadoVer,
-  cargarEmpleados,
-  CAMBIAR_ESTADO,
-} from "../../actions/index";
+import { empleadoSelecionadoVer, CAMBIAR_ESTADO } from "../../actions/index";
 
 import ManejarAmos from "./ManejarAmos";
 import { connect } from "react-redux";
@@ -17,9 +13,12 @@ const TablePerm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenVer, setIsModalVerOpen] = useState(false);
   const [isModalOpenCrear, setIsModalVerOpenCrear] = useState(false);
+  const [EmpleadosLoaded, setIsEmpleadosLoaded] = useState(true);
 
   useEffect(() => {
-    props.cargarEmpleados();
+    if (props.empleados) {
+      setIsEmpleadosLoaded(false);
+    }
   }, [props.estado]);
 
   const showModal = () => {
@@ -185,6 +184,7 @@ const TablePerm = (props) => {
         dataSource={empleadosActivos}
         bordered={true}
         pagination={{ pageSize: 5, total: empleadosActivos?.length }}
+        loading={EmpleadosLoaded}
       />
       <Modal
         title="Ver Amonestaciones"
@@ -224,7 +224,6 @@ const StateMapToProps = (state) => {
 };
 
 export default connect(StateMapToProps, {
-  cargarEmpleados,
   empleadoSelecionadoVer,
   CAMBIAR_ESTADO,
 })(TablePerm);

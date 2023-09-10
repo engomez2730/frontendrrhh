@@ -4,8 +4,6 @@ import { connect } from "react-redux";
 import moment from "moment";
 
 const EmpleadosInfoPer = ({ usuarioSelecionado, usuarioEditado }) => {
-  console.log(usuarioSelecionado?.Nominas[0]);
-
   const verCedula = (numbers) => {
     let myFunc = (num) => Number(num);
     var intArr = Array.from(String(numbers), myFunc);

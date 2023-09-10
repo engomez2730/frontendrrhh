@@ -14,9 +14,7 @@ const Perfil = ({ empleados }) => {
           <h2>Editar mi usuario</h2>
           <FormPerfils />
         </div>
-        <div className="roles">
-          <TablePerfil empleados={empleados} />
-        </div>
+
       </div>
     </div>
   );

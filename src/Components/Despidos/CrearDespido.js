@@ -1,14 +1,13 @@
 import React from "react";
-import StatsDespidos from "./StatsDespidos";
 import TableDespidos from "./CrearDespidosTable";
 import requireAuth from "../requireAuth";
 
-const Despidos = () => {
+const Despidos = ({ empleados }) => {
   return (
     <div className="verAnuncios">
       <h1>Despidos</h1>
       <div className="tableDataPer">
-        <TableDespidos />
+        <TableDespidos empleados={empleados} />
       </div>
     </div>
   );

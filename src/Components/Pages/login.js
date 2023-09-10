@@ -38,21 +38,29 @@ const Login = (props) => {
     <>
       {!props?.isLoggedIn.isLoggedIn ? (
         <div className="login">
-          <div className="logoContent"> 
+          <div className="logoContent">
             <img src="logoVargSang.JPG" />
-            <h2 className="headingLogo">Gestor de Recursos Humanos</h2>
+            <h2 className="headingLogo">Gestor de </h2>
+            <h2 className="headingLogo">Recursos Humanos </h2>
           </div>
-          <div className="formContent">
-            <h3 className="heading">
-              Login <UserOutlined />
-            </h3>
+          <div className="FormContent">
+            <h1 className="heading">Login</h1>
             <Form
-              className="form"
-              name="basic"
-              labelCol={{ span: 8 }}
-              wrapperCol={{ span: 24 }}
+              className="Form"
               size="large"
-              initialValues={{ remember: true }}
+              name="basic"
+              labelCol={{
+                span: 8,
+              }}
+              wrapperCol={{
+                span: 16,
+              }}
+              style={{
+                maxWidth: 600,
+              }}
+              initialValues={{
+                remember: true,
+              }}
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
               autoComplete="off"
@@ -61,36 +69,38 @@ const Login = (props) => {
                 label="Correo"
                 name="correo"
                 rules={[
-                  { required: true, message: "Tienes que poner tu correo" },
+                  {
+                    required: true,
+                    message: "Por favor introduce tu correo",
+                  },
                   {
                     type: "email",
-                    message: "Debes introducir un correo valido",
+                    message: "Introduce un verdadero correo",
                   },
                 ]}
               >
                 <Input />
               </Form.Item>
+
               <Form.Item
                 label="Contraseña"
                 name="password"
                 rules={[
                   {
                     required: true,
-                    message: "Tienes que poner una contraseña",
-                  },
-                  {
-                    max: 16,
-                    message: "Tu contraseña no debe tener mas de 16 caracteres",
-                  },
-                  {
-                    min: 8,
-                    message: "Tu contraseña debe tener almenos 8 caracteres",
+                    message: "Por favor introduce tu contraseña",
                   },
                 ]}
               >
-                <Input.Password maxLength={20} />
+                <Input.Password />
               </Form.Item>
-              <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
+
+              <Form.Item
+                wrapperCol={{
+                  offset: 8,
+                  span: 16,
+                }}
+              >
                 <Button type="primary" htmlType="submit">
                   Entrar
                 </Button>

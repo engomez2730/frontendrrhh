@@ -112,30 +112,6 @@ const CrearPermiso = (props) => {
      
         <InputNumber/>
       </Form.Item>
-      <Form.Item 
-          label="Total Horas Extras" 
-          name="horasExtras" 
-          hidden={props.usuarioSelecionado?.tipoDeNomina === 'Por Hora' ? false : true }>
-        <InputNumber/>
-      </Form.Item>
-      <Form.Item 
-        label="Total Horas Dobles" 
-        name="horasDobles"
-        hidden={props.usuarioSelecionado?.tipoDeNomina === 'Por Hora' ? false : true }
-
-        >
-        <InputNumber/>
-      </Form.Item>
-
-      <Form.Item 
-        label="Total Descuentos" name="descuentos">
-        <InputNumber />
-      </Form.Item>
-      <Form.Item 
-        label="Total Bonus" name="bonus">
-        <InputNumber />
-      </Form.Item>
-    
 
       <Form.Item
         wrapperCol={{

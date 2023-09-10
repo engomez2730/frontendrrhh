@@ -1,11 +1,21 @@
-@media print {
-  .print-document {
-    font-size: 12pt;
-    /* Add any other print-specific styling here */
-  }
+.print {
+  padding: 10px 25px;
 }
 
+.headingPrint {
+  padding: 25px 0;
+  font-size: 20px;
+}
 
-.form{
-  
+.headerPrint {
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.spanFecha {
+  font-size: 20px;
+  text-transform: uppercase;
+  padding: 0 5px;
 }

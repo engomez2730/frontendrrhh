@@ -226,6 +226,7 @@ export const ENTREVISTADOS_SELECIONADO_ACTION =
 export const DESPIDO_SELECIONADO_ACTION = (dataKey) => async (distpatch) => {
   const data = await rrhhApi.get(`/despidos/${dataKey}`);
   console.log(data);
+
   distpatch({
     type: DESPIDO_SELECIONADO,
     payload: data.data.despido,

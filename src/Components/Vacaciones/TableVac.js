@@ -1,6 +1,5 @@
 import { Table, Button, Modal, Input, Tag } from "antd";
 import React, { useEffect, useState } from "react";
-import { cargarEmpleados } from "../../actions/index";
 import { connect } from "react-redux";
 import { empleadoSelecionadoVer } from "../../actions/index";
 import { usuarioEditarSeleciondo, editarUsuario } from "../../actions/index";
@@ -12,9 +11,12 @@ import moment from "moment";
 const TableFinal = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenVer, setIsModalVerOpen] = useState(false);
+  const [EmpleadosLoaded, setIsEmpleadosLoaded] = useState(true);
 
   useEffect(() => {
-    props.cargarEmpleados();
+    if (props.empleados) {
+      setIsEmpleadosLoaded(false);
+    }
   }, [props.estado]);
 
   const showModal = () => {
@@ -80,53 +82,19 @@ const TableFinal = (props) => {
       title: "Cedula",
       dataIndex: "cedula",
       key: "cedula",
-      width: 170,
+      width: 150,
     },
     {
-      title: "Estado",
-      dataIndex: "Vacaciones",
+      title: "Departamento",
+      dataIndex: "departamento",
       key: "cedula",
-      width: 170,
-
-      render: (text, item) => {
-        if (text.length === 0) {
-          return (
-            <Tag color="red" key={item._id}>
-              No ha tomado aun
-            </Tag>
-          );
-        } else if (text.length > 0) {
-          const date1 = moment(
-            text[text.length - 1].tiempoDeVacaciones[0]
-          ).format();
-          const dateNow = moment().format();
-          if (dateNow < date1) {
-            return (
-              <Tag color="blue" key={item._id}>
-                Pendiente
-              </Tag>
-            );
-          } else if (dateNow > date1) {
-            return (
-              <Tag color="purple" key={item._id}>
-                Tomadas
-              </Tag>
-            );
-          }
-          return (
-            <Tag color="Green" key={item._id}>
-              En espera
-            </Tag>
-          );
-        }
-        return <></>;
-      },
+      width: 150,
     },
     {
       title: "Acción",
       key: "operation",
       fixed: "right",
-      width: 400,
+      width: 240,
       render: (text) => [
         <Button
           type="primary"
@@ -158,7 +126,7 @@ const TableFinal = (props) => {
     showModalEdit();
   };
 
-  const empleados = props.empleados?.empleados?.map((e) => {
+  const empleados = props.empleados?.map((e) => {
     return {
       nombre: e.nombre,
       apellido: e.apellido,
@@ -198,13 +166,14 @@ const TableFinal = (props) => {
         dataSource={empleadosActivos}
         bordered={true}
         pagination={{ pageSize: 6, total: empleados?.length }}
+        loading={EmpleadosLoaded}
       />
       <Modal
-        title="Vacaciones del empleado"
+        title="Manejar Vacaciones"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={1200}
+        width={750}
       >
         <EditarVacaciones usuario={props.usuarioSelecionado} />
       </Modal>
@@ -213,7 +182,7 @@ const TableFinal = (props) => {
         open={isModalOpenVer}
         onOk={handleOkVER}
         onCancel={handleCancelVer}
-        width={1200}
+        width={1000}
       >
         <VerVacaciones usuario={props.usuarioSelecionado} />
       </Modal>
@@ -223,7 +192,6 @@ const TableFinal = (props) => {
 
 const stateMapToProps = (state) => {
   return {
-    empleados: state.empleados,
     usuarioFinal: state.usuarioEditadoFinal,
     estado: state.cambiarState,
     usuarioSelecionado: state.usuarioSelecionadoVer.usuarioSelecionadoVer,
@@ -231,7 +199,6 @@ const stateMapToProps = (state) => {
 };
 
 export default connect(stateMapToProps, {
-  cargarEmpleados,
   empleadoSelecionadoVer,
   usuarioEditarSeleciondo,
   editarUsuario,

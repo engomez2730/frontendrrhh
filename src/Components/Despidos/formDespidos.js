@@ -54,8 +54,7 @@ const CrearPermiso = (props) => {
       await Api.post(`despidos/${props?.usuarioSelecionado?._id}`, {
         tipo: values.tipo,
         descripcion: values.descripcion,
-        tomoVacaciones: vacacionesTomadas,
-        diasVacaciones: values.diasVacaciones,
+        prestacionesLaborables: values.prestacionesLaborables,
       });
       form.resetFields();
       props.CAMBIAR_ESTADO(!props.estado);
@@ -111,20 +110,17 @@ const CrearPermiso = (props) => {
       <Form.Item label="Descripcion" name="descripcion">
         <TextArea />
       </Form.Item>
-      <Form.Item label="Tomo Vacaciones?" name="vacaciones">
-        <Checkbox onChange={onChange}>Si</Checkbox>
-      </Form.Item>
-
       <Form.Item
-        label="Dias de Vacaciones tomados"
-        name="diasVacaciones"
+        label="Prestaciones Laborables"
+        name="prestacionesLaborables"
         rules={[
           {
-            validator: validateDiasVacaciones,
+            required: true,
+            message: "Por favor introduce las prestaciones laborables",
           },
         ]}
       >
-        <InputNumber maxLength={2} disabled={!vacacionesTomadas} />
+        <InputNumber style={{ width: "50%" }} />
       </Form.Item>
 
       <Form.Item

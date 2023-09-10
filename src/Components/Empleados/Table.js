@@ -1,4 +1,4 @@
-import { Table, Button, Modal, Input } from "antd";
+import { Table, Button, Modal, Input, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 import { cargarEmpleados } from "../../actions/index";
 import { connect } from "react-redux";
@@ -12,20 +12,20 @@ import {
 import { SearchOutlined } from "@ant-design/icons";
 import InfoModalEdit from "./InfoModalEdit";
 import UploadPhoto from "./UploadPhoto";
-import SubirFoto from "./SubirFoto";
-import Loader from "../Utils/Loader";
 import { CustomTable } from "../Custom/CustomTable";
+import Print from "../Print/Print";
+import TemplatePrint from "../Print/TemplatePrint";
+import moment from "moment";
 
 const TableFinal = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenEdit, setIsModalEditOpen] = useState(false);
   const [isModalFoto, setisModalFoto] = useState(false);
+  const [EmpleadosLoaded, setIsEmpleadosLoaded] = useState(true);
 
   useEffect(() => {
-    try {
-      props.cargarEmpleados();
-    } catch (err) {
-    } finally {
+    if (props.empleadosProps) {
+      setIsEmpleadosLoaded(false);
     }
   }, [props.estado]);
 
@@ -127,9 +127,12 @@ const TableFinal = (props) => {
       },
     },
     {
-      title: "Telefono",
-      dataIndex: "celular",
+      title: "Salario",
+      dataIndex: "salarioBruto",
       key: "celular",
+      render: (text) => {
+        return new Intl.NumberFormat("es-DO").format(text || 0);
+      },
     },
     {
       title: "Acción",
@@ -155,7 +158,7 @@ const TableFinal = (props) => {
         </Button>,
         <Button
           type="warning"
-          key="editar"
+          key="subir"
           style={{ marginLeft: "10px" }}
           onClick={(e) => showModalFoto(e, text)}
         >
@@ -212,6 +215,10 @@ const TableFinal = (props) => {
     return e.estado === true && e.rol === "empleado";
   });
 
+  const columnsWithoutAction = columns.filter(
+    (column) => column.key !== "operation"
+  );
+
   return (
     <>
       <CustomTable
@@ -221,7 +228,9 @@ const TableFinal = (props) => {
         dataSource={empleadosActivos}
         bordered={true}
         pagination={{ pageSize: 6, total: empleados?.length }}
+        loading={EmpleadosLoaded}
       />
+
       <Modal
         title="Informacion del Empleado"
         open={isModalOpen}
@@ -249,6 +258,23 @@ const TableFinal = (props) => {
       >
         <UploadPhoto empleado={props.usuarioSelecionado} />
       </Modal>
+      <Print
+        componentToPrint={
+          <TemplatePrint
+            title="empleados"
+            tableData={empleadosActivos}
+            tableColumns={columnsWithoutAction}
+            Table={
+              <Table
+                dataSource={empleadosActivos}
+                columns={columnsWithoutAction}
+                pagination={false}
+                bordered={true}
+              />
+            }
+          />
+        }
+      />
     </>
   );
 };

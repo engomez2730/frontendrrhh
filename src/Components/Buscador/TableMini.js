@@ -17,7 +17,6 @@ const TableFinal = (props) => {
   useEffect(() => {}, [props.estado]);
 
   const onClickBuscador = (e, text) => {
-    console.log(text);
     props.BUSCADOR_EMPLEADOS_GET(text);
     props.onCancel();
   };
@@ -80,7 +79,7 @@ const TableFinal = (props) => {
       contactoDeEmergencia: e.contactoDeEmergencia,
       puesto: e.puesto,
       photo: e.photo,
-      fechaDeNacimieno: e.fechaDeNacimiento,
+      fechaDeNacimiento: e.fechaDeNacimiento,
       salarioBruto: e.salarioBruto,
       rol: e.rol,
       Vacaciones: e.Vacaciones,
@@ -90,6 +89,8 @@ const TableFinal = (props) => {
       Despidos: e.Despidos,
       Beneficios: e.Beneficios,
       Amonestaciones: e.Amonestaciones,
+      genero: e.genero,
+      tipoDeNomina: e.tipoDeNomina,
     };
   });
 

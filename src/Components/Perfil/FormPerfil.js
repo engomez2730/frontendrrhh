@@ -4,16 +4,16 @@ import Api from "../../apis/rrhhApi";
 import { connect } from "react-redux";
 import { CAMBIAR_ESTADO, setUser } from "../../actions";
 import handleError from "../../Data/errorHandle";
-const { Option } = Select;
-const { TextArea } = Input;
 
 const Perfil = (props) => {
   const [form] = Form.useForm();
+  console.log(props.usuario);
 
   useEffect(() => {
     form.setFieldsValue({
       nombre: props.usuario?.nombre,
       correo: props.usuario?.correo,
+      password: props.usuario?.password,
     });
   }, [props.usuario]);
 
@@ -80,6 +80,18 @@ const Perfil = (props) => {
       >
         <Input />
       </Form.Item>
+      {/* <Form.Item
+        label="Password"
+        name="password"
+        rules={[
+          {
+            required: true,
+            message: "Correo",
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item> */}
       <Form.Item
         wrapperCol={{
           offset: 8,

@@ -1,0 +1,81 @@
+.print {
+  padding: 10px 35px;
+  display: flex;
+  flex-direction: column;
+}
+
+.image {
+  max-width: 35%;
+  height: auto;
+  object-fit: cover;
+}
+
+.dedicatoria {
+  margin-top: 30px;
+  font-size: 18px;
+}
+
+.ministerio {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.distinguidos {
+  margin-top: 30px;
+  font-size: 18px;
+}
+
+.paragraph {
+  margin-top: 15px;
+  font-size: 18px;
+}
+
+.cordial {
+  margin-top: 30px;
+  font-size: 18px;
+}
+
+.final {
+  margin-top: 70px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+
+.licenciada {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+.licda {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.info {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}
+
+.empleado {
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 0 3px;
+  font-size: 18px;
+}
+
+.correos {
+  color: blue;
+}
+
+.fechaDehoy {
+  font-size: 18px;
+}

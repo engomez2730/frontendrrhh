@@ -1,7 +1,5 @@
 import React from "react";
 import "./VerDepartamentos.css";
-import StatsCardContainer from "../Empleados/StatsCardContainer";
-import StatsContainer from "./StatsContainer";
 import TableDep from "./TableDep";
 import requireAuth from "../requireAuth";
 

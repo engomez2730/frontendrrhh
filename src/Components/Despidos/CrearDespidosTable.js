@@ -16,36 +16,24 @@ moment.locale("uk");
 
 const TablePerm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isModalOpenVer, setIsModalVerOpen] = useState(false);
-  const [isModalOpenCrear, setIsModalVerOpenCrear] = useState(false);
+  const [EmpleadosLoaded, setIsEmpleadosLoaded] = useState(true);
 
   useEffect(() => {
-    props.cargarEmpleados();
+    if (props.empleados) {
+      setIsEmpleadosLoaded(false);
+    }
   }, [props.estado]);
 
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalCrear = () => {
-    setIsModalVerOpenCrear(true);
-  };
-  const showModalEdit = () => {
-    setIsModalVerOpen(true);
-  };
 
   const handleOk = () => {
     setIsModalOpen(false);
   };
-  const handleOkVER = () => {
-    setIsModalVerOpen(false);
-  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
-  };
-
-  const handleCancelVer = () => {
-    setIsModalVerOpen(false);
   };
 
   const columns = [
@@ -116,13 +104,7 @@ const TablePerm = (props) => {
     props.empleadoSelecionadoVer(text.key);
     showModal();
   };
-  const onClickModalVer = (e, text) => {
-    props.avisoSelecionado(text);
-    showModalEdit();
-  };
-  const onClickModalCrear = (e, text) => {
-    showModalCrear();
-  };
+
   const empleados = props?.empleados?.map((e) => {
     return {
       nombre: e.nombre,
@@ -130,7 +112,6 @@ const TablePerm = (props) => {
       correo: e.correo,
       celular: e.celular,
       cedula: e.cedula,
-      departamento: e.cedula,
       key: e.id,
       PrestacionesLaborales: e.PrestacionesLaborales,
       contrato: e.contrato,
@@ -148,7 +129,6 @@ const TablePerm = (props) => {
   });
 
   const empleadosActivos = empleados?.filter((e) => {
-    console.log(e?.nombre);
     return e.estado === true && e.rol === "empleado";
   });
   return (
@@ -160,6 +140,7 @@ const TablePerm = (props) => {
         dataSource={empleadosActivos}
         bordered={true}
         pagination={{ pageSize: 5, total: empleados?.length }}
+        loading={EmpleadosLoaded}
       />
       <Modal
         title="Despedir empleado"
@@ -173,11 +154,8 @@ const TablePerm = (props) => {
     </div>
   );
 };
-const StateMapToProps = (state) => {
-  return { empleados: state.empleados.empleados, estado: state.cambiarState };
-};
-export default connect(StateMapToProps, {
-  cargarEmpleados,
+
+export default connect(null, {
   avisoSelecionado,
   CAMBIAR_ESTADO,
   empleadoSelecionadoVer,

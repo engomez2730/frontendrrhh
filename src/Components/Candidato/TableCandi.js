@@ -22,9 +22,12 @@ const TablePerm = (props) => {
   const [isModalOpenCrear, setIsModalVerOpenCrear] = useState(false);
   const [isModalOpenConvertir, setIsModalVerOpenConvertir] = useState(false);
   const [isModalOpenDocument, setIsModalVerOpenDocument] = useState(false);
+  const [EmpleadosLoaded, setIsEmpleadosLoaded] = useState(true);
 
   useEffect(() => {
-    props.GET_ENTREVISTADOS();
+    if (props.entrevistados) {
+      setIsEmpleadosLoaded(false);
+    }
   }, [props?.estado]);
 
   const showModalDocument = (e, text) => {
@@ -168,11 +171,6 @@ const TablePerm = (props) => {
     showModal();
   };
 
-  const eliminaranuncio = async (e, text) => {
-    const res = await Api.delete(`anuncios/${text.key}`);
-    props.CAMBIAR_ESTADO(!props.estado);
-  };
-
   const onClickModalVer = (e, text) => {
     props.ENTREVISTADOS_SELECIONADO_ACTION(text);
     showModalEdit();
@@ -221,6 +219,7 @@ const TablePerm = (props) => {
         dataSource={entrevistados}
         bordered={true}
         pagination={{ pageSize: 5, total: entrevistados?.length }}
+        loading={EmpleadosLoaded}
       />
       <Modal
         title="Ver Candidato"

@@ -1,25 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Modal, Input, Popconfirm } from "antd";
-import { SearchOutlined, QuestionCircleOutlined } from "@ant-design/icons";
+import { Table, Button, Modal, Input } from "antd";
+import { SearchOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
-import {
-  cargarEmpleados,
-  CAMBIAR_ESTADO,
-  empleadoSelecionadoVer,
-} from "../../actions/index";
+import { CAMBIAR_ESTADO, empleadoSelecionadoVer } from "../../actions/index";
 import VerLicencias from "./VerLicencias";
 import CrearLicencia from "./CrearLicencia";
-import TableEachLic from "./TableEachLic";
-import moment from "moment";
-import Api from "../../apis/rrhhApi";
 
 const TablePerm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenVer, setIsModalVerOpen] = useState(false);
   const [isModalOpenCrear, setIsModalVerOpenCrear] = useState(false);
+  const [EmpleadosLoaded, setIsEmpleadosLoaded] = useState(true);
 
   useEffect(() => {
-    props.cargarEmpleados();
+    if (props.empleados) {
+      setIsEmpleadosLoaded(false);
+    }
   }, [props.estado]);
 
   const showModal = () => {
@@ -143,7 +139,9 @@ const TablePerm = (props) => {
     showModalCrear();
   };
 
-  const empleados = props.empleados?.map((e) => {
+  console.log(props);
+
+  const empleados = props.empleados?.empleados?.map((e) => {
     return {
       nombre: e.nombre,
       apellido: e.apellido,
@@ -171,7 +169,6 @@ const TablePerm = (props) => {
   });
 
   const empleadosActivos = empleados?.filter((e) => {
-    console.log(e?.nombre);
     return e.estado === true && e.rol === "empleado";
   });
 
@@ -184,6 +181,7 @@ const TablePerm = (props) => {
         dataSource={empleadosActivos}
         bordered={true}
         pagination={{ pageSize: 5, total: empleadosActivos?.length }}
+        loading={EmpleadosLoaded}
       />
       <Modal
         title="Ver Licencia"
@@ -216,14 +214,12 @@ const TablePerm = (props) => {
 
 const StateMapToProps = (state) => {
   return {
-    empleados: state.empleados.empleados,
     permisoSelecioandoData: state.permisoSelecionado,
     estado: state.cambiarState,
   };
 };
 
 export default connect(StateMapToProps, {
-  cargarEmpleados,
   empleadoSelecionadoVer,
   CAMBIAR_ESTADO,
 })(TablePerm);

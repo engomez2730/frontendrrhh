@@ -76,7 +76,7 @@ export const elementos = [
       },
       {
         key: "print",
-        label: <Link to="/print">Print</Link>,
+        label: <Link to="/reportes">Reportes</Link>,
         icon: React.createElement(LineChartOutlined),
       },
     ],
@@ -87,7 +87,7 @@ export const elementos = [
     childrens: [
       {
         key: "crearCandidato",
-        label: <Link to="/candidatos">Crear candidato</Link>,
+        label: <Link to="/candidatos">Manejar candidato</Link>,
         icon: React.createElement(PlusCircleOutlined),
       },
     ],
@@ -125,22 +125,6 @@ export const elementos = [
       },
     ],
   },
-  /*  {
-    nombre: "Nomina",
-    icon: DollarCircleOutlined,
-    childrens: [
-      {
-        key: "GenerarNomina",
-        label: <Link to="/manejarnomina">Manejar Nomina</Link>,
-        icon: React.createElement(EyeOutlined),
-      },
-      {
-        key: "Stats Nomina",
-        label: <Link to="/statsnomina">Stats Nomina</Link>,
-        icon: React.createElement(PlusCircleOutlined),
-      },
-    ],
-  }, */
   {
     nombre: "Despidos",
     icon: CloseOutlined,
@@ -166,11 +150,6 @@ export const elementos = [
         label: <Link to="/vacantes">Manejar Vacantes</Link>,
         icon: React.createElement(PlusCircleOutlined),
       },
-      {
-        key: "verVacantes",
-        label: <Link to="/vervacantes">Ver Vacantes</Link>,
-        icon: React.createElement(EyeOutlined),
-      },
     ],
   },
   {
@@ -180,32 +159,6 @@ export const elementos = [
       {
         key: "ManejarEpp",
         label: <Link to="/epp">Manejar EPP</Link>,
-      },
-    ],
-  },
-  {
-    nombre: "Estadisticas",
-    icon: BarChartOutlined,
-    childrens: [
-      {
-        key: "EmpleadosStats",
-        label: <Link to="/empleadosstats"> Empleados</Link>,
-      },
-      {
-        key: "DepartamentoStats",
-        label: <Link to="/departamentosstats">Departamentos</Link>,
-      },
-      {
-        key: "editarAnuncio",
-        label: <Link to="/vacacionesstats">Vacaciones</Link>,
-      },
-      {
-        key: "elimianrAnuncio",
-        label: <Link to="/despidosstats">Despidos</Link>,
-      },
-      {
-        key: "EppSt",
-        label: <Link to="/eppsstats">Epps</Link>,
       },
     ],
   },

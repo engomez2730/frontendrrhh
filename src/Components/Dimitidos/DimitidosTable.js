@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Table, Button, Modal, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
-import { cargarEmpleados, GET_DIMITIDOS_ACTION } from "../../actions/index";
+import { GET_DIMITIDOS_ACTION } from "../../actions/index";
 import VerDimitido from "./VerDimitido";
 import moment from "moment";
 import Api from "../../apis/rrhhApi";
@@ -11,19 +11,16 @@ const TablePerm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenVer, setIsModalVerOpen] = useState(false);
   const [isModalOpenCrear, setIsModalVerOpenCrear] = useState(false);
+  const [EmpleadosLoaded, setIsEmpleadosLoaded] = useState(true);
 
   useEffect(() => {
-    props.cargarEmpleados();
+    if (props.empleados) {
+      setIsEmpleadosLoaded(false);
+    }
   }, [props.estado]);
 
   const showModal = () => {
     setIsModalOpen(true);
-  };
-  const showModalCrear = () => {
-    setIsModalVerOpenCrear(true);
-  };
-  const showModalEdit = () => {
-    setIsModalVerOpen(true);
   };
 
   const handleOk = () => {
@@ -135,7 +132,6 @@ const TablePerm = (props) => {
       correo: e.correo,
       celular: e.celular,
       cedula: e.cedula,
-      departamento: e.cedula,
       key: e.id,
       DiaDeVacaciones: e.DiaDeVacaciones,
       PrestacionesLaborales: e.PrestacionesLaborales,
@@ -168,6 +164,7 @@ const TablePerm = (props) => {
         dataSource={empleadosActivos}
         bordered={true}
         pagination={{ pageSize: 5, total: empleadosDimitidos?.length }}
+        loading={EmpleadosLoaded}
       />
       <Modal
         title="Ver Permiso"
@@ -199,12 +196,10 @@ const TablePerm = (props) => {
 const StateMapToProps = (state) => {
   return {
     estado: state.cambiarState,
-    empleados: state.empleados.empleados,
     dimitidosSelect: state.Dimitidos.Dimitidos,
   };
 };
 
 export default connect(StateMapToProps, {
-  cargarEmpleados,
   GET_DIMITIDOS_ACTION,
 })(TablePerm);

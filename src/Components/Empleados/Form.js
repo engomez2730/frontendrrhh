@@ -226,7 +226,7 @@ const MultiStepComponent = (props) => {
             },
           ]}
         >
-          <DatePicker defaultValue={moment("1995-01-01")} />
+          <DatePicker />
         </CustomFomItem>,
         <CustomFomItem
           label="Pais"
@@ -238,10 +238,7 @@ const MultiStepComponent = (props) => {
             },
           ]}
         >
-          <Select
-            placeholder="Seleciona el pais"
-            defaultValue="Republica Dominicana"
-          >
+          <Select placeholder="Seleciona el pais">
             {renderPaises(paisesFinal)}
           </Select>
         </CustomFomItem>,
@@ -359,8 +356,8 @@ const MultiStepComponent = (props) => {
               }
             }}
           >
-            <Option value="definido">Definido</Option>
             <Option value="indefinido">Indefinido</Option>
+            <Option value="definido">Definido</Option>
             <Option value="temporal">Temporal</Option>
           </Select>
         </CustomFomItem>,
@@ -413,6 +410,18 @@ const MultiStepComponent = (props) => {
           ]}
         >
           <Input />
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Inicio Laboral"
+          name="createdAt"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce tu fecha de nacimiento",
+            },
+          ]}
+        >
+          <DatePicker />
         </CustomFomItem>,
       ],
     },
@@ -473,6 +482,7 @@ const MultiStepComponent = (props) => {
         tipoDeNomina: formData.tipoDeNomina,
         costoPorHora: formData.costoPorHora,
         salarioBruto: formData.salarioBruto,
+        fechaDeNacimiento: formData.fechaDeNacimiento,
         fechaDeNacimiento: formData.fechaDeNacimiento,
         createdAt: formData.createdAt,
         licenciasDeConducir:

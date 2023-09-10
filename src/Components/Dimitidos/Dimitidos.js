@@ -1,16 +1,15 @@
-import React from 'react';
-import DimitidosStats from './DimitidosStats'
-import DimitidosTable from './DimitidosTable';
+import React from "react";
+import DimitidosTable from "./DimitidosTable";
 
-const Despidos = () => {
-    return (
-        <div className='verAnuncios'>
-        <h1>Dimitidos</h1>
-        <div className='tableDataPer'>
-              <DimitidosTable/>
-        </div>
+const Domitidos = ({ empleados }) => {
+  return (
+    <div className="verAnuncios">
+      <h1>Dimitidos</h1>
+      <div className="tableDataPer">
+        <DimitidosTable empleados={empleados} />
+      </div>
     </div>
-    );
-}
+  );
+};
 
-export default Despidos;
+export default Domitidos;

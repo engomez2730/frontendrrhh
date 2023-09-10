@@ -11,7 +11,6 @@ import {
   DESPIDO_SELECIONADO_ACTION,
 } from "../../actions/index";
 import VerDespido from "./VerDespido";
-import CrearDesvinculo from "./CrearDesvinculo";
 
 import moment from "moment";
 import requireAuth from "../requireAuth";
@@ -20,7 +19,6 @@ moment.locale("uk");
 const TablePerm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenVer, setIsModalVerOpen] = useState(false);
-  const [isModalOpenCrear, setIsModalVerOpenCrear] = useState(false);
 
   useEffect(() => {
     props.GET_DESPIDOS_ACTION();
@@ -28,12 +26,6 @@ const TablePerm = (props) => {
 
   const showModal = () => {
     setIsModalOpen(true);
-  };
-  const showModalCrear = () => {
-    setIsModalVerOpenCrear(true);
-  };
-  const showModalEdit = () => {
-    setIsModalVerOpen(true);
   };
 
   const handleOk = () => {
@@ -109,8 +101,8 @@ const TablePerm = (props) => {
       },
     },
     {
-      title: "razon",
-      dataIndex: "razon",
+      title: "Tipo de Despido",
+      dataIndex: "tipoDeDespido",
       key: "cedula",
     },
     {
@@ -125,7 +117,7 @@ const TablePerm = (props) => {
           style={{ marginLeft: "10px" }}
           onClick={(e) => onClickModal(e, text)}
         >
-          Ver Despido{" "}
+          Ver Despido
         </Button>,
       ],
     },
@@ -138,7 +130,7 @@ const TablePerm = (props) => {
 
   const despidos = props?.despidos?.map((e) => {
     return {
-      razon: e.razon,
+      tipoDeDespido: e.tipoDeDespido,
       key: e._id,
       Usuario: e.Usuario,
       fechaDespido: e.fechaDespido,
@@ -146,6 +138,8 @@ const TablePerm = (props) => {
       prestacionesLaborables: e.prestacionesLaborables,
     };
   });
+
+  console.log(despidos);
 
   return (
     <div>
@@ -166,7 +160,7 @@ const TablePerm = (props) => {
         onCancel={handleCancel}
         width={1000}
       >
-        <VerDespido despido={props.despidoSelect} />
+        <VerDespido despido={props?.despidoSelect} />
       </Modal>
       <Modal
         title="Desvincular Empleado"

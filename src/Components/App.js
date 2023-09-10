@@ -14,21 +14,21 @@ import {
   cargarEmpleados,
   cargarDepartamentos,
   GET_PUESTOS_ACTION,
+  GET_ENTREVISTADOS,
+  GET_VACANTES_ACTION,
 } from "../actions";
 import Login from "../Components/Pages/login";
 import VerEmpleados from "./Empleados/VerEmpleados";
 import Inicio from "./Pages/Inicio";
 import VerDepartamentos from "../Components/Departamentos/VerDepartamentos";
 import Vacaciones from "./Vacaciones/Vacaciones.js";
-import Nomina from "./Nomina/Nomina";
 import Permisos from "./Permisos/Permisos";
 import Avisos from "./Avisos/Avisos";
 import Vacantes from "./Vacantes/vacantes";
 import VerVacantesPage from "./Vacantes/verVacantesPage";
 import Candidatos from "./Candidato/Candidato";
 import CrearDespidos from "./Despidos/CrearDespido";
-import NominaCompleta from "./NominaCompleta/NominaCompleta";
-import LinaDeTiempo from "./LineaTiempo/LineaDeTiempo";
+
 import Despidos from "./Despidos/CrearDespido";
 import DespidosVer from "./Despidos/TableDespidos";
 import Epp from "./Epp/Epp";
@@ -42,6 +42,8 @@ import Amonestaciones from "./Amonestaciones/Amonestaciones";
 import Stats from "./Stats/Stats";
 import Print from "./Print/Print";
 import Perfil from "./Perfil/Perfil";
+import Reportes from "./Reportes/Reportes";
+
 const { Content } = Layout;
 
 const App = (props) => {
@@ -57,6 +59,8 @@ const App = (props) => {
       props.cargarEmpleados();
       props.cargarDepartamentos();
       props.GET_PUESTOS_ACTION();
+      props.GET_ENTREVISTADOS();
+      props.GET_VACANTES_ACTION();
     }
   }, [props.estado]);
 
@@ -100,6 +104,16 @@ const App = (props) => {
               <Routes>
                 <Route path="/" element={<Inicio />}></Route>
                 <Route
+                  path="/reportes"
+                  element={
+                    <Reportes
+                      departamentos={props?.departamentos}
+                      empleados={props.empleados?.empleados}
+                    />
+                  }
+                ></Route>
+                <Route path="/invoice" element={<Inicio />}></Route>
+                <Route
                   path="/crearempleado"
                   element={
                     <Form
@@ -121,37 +135,62 @@ const App = (props) => {
                     <VerDepartamentos departamentos={props?.departamentos} />
                   }
                 ></Route>
-                <Route path="/vacaciones" element={<Vacaciones />}></Route>
+                <Route
+                  path="/vacaciones"
+                  element={
+                    <Vacaciones empleados={props.empleados?.empleados} />
+                  }
+                ></Route>
                 <Route
                   path="/perfil"
                   element={<Perfil empleados={props.empleados?.empleados} />}
                 ></Route>
-                <Route path="/nomina" element={<Nomina />}></Route>
-                <Route path="/permisos" element={<Permisos />}></Route>
+                <Route
+                  path="/permisos"
+                  element={<Permisos empleados={props.empleados?.empleados} />}
+                ></Route>
                 <Route path="/avisos" element={<Avisos />}></Route>
-                <Route path="/vacantes" element={<Vacantes />}></Route>
+                <Route
+                  path="/vacantes"
+                  element={<Vacantes vacantes={props.vacantes} />}
+                ></Route>
                 <Route
                   path="/vervacantes"
-                  element={<VerVacantesPage />}
+                  element={<VerVacantesPage vacantes={props.vacantes} />}
                 ></Route>
-                <Route path="/candidatos" element={<Candidatos />}></Route>
+                <Route
+                  path="/candidatos"
+                  element={
+                    <Candidatos
+                      entrevistados={props.entrevistados?.entrevistados}
+                    />
+                  }
+                ></Route>
                 <Route
                   path="/creardespidos"
                   element={<CrearDespidos />}
                 ></Route>
+
                 <Route
-                  path="/manejarnomina"
-                  element={<NominaCompleta />}
+                  path="/despidos"
+                  element={<Despidos empleados={props.empleados?.empleados} />}
                 ></Route>
-                <Route path="/lineadetiempo" element={<LinaDeTiempo />}></Route>
-                <Route path="/despidos" element={<Despidos />}></Route>
                 <Route path="/despidosVer" element={<DespidosVer />}></Route>
-                <Route path="/epp" element={<Epp />}></Route>
+                <Route
+                  path="/epp"
+                  element={<Epp empleados={props.empleados?.empleados} />}
+                ></Route>
                 <Route path="/stats" element={<Stats />}></Route>
-                <Route path="/puestos" element={<Puesto />}></Route>
+                <Route
+                  path="/puestos"
+                  element={<Puesto puestos={props?.puestos} />}
+                ></Route>
 
                 <Route path="/buscarempleados" element={<Buscador />}></Route>
-                <Route path="/dimitidos" element={<Dimitidos />}></Route>
+                <Route
+                  path="/dimitidos"
+                  element={<Dimitidos empleados={props.empleados?.empleados} />}
+                ></Route>
                 <Route
                   path="/compensaciones"
                   element={
@@ -164,7 +203,10 @@ const App = (props) => {
                     <Amonestaciones empleados={props.empleados?.empleados} />
                   }
                 ></Route>
-                <Route path="/licencias" element={<Licencias />}></Route>
+                <Route
+                  path="/licencias"
+                  element={<Licencias empleados={props.empleados?.empleados} />}
+                ></Route>
                 <Route path="/print" element={<Print />}></Route>
               </Routes>
             </Content>
@@ -183,6 +225,8 @@ const mapStateToProps = (state) => {
     departamentos: state.departamentos.Departamentos,
     estado: state.cambiarState,
     puestos: state.puestos.puestos,
+    entrevistados: state.entrevistados.entrevistados,
+    vacantes: state.Vacantes.vacantes,
   };
 };
 
@@ -193,4 +237,6 @@ export default connect(mapStateToProps, {
   cargarEmpleados,
   cargarDepartamentos,
   GET_PUESTOS_ACTION,
+  GET_ENTREVISTADOS,
+  GET_VACANTES_ACTION,
 })(App);

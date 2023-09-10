@@ -9,11 +9,19 @@ import { connect } from "react-redux";
 import { verDepartamento, CAMBIAR_ESTADO } from "../../actions/index";
 import EditarDepartamentos from "./EditarDepartamentos";
 import CrearDepartModal from "./CrearDepartModal";
+import DeparEmpleados from "./DeparEmpleados";
 
 const App = (props) => {
   const [open, setOpen] = useState(false);
   const [openDep, setOpenDep] = useState(false);
   const [isModalOpenCrear, setIsModalVerOpenCrear] = useState(false);
+  const [EmpleadosLoaded, setIsEmpleadosLoaded] = useState(true);
+
+  useEffect(() => {
+    if (props.departamentos) {
+      setIsEmpleadosLoaded(false);
+    }
+  }, []);
 
   const onVerSelect = (text) => {
     setOpen(!open);
@@ -144,6 +152,7 @@ const App = (props) => {
         dataSource={dataFinal}
         bordered={true}
         pagination={{ pageSize: 5, total: props.dataFinal?.length }}
+        loading={DeparEmpleados}
         scroll={{
           x: 1300,
         }}

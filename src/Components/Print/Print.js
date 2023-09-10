@@ -1,26 +1,30 @@
+// PrintComponent.js
+import { Button } from "antd";
 import React from "react";
-import PrintDocument from "./PrintDocument";
-import "./Print.css";
+import { useReactToPrint } from "react-to-print";
 
-function DocumentDetails() {
-  const handlePrint = () => {
-    window.print(); // Invoke the browser's print functionality
-  };
+const PrintComponent = ({ componentToPrint }) => {
+  const componentRef = React.useRef();
 
-  const document = {
-    title: "Sample Document",
-    content: "This is the content of the document.",
-    date: "2023-08-09",
-    // Add other document details here
-  };
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
 
   return (
     <div>
-      <h1>Document Details</h1>
-      <PrintDocument document={document} />
-      <button onClick={handlePrint}>Print Document</button>
+      <Button
+        type="primary"
+        onClick={handlePrint}
+        style={{ marginTop: "20px" }}
+      >
+        Imprimir
+      </Button>
+
+      <div style={{ display: "none" }}>
+        <div ref={componentRef}>{componentToPrint}</div>
+      </div>
     </div>
   );
-}
+};
 
-export default DocumentDetails;
+export default PrintComponent;

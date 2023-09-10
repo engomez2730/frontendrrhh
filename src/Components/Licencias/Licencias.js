@@ -1,11 +1,11 @@
-import React from 'react'
-import TablaLicen from './TablaLicen'
+import React from "react";
+import TablaLicen from "./TablaLicen";
 
-export default function Licencias() {
+export default function Licencias(empleados) {
   return (
     <div>
       <h1>Licencias</h1>
-        <TablaLicen/>
+      <TablaLicen empleados={empleados} />
     </div>
-  )
+  );
 }
