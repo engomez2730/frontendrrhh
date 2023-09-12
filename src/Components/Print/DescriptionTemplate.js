@@ -3,14 +3,12 @@ import { Badge, Descriptions } from "antd";
 import { GET_DESPIDOS_ACTION } from "../../actions/index";
 import { connect } from "react-redux";
 import moment from "moment";
-import PrintComponent from "../Print/Print";
-import TemplatePrint from "../Print/TemplatePrint";
 
 const App = (props) => {
   useEffect(() => {}, [props?.buscadorData]);
 
-
   function formatPhoneNumber(number) {
+
     if (typeof number !== "number" || number.toString().length !== 10) {
       throw new Error("Input should be a 10-digit number");
     }

@@ -10,9 +10,8 @@ import DescriptionTemplate from "../Print/DescriptionTemplate";
 const App = (props) => {
   useEffect(() => {}, [props?.buscadorData]);
 
-  console.log(props?.buscadorData.Despidos[0]?.fechaDespido);
-
   function formatPhoneNumber(number) {
+    if (!number) return;
     if (typeof number !== "number" || number.toString().length !== 10) {
       throw new Error("Input should be a 10-digit number");
     }

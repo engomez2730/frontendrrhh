@@ -3,9 +3,8 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 const EmpresaInfoPer = ({ usuarioSelecionado, usuarioEditado }) => {
-  useEffect(() => {
-    console.log(usuarioSelecionado?.licenciasDeConducir);
-  }, [usuarioEditado]);
+  useEffect(() => {}, [usuarioEditado]);
+
   return (
     <div className="infoParent">
       <div className="header-info">
@@ -48,7 +47,7 @@ const EmpresaInfoPer = ({ usuarioSelecionado, usuarioEditado }) => {
             </div>
           </div>
           <div className="nombres">
-            <div className="subNombres">Tiempo en la Empresa:</div>
+            <div className="subNombres">Entrada a la empresa:</div>
             <div className="realNombres">
               {usuarioSelecionado?.tiempoEnLaEmpresa}
             </div>

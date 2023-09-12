@@ -122,6 +122,7 @@ export const verDepartamento = (values) => {
 };
 
 export const CAMBIAR_ESTADO = (value) => {
+  console.log("I was called");
   return {
     type: CAMBIAR_STATE,
     payload: value,

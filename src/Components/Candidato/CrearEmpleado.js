@@ -85,6 +85,23 @@ const App = (props) => {
     });
   };
 
+  const validateMinLength = (minLength) => (rule, value, callback) => {
+    if (value && value.length < minLength) {
+      callback(`Necesita tener al menos ${minLength} `);
+    } else {
+      callback();
+    }
+  };
+
+  const validateAllNumbers = (rule, value, callback) => {
+    const regex = /^\d+$/;
+    if (!regex.test(value)) {
+      callback("Deben ser solo numeros");
+    } else {
+      callback();
+    }
+  };
+
   const puestosFinalArray = crearSelectArray(puestos);
   const departamentosFinalArray = crearSelectArray(departamentos);
   const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia);
@@ -453,9 +470,15 @@ const App = (props) => {
             required: true,
             message: "Tienes que introducir un contacto de emergencia",
           },
+          {
+            validator: validateMinLength(10),
+          },
+          {
+            validator: validateAllNumbers,
+          },
         ]}
       >
-        <Input />
+        <Input maxLength={10} />
       </Form.Item>
       <Form.Item
         wrapperCol={{

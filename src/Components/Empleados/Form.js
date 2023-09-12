@@ -4,8 +4,8 @@ import handleError from "../../Data/errorHandle";
 import moment from "moment";
 import { connect } from "react-redux";
 import CustomFomItem from "../Custom/CustomFomItem";
+import { CAMBIAR_ESTADO } from "../../actions";
 import { Link } from "react-router-dom";
-import UploadPhoto from "./UploadPhoto";
 import {
   Steps,
   Button,
@@ -16,15 +16,7 @@ import {
   message,
   Result,
 } from "antd";
-import {
-  paisesFinal,
-  provinciasFinal,
-  departamentosFinal,
-  departamentosFinalArray,
-  pues,
-  puestosFinal,
-} from "../../Data/CountriesData";
-import { render } from "@testing-library/react";
+import { paisesFinal, provinciasFinal } from "../../Data/CountriesData";
 import rrhhApi from "../../apis/rrhhApi";
 import "./Steps.css";
 const { TextArea } = Input;
@@ -58,12 +50,13 @@ const MultiStepComponent = (props) => {
 
   const puestos = props?.puestos?.map((e) => e.nombre);
   const departamentos = props.departamentos?.map((e) => e.nombre);
-  /*   const navigate = useNavigate();
-   */
-  const navigate = useNavigate();
 
   const opcionesLicencia = ["Si", "No"];
   const categoriaLicencia = ["Categoria 01", "Categoria 02", "Categoria 03"];
+
+  function updateState() {
+    props.CAMBIAR_ESTADO(!props.estado);
+  }
 
   const crearSelectArray = (array) => {
     return array?.map((e) => {
@@ -113,7 +106,6 @@ const MultiStepComponent = (props) => {
   const [form] = Form.useForm(); // Create a form instance
   const departamentosFinalArray = crearSelectArray(departamentos);
   const PuestosFinalArray = crearSelectArray(puestos);
-  console.log(props);
 
   const steps = [
     {
@@ -413,7 +405,7 @@ const MultiStepComponent = (props) => {
         </CustomFomItem>,
         <CustomFomItem
           label="Inicio Laboral"
-          name="createdAt"
+          name="inicioLaboral"
           rules={[
             {
               required: true,
@@ -438,7 +430,7 @@ const MultiStepComponent = (props) => {
             title={`Empleado ${formData.nombre} creado con exito`}
             subTitle={`Ya el empleado forma parte de la empresa Vargang`}
             extra={[
-              <Button type="primary">
+              <Button type="primary" onClick={() => updateState()}>
                 <Link to="/verempleados">Ir a Empleados</Link>
               </Button>,
             ]}
@@ -483,8 +475,7 @@ const MultiStepComponent = (props) => {
         costoPorHora: formData.costoPorHora,
         salarioBruto: formData.salarioBruto,
         fechaDeNacimiento: formData.fechaDeNacimiento,
-        fechaDeNacimiento: formData.fechaDeNacimiento,
-        createdAt: formData.createdAt,
+        inicioLaboral: formData.inicioLaboral,
         licenciasDeConducir:
           formData.licenciasDeConducir === "Si" ? true : false,
         tipoLicencia: formData.tipoLicencia,
@@ -561,7 +552,10 @@ const StateMapToProps = (state) => {
   return {
     puestos: state.puestos.puestos,
     departamentos: state.departamentos.Departamentos,
+    estado: state.cambiarState,
   };
 };
 
-export default connect(StateMapToProps, {})(MultiStepComponent);
+export default connect(StateMapToProps, {
+  CAMBIAR_ESTADO,
+})(MultiStepComponent);

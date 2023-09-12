@@ -1,30 +1,25 @@
-import React from 'react';
-import {connect} from 'react-redux'
-import EmpleadoPage from './EmpleadoPage';
-
+import React from "react";
+import { connect } from "react-redux";
+import Stats from "../Stats/Stats";
+import InicioComponent from "./InicioComponent";
 
 const Inicio = (props) => {
-
-    const renderInicio = () =>{
-        if(props.state.isLoggedIn.isLoggedIn && props.state.user.user?.rol === 'admin' ){
-            return null
-        }else if (props.state.isLoggedIn.isLoggedIn && props.state.user.user?.rol === 'empleado' ){
-            return <EmpleadoPage/>
-        }else{
-            return null
-        }
-
+  const renderInicio = () => {
+    if (
+      props.state.isLoggedIn.isLoggedIn &&
+      props.state.user.user?.rol === "admin"
+    ) {
+      return <Stats />;
+    } else {
+      return <InicioComponent />;
     }
+  };
 
-    return (
-        <div>
-           {renderInicio()}
-        </div>
-    );
-}
+  return <div>{renderInicio()}</div>;
+};
 
-const stateMapToProps = state =>{
-    return {state:state}
-}
+const stateMapToProps = (state) => {
+  return { state: state };
+};
 
-export default connect(stateMapToProps,{})(Inicio);
+export default connect(stateMapToProps, {})(Inicio);

@@ -51,18 +51,23 @@ const App = (props) => {
     JSON.parse(localStorage.getItem("user"))
   );
 
+  console.log(props?.empleados);
+
+  useEffect(() => {
+    props.cargarEmpleados();
+    props.cargarDepartamentos();
+    props.GET_PUESTOS_ACTION();
+    props.GET_ENTREVISTADOS();
+    props.GET_VACANTES_ACTION();
+  }, [props.estado]);
+
   useEffect(() => {
     const userLocal = JSON.parse(localStorage.getItem("user"));
     if (userLocal && userLocal.rol === "admin") {
       props.loggedUserIn();
       props.setUser(userLocal);
-      props.cargarEmpleados();
-      props.cargarDepartamentos();
-      props.GET_PUESTOS_ACTION();
-      props.GET_ENTREVISTADOS();
-      props.GET_VACANTES_ACTION();
     }
-  }, [props.estado]);
+  }, []);
 
   const USER = JSON.parse(localStorage.getItem("user"));
 

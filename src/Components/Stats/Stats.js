@@ -20,7 +20,7 @@ export default requireAuth(function Stats() {
 
   useEffect(() => {
     getData();
-  }, [state]);
+  }, []);
 
   const handleChangeData = (value) => {
     stateSet(value.value);

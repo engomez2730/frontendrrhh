@@ -15,7 +15,6 @@ import UploadPhoto from "./UploadPhoto";
 import { CustomTable } from "../Custom/CustomTable";
 import Print from "../Print/Print";
 import TemplatePrint from "../Print/TemplatePrint";
-import moment from "moment";
 
 const TableFinal = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -185,7 +184,6 @@ const TableFinal = (props) => {
       correo: e.correo,
       celular: e.celular,
       cedula: e.cedula,
-      departamento: e.cedula,
       key: e.id,
       DiaDeVacaciones: e.DiaDeVacaciones,
       PrestacionesLaborales: e.PrestacionesLaborales,
@@ -208,6 +206,7 @@ const TableFinal = (props) => {
       fechaDeNacimieno: e.fechaDeNacimiento,
       salarioBruto: e.salarioBruto,
       rol: e.rol,
+      inicioLaboral: e.inicioLaboral,
     };
   });
 
