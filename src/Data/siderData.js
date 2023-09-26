@@ -8,15 +8,16 @@ import {
   EyeOutlined,
   BookOutlined,
   BellOutlined,
-  BarChartOutlined,
   LineChartOutlined,
   SnippetsOutlined,
   MinusCircleOutlined,
   CloseOutlined,
-  DollarCircleOutlined,
   UserSwitchOutlined,
   SearchOutlined,
   MinusOutlined,
+  CarOutlined,
+  DiffOutlined,
+  ControlOutlined,
 } from "@ant-design/icons";
 
 export const elementos = [
@@ -93,6 +94,58 @@ export const elementos = [
     ],
   },
   {
+    nombre: "Notificaciones",
+    icon: NotificationOutlined,
+    label: <Link to="/notificaciones">Manejar Vacantes</Link>,
+    childrens: [
+      {
+        key: "Notificaciones",
+        label: <Link to="/notificaciones">Panel de Notificaciones</Link>,
+        icon: React.createElement(PlusCircleOutlined),
+      },
+      {
+        key: "NotificacionesLicencia",
+        label: (
+          <Link to="/notificaciones/licenciasdeconducir">
+            Licencias de conducir
+          </Link>
+        ),
+        icon: React.createElement(PlusCircleOutlined),
+      },
+      {
+        key: "NotificacionesLicenciasNormals",
+        label: (
+          <Link to="/notificaciones/licenciasnormales">Licencias Normales</Link>
+        ),
+        icon: React.createElement(PlusCircleOutlined),
+      },
+      {
+        key: "NotificacionesPapel",
+        label: (
+          <Link to="/notificaciones/papelbuenaconducta">
+            Papel Buena Conducta
+          </Link>
+        ),
+        icon: React.createElement(PlusCircleOutlined),
+      },
+      {
+        key: "Cumpleaños",
+        label: <Link to="/notificaciones/cumpleanos">Cumpleaños</Link>,
+        icon: React.createElement(PlusCircleOutlined),
+      },
+      {
+        key: "Inducción",
+        label: <Link to="/notificaciones/induccion">Inducción</Link>,
+        icon: React.createElement(PlusCircleOutlined),
+      },
+      {
+        key: "Análisis",
+        label: <Link to="/notificaciones/analisis">Análisis</Link>,
+        icon: React.createElement(PlusCircleOutlined),
+      },
+    ],
+  },
+  {
     nombre: "Departamentos",
     icon: HomeOutlined,
     childrens: [
@@ -104,6 +157,17 @@ export const elementos = [
     ],
   },
   {
+    nombre: "Proyectos",
+    icon: DiffOutlined,
+    childrens: [
+      {
+        key: "verRpoyectos",
+        label: <Link to="/proyectos">Manejar Proyectos</Link>,
+        icon: React.createElement(DiffOutlined),
+      },
+    ],
+  },
+  {
     nombre: "Puestos",
     icon: HomeOutlined,
     childrens: [
@@ -111,6 +175,17 @@ export const elementos = [
         key: "Manejar Puestos",
         label: <Link to="/puestos">Manejar Puestos</Link>,
         icon: React.createElement(PlusCircleOutlined),
+      },
+    ],
+  },
+  {
+    nombre: "Equipos",
+    icon: CarOutlined,
+    childrens: [
+      {
+        key: "Manejar Equipos",
+        label: <Link to="/equipos">Manejar Equipos</Link>,
+        icon: React.createElement(CarOutlined),
       },
     ],
   },
@@ -159,6 +234,18 @@ export const elementos = [
       {
         key: "ManejarEpp",
         label: <Link to="/epp">Manejar EPP</Link>,
+        icon: React.createElement(UserSwitchOutlined),
+      },
+    ],
+  },
+  {
+    nombre: "Reportes",
+    icon: ControlOutlined,
+    childrens: [
+      {
+        key: "ManejarReportes",
+        label: <Link to="/reportesdiarios">Reportes Diarios</Link>,
+        icon: React.createElement(ControlOutlined),
       },
     ],
   },

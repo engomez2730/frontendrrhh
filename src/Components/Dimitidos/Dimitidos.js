@@ -1,5 +1,6 @@
 import React from "react";
 import DimitidosTable from "./DimitidosTable";
+import requireAuth from "../requireAuth";
 
 const Domitidos = ({ empleados }) => {
   return (
@@ -12,4 +13,4 @@ const Domitidos = ({ empleados }) => {
   );
 };
 
-export default Domitidos;
+export default requireAuth(Domitidos);

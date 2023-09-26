@@ -36,6 +36,8 @@ import {
   SELECT_LICENCIAS,
   GET_DEPARTAMENTOS,
   STEPS_CREAR_EMPLEADO,
+  CARGAR_EQUIPOS,
+  CARGAR_PROYECTOS,
 } from "./types";
 
 import rrhhApi from "../apis/rrhhApi";
@@ -122,7 +124,6 @@ export const verDepartamento = (values) => {
 };
 
 export const CAMBIAR_ESTADO = (value) => {
-  console.log("I was called");
   return {
     type: CAMBIAR_STATE,
     payload: value,
@@ -134,6 +135,14 @@ export const GET_PERMISOS_STATE = () => async (distpatch) => {
   distpatch({
     type: GET_PERMISOS,
     payload: data.data.allPermisos,
+  });
+};
+
+export const CARGAR_EQUIPOS_ACTION = () => async (distpatch) => {
+  const data = await rrhhApi.get("/equipos");
+  distpatch({
+    type: CARGAR_EQUIPOS,
+    payload: data.data.Equipos,
   });
 };
 
@@ -315,6 +324,13 @@ export const BUSCADOR_EMPLEADOS_GET = (data) => {
   };
 };
 
+export const CARGAR_PROYECTOS_FUNCTION = () => async (distpatch) => {
+  const data = await rrhhApi.get(`/proyectos`);
+  distpatch({
+    type: CARGAR_PROYECTOS,
+    payload: data.data.Proyectos,
+  });
+};
 export const GET_LICENCIAS_ACTION = () => async (distpatch) => {
   const data = await rrhhApi.get(`/licencias`);
   distpatch({

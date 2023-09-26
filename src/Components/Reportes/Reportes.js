@@ -1,5 +1,6 @@
 import React from "react";
 import FormReportes from "./FormReportes";
+import requireAuth from "../requireAuth";
 import { Select } from "antd";
 const { Option } = Select;
 
@@ -20,4 +21,4 @@ const Reportes = ({ departamentos, empleados }) => {
   );
 };
 
-export default Reportes;
+export default requireAuth(Reportes);

@@ -150,6 +150,7 @@ const TableFinal = (props) => {
       Vacaciones: e.Vacaciones,
       Nominas: e.Nominas,
       rol: e.rol,
+      inicioLaboral: e.inicioLaboral,
     };
   });
 

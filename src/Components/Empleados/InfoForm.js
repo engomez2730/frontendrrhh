@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Button, Checkbox, DatePicker, Form, Input } from "antd";
+import React, { useEffect } from "react";
+import { Button, DatePicker, Form, Input } from "antd";
 import { connect } from "react-redux";
 import Api from "../../apis/rrhhApi";
 import { message } from "antd";
 import { CAMBIAR_ESTADO } from "../../actions";
 import handleError from "../../Data/errorHandle";
 import moment from "moment";
+import {
+  validateAge,
+  validateAllNumbers,
+  validateMinLength,
+} from "../Utils/Validators";
 
 const InfoForm = (props) => {
   const [form] = Form.useForm();
-  const [errorAlert, errorAlertSet] = useState("");
-
-  console.log(props.usuarioEditar)
 
   useEffect(() => {
     form.setFieldsValue({
@@ -22,39 +24,19 @@ const InfoForm = (props) => {
       cedula: props.usuarioEditar.cedula,
       direccion: props.usuarioEditar.direccion,
       fechaDeNacimiento: moment(props.usuarioEditar?.fechaDeNacimieno),
+      contactoDeEmergencia: props.usuarioEditar.contactoDeEmergencia,
+      buenaConductaFechaExpiracion: moment(
+        props.usuarioEditar?.buenaConductaFechaExpiracion
+      ),
+      analisisFechaDeExpiracion: moment(
+        props.usuarioEditar?.analisisFechaDeExpiracion
+      ),
     });
-  }, [props.usuarioEditar]);
-
-  const validateMinLength = (minLength) => (rule, value, callback) => {
-    if (value && value.length < minLength) {
-      callback(`Necesita tener al menos ${minLength} `);
-    } else {
-      callback();
-    }
-  };
-
-  const validateAge = (rule, date, callback) => {
-    if (date && moment().diff(date, "years") < 18) {
-      callback("Debes ser mayor de 18 años.");
-    } else {
-      callback();
-    }
-  };
-
-  const validateAllNumbers = (rule, value, callback) => {
-    const regex = /^\d+$/;
-    if (!regex.test(value)) {
-      callback("Debe ser solo numeros");
-    } else {
-      callback();
-    }
-  };
+  }, [props.usuarioEditar, form]);
 
   const onFinish = async (values) => {
-    console.log(values);
-
     try {
-      const data = await Api.patch(`empleados/${props.usuarioEditar.key}`, {
+      await Api.patch(`empleados/${props.usuarioEditar.key}`, {
         nombre: values.nombre,
         apellido: values.apellido,
         correo: values.correo,
@@ -62,6 +44,9 @@ const InfoForm = (props) => {
         cedula: values.cedula,
         direccion: values.direccion,
         fechaDeNacimiento: values.fechaDeNacimiento,
+        contactoDeEmergencia: values.contactoDeEmergencia,
+        buenaConductaFechaExpiracion: values.buenaConductaFechaExpiracion,
+        analisisFechaDeExpiracion: values.analisisFechaDeExpiracion,
       });
       props.CAMBIAR_ESTADO(!props.estado);
       message.success("Empleado Actualizado", 2);
@@ -148,11 +133,9 @@ const InfoForm = (props) => {
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: "Por favor introducte tu cedula",
             },
-            {
-              validator: validateMinLength(11),
-            },
+           
             {
               validator: validateAllNumbers,
             },
@@ -169,7 +152,7 @@ const InfoForm = (props) => {
           rules={[
             {
               required: true,
-              message: "Please input your username!",
+              message: "Tienes que establecer una fecha de nacimiento",
             },
             {
               validator: validateAge,
@@ -177,6 +160,43 @@ const InfoForm = (props) => {
           ]}
         >
           <DatePicker />
+        </Form.Item>
+        <Form.Item
+          name="analisisFechaDeExpiracion"
+          label="Expiración de Analisis "
+          rules={[
+            {
+              required: true,
+              message: "Introduce fecha de expiración de los Analisis",
+            },
+          ]}
+        >
+          <DatePicker />
+        </Form.Item>
+        <Form.Item
+          name="buenaConductaFechaExpiracion"
+          label="Expiración de papel de buena conducta "
+          rules={[
+            {
+              required: true,
+              message: "Introduce la expiración del papel de buena conducta",
+            },
+          ]}
+        >
+          <DatePicker />
+        </Form.Item>
+        <Form.Item
+          name="contactoDeEmergencia"
+          label="Contacto de Emergencia"
+          rules={[
+            {
+              required: true,
+              message: "Tienes que introducir un contacto de emergencia",
+            },
+         
+          ]}
+        >
+          <Input />
         </Form.Item>
         <Form.Item
           wrapperCol={{
@@ -189,7 +209,6 @@ const InfoForm = (props) => {
           </Button>
         </Form.Item>
       </Form>
-      {errorAlert}
     </div>
   );
 };

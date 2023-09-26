@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { Button, Form, Input, DatePicker, message, Select } from "antd";
+import moment from "moment";
 import Api from "../../apis/rrhhApi";
 import { connect } from "react-redux";
 import { CAMBIAR_ESTADO } from "../../actions";
@@ -9,21 +10,32 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 const CrearPermiso = (props) => {
+  console.log(props.Licencia?.tipoDeLicencia);
   const [form] = Form.useForm();
   const rangeConfig = { rules: [{ type: "array" }] };
 
+  useEffect(() => {
+    form.setFieldsValue({
+      tiempoDeLicencia: [
+        moment(props.Licencia?.tiempoDeLicencia[0]), // Default date for the first element of the array
+        moment(props.Licencia?.tiempoDeLicencia[1]), // Default date for the second element of the array
+      ],
+    });
+  }, [props.equipo]);
+
   const onFinish = async (values) => {
     try {
-      await Api.post(`licencias`, {
+      await Api.patch(`licencias/${props.Licencia?._id}`, {
         tipoDeLicencia: values.tipoDeLicencia,
         descripcion: values.descripcion,
         tiempoDeLicencia: values.tiempoDeLicencia,
         lugarDelReposo: values.lugarDelReposo,
         empleado: props?.usuario?._id,
       });
-      form.resetFields();
       props.CAMBIAR_ESTADO(!props.estado);
-      message.success("Licencia Creada con exito", 3);
+      message.success("Licencia Editada con exito", 3);
+      props.onCLose();
+      props.onCloseParent();
     } catch (err) {
       handleError(err);
     }
@@ -47,41 +59,6 @@ const CrearPermiso = (props) => {
       autoComplete="off"
     >
       <Form.Item
-        label="Tipo De Licencia"
-        name="tipoDeLicencia"
-        rules={[
-          {
-            required: true,
-            message: "Por Favor Introduce una razon",
-          },
-        ]}
-      >
-        <Select placeholder="Seleciona el tipo de licencia">
-          <Option value="Licencia Medica">Licencia Medica</Option>
-          <Option value="Licencia por Maternidad">
-            Licencia de Maternidad
-          </Option>
-          <Option value="Licencia Familiar">
-            Licencia por grave calamidad doméstica
-          </Option>
-          <Option value="Licencia por Luto">Licencia por luto</Option>
-          <Option value="otro">Otro </Option>
-        </Select>
-      </Form.Item>
-      <Form.Item
-        label="Descripcion"
-        name="descripcion"
-        rules={[
-          {
-            required: true,
-            message: "Por Favor Introduce una descripcion",
-          },
-        ]}
-      >
-        <TextArea showCount maxLength={100} />
-      </Form.Item>
-
-      <Form.Item
         name="tiempoDeLicencia"
         label="Tiempo de Licencia"
         {...rangeConfig}
@@ -94,22 +71,6 @@ const CrearPermiso = (props) => {
       >
         <RangePicker />
       </Form.Item>
-      <Form.Item
-        label="Lugar de Reposo"
-        name="lugarDelReposo"
-        rules={[
-          {
-            required: true,
-            message: "Por Favor Introduce un lugar de reposo",
-          },
-        ]}
-      >
-        <Select placeholder="Seleciona el lugar de reposo">
-          <Option value="casa">Casa</Option>
-          <Option value="hospital">Hospital</Option>
-          <Option value="otro">Otro</Option>
-        </Select>
-      </Form.Item>
 
       <Form.Item
         wrapperCol={{
@@ -118,7 +79,7 @@ const CrearPermiso = (props) => {
         }}
       >
         <Button type="primary" htmlType="submit">
-          Crear Licencia
+          Editar Licencia
         </Button>
       </Form.Item>
     </Form>
@@ -127,8 +88,7 @@ const CrearPermiso = (props) => {
 
 const StateMapToProps = (state) => {
   return {
-    usuario: state.usuarioSelecionadoVer.usuarioSelecionadoVer,
-    permisoSelecioandoData: state.permisoSelecionado,
+    Licencia: state.licenciaSelecionada?.licenciaSelect,
     estado: state.cambiarState,
   };
 };

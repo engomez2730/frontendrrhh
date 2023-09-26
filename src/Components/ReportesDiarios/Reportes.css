@@ -1,0 +1,9 @@
+.reportes {
+  display: flex;
+  flex-direction: column;
+}
+
+.tableReportes {
+  width: 80%;
+  margin-top: 30px;
+}

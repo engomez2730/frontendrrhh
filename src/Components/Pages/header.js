@@ -1,8 +1,9 @@
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { loggedUserOut, setUser } from "../../actions/index";
-import { Button, Layout, Menu } from "antd";
+import { Button, Layout, Menu, Badge, Avatar } from "antd";
 import "./Header.css";
+import { UserOutlined } from "@ant-design/icons";
 
 const { Header } = Layout;
 
@@ -14,8 +15,29 @@ const stylesHeder = {
 
 const stylesLogo = { color: "#f97e07" };
 
-const HeaderFInal = ({ isLoggedIn, loggedUserOut, setUser }) => {
+const HeaderFInal = ({
+  isLoggedIn,
+  loggedUserOut,
+  setUser,
+  notificaciones,
+}) => {
   const elementosHeader = [
+    {
+      label: (
+        <Link to="notificaciones">
+          <Badge
+            count={notificaciones === 0 ? null : notificaciones}
+            style={{ background: "red" }}
+          >
+            <Avatar
+              shape="rounded"
+              icon={<UserOutlined style={{ color: "black" }} />}
+              style={{ background: "#fff" }}
+            />
+          </Badge>
+        </Link>
+      ),
+    },
     {
       label: (
         <Button
@@ -26,13 +48,6 @@ const HeaderFInal = ({ isLoggedIn, loggedUserOut, setUser }) => {
           }}
         >
           Salir
-        </Button>
-      ),
-    },
-    {
-      label: (
-        <Button>
-          <Link to="/perfil">Perfil</Link>
         </Button>
       ),
     },

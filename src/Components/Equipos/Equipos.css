@@ -1,0 +1,15 @@
+.equipos {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.button {
+  margin-bottom: 35px;
+}
+
+.equiposContent {
+  margin-top: 45px;
+  width: 80%;
+}

@@ -9,6 +9,7 @@ import {
 } from "../../actions/index";
 import moment from "moment";
 import VerLicenEach from "./VerLicenEach";
+import EditarLicencia from "./EditarLicencia";
 
 const TablePerm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,12 +22,6 @@ const TablePerm = (props) => {
 
   const showModal = () => {
     setIsModalOpen(true);
-  };
-  const showModalCrear = () => {
-    setIsModalVerOpenCrear(true);
-  };
-  const showModalEdit = () => {
-    setIsModalVerOpen(true);
   };
 
   const handleOk = () => {
@@ -52,56 +47,40 @@ const TablePerm = (props) => {
 
   const columns = [
     {
-      title: "Razon",
-      width: 200,
-      dataIndex: "razon",
+      title: "Tipo de Licencia",
+      width: 350,
+      dataIndex: "tipoDeLicencia",
       key: "name",
       fixed: "left",
-      filterDropdown: ({ setSelectedKeys, selectedKeys, confirm }) => {
-        return (
-          <Input
-            autoFocus={true}
-            value={selectedKeys[0]}
-            onChange={(e) => {
-              setSelectedKeys(e.target.value ? [e.target.value] : []);
-            }}
-            onPressEnter={() => {
-              confirm();
-            }}
-            onBlur={() => {
-              confirm();
-            }}
-          ></Input>
-        );
-      },
-      filterIcon: () => {
-        return <SearchOutlined />;
-      },
-      onFilter: (value, record) => {
-        return record.nombre.toLowerCase().includes(value.toLowerCase());
-      },
+      align: "center",
     },
     {
       title: "Feach de Creación",
       dataIndex: "tiempoDeLicencia",
       key: "cedula",
-      width: 310,
+      align: "center",
+
+      width: 390,
       render: (e) => {
         return moment(e[0]).format("MMMM Do YYYY");
       },
     },
     {
-      title: "Feach de Finalizacion",
+      title: "Feach de Finalización",
       dataIndex: "tiempoDeLicencia",
       key: "cedula",
-      width: 310,
+      align: "center",
+
+      width: 390,
       render: (e) => {
         return moment(e[1]).format("MMMM Do YYYY");
       },
     },
     {
-      title: "Feach de Finalizacion",
+      title: "Estado Licencia",
       dataIndex: "tiempoDeLicencia",
+      align: "center",
+
       key: "cedula",
       width: 310,
       render: (e, text) => {
@@ -114,6 +93,8 @@ const TablePerm = (props) => {
     },
     {
       title: "Acción",
+      align: "center",
+
       key: "operation",
       fixed: "right",
       width: 200,
@@ -124,7 +105,7 @@ const TablePerm = (props) => {
           style={{ marginLeft: "10px" }}
           onClick={(e) => onClickModal(e, text)}
         >
-          Ver Licencia
+          Editar Tiempo de Licenca
         </Button>,
       ],
     },
@@ -140,30 +121,27 @@ const TablePerm = (props) => {
     props.CAMBIAR_ESTADO(!props.estado)
   }
  */
-  const onClickModalVer = (e, text) => {
-    props.SELECT_LICENCIAS_ACTION(text._id);
-    showModalEdit();
-  };
-  const onClickModalCrear = (e, text) => {
-    showModalCrear();
-  };
+
   return (
     <div>
       <Table
-        style={{ marginTop: "50px", width: "80%" }}
+        style={{ marginTop: "50px", width: "95%" }}
         columns={columns} /* scroll={{x: 1300, }}  */
         dataSource={props.licencias}
         bordered={true}
         pagination={{ pageSize: 5, total: props.licencias?.length }}
       />
       <Modal
-        title="Ver Licencia"
+        title="Editar Licencia"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         width={1000}
       >
-        <VerLicenEach />
+        <EditarLicencia
+          onCLose={handleCancel}
+          onCloseParent={props.onCloseParent}
+        />
       </Modal>
       <Modal
         title="Manejar Licencias"
@@ -173,7 +151,7 @@ const TablePerm = (props) => {
         width={1000}
       ></Modal>
       <Modal
-        title="Crear Permiso"
+        title="Crear Licencia"
         open={isModalOpenCrear}
         onOk={handleOkCrear}
         onCancel={handleCancelCrear}
@@ -185,7 +163,7 @@ const TablePerm = (props) => {
 
 const StateMapToProps = (state) => {
   return {
-    permisoSelecioandoData: state.permisoSelecionado,
+    Licencia: state.licenciaSelecionada?.licenciaSelect,
     estado: state.cambiarState,
   };
 };

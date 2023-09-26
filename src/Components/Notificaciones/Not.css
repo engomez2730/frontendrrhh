@@ -1,0 +1,17 @@
+.notificaciones {
+  height: 120vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.parentNotifications {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.contentNotification {
+  width: 40%;
+  margin: 10px 20px;
+  max-height: 400px; /* Set the maximum height for the container */
+}

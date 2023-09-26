@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import FormPerfils from "./FormPerfil";
-import TablePerfil from "./TablePerfil";
+import requireAuth from "../requireAuth";
 import "./Perfil.css";
 
-const Perfil = ({ empleados }) => {
+const Perfil = () => {
   useEffect(() => {}, []);
 
   return (
@@ -14,16 +14,9 @@ const Perfil = ({ empleados }) => {
           <h2>Editar mi usuario</h2>
           <FormPerfils />
         </div>
-
       </div>
     </div>
   );
 };
 
-const StateMapToProps = (state) => {
-  return {
-    estado: state.cambiarState,
-  };
-};
-
-export default Perfil;
+export default requireAuth(Perfil);

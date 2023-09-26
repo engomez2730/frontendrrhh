@@ -135,11 +135,7 @@ const TablePerm = (props) => {
     props.empleadoSelecionadoVer(text.key);
     showModalEdit();
   };
-  const onClickModalCrear = (e, text) => {
-    showModalCrear();
-  };
 
-  console.log(props);
 
   const empleados = props.empleados?.empleados?.map((e) => {
     return {
@@ -190,7 +186,7 @@ const TablePerm = (props) => {
         onCancel={handleCancel}
         width={1000}
       >
-        <VerLicencias />
+        <VerLicencias onCLose={handleCancel} />
       </Modal>
       <Modal
         title="Crear Licencia"

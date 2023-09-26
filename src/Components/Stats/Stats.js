@@ -26,8 +26,6 @@ export default requireAuth(function Stats() {
     stateSet(value.value);
   };
 
-  console.log(empleados);
-
   const dataFinal = {
     labels: empleados?.employeesByCountry?.map((e) => e._id),
     datasets: [

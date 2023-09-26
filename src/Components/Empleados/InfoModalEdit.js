@@ -52,7 +52,7 @@ const InfoModalEdit = () => {
         )}
       />
       <Drawer
-        width={740}
+        width={940}
         placement="right"
         closable={true}
         onClose={onClose}

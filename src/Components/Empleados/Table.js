@@ -195,7 +195,7 @@ const TableFinal = (props) => {
       pais: e.pais,
       provincia: e.provincia,
       departamento: e.departamento,
-      expiracionDelContrato: e.vencimientoDelContrato,
+      expiracionDelContrato: e.expiracionDelContrato,
       vacacionesTomadas: e.vacacionesTomadas,
       licenciasDeConducir: e.licenciasDeConducir,
       tipoLicencia: e.tipoLicencia,
@@ -207,6 +207,15 @@ const TableFinal = (props) => {
       salarioBruto: e.salarioBruto,
       rol: e.rol,
       inicioLaboral: e.inicioLaboral,
+      buenaConductaFechaExpiracion: e.buenaConductaFechaExpiracion,
+      Equipos: e.Equipos,
+      induccionFechaDeExpiracion: e.induccionFechaDeExpiracion,
+      analisisFechaDeExpiracion: e.analisisFechaDeExpiracion,
+      tipoDeNomina: e.tipoDeNomina,
+      costoPorHora: e.costoPorHora,
+      proyectoActual: e.proyectoActual,
+      comentarioStatus: e.comentarioStatus,
+      StatusLaboral: e.StatusLaboral,
     };
   });
 

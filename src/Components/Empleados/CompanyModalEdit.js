@@ -11,18 +11,11 @@ import Api from "../../apis/rrhhApi";
 import { message } from "antd";
 import handleError from "../../Data/errorHandle";
 import moment from "moment";
+import { validateMinLength } from "../Utils/Validators";
+import { returnOption } from "../Utils/helperFunctions";
 const { Option } = Select;
-const opcionesLicencia = ["Si", "No"];
-const categoriaLicencia = ["Categoria 01", "Categoria 02", "Categoria 03"];
 
 const CompanyModalEdit = (props) => {
-  const [form] = Form.useForm();
-  const [errorAlert, errorAlertSet] = useState("");
-  const [dateInput, dateInputSet] = useState(true);
-  const [hideInputLic, hideInputLicSet] = useState(true);
-
-  const opcionesLicencia = ["Si", "No"];
-
   const crearSelectArray = (array) => {
     return array?.map((e) => {
       return {
@@ -32,112 +25,107 @@ const CompanyModalEdit = (props) => {
     });
   };
 
-  const validateMinLength = (minLength) => (rule, value, callback) => {
-    if (value && value.length < minLength) {
-      callback(`Necesita tener al menos ${minLength} `);
-    } else {
-      callback();
-    }
-  };
+  const [form] = Form.useForm();
+  //State
+  const [dateInput, dateInputSet] = useState(props.usuarioEditar?.contrato);
+  const [tipoDeNomina, tipoDeNominaSet] = useState(
+    props.usuarioEditar.tipoDeNomina
+  );
+  const [selectChange, onSelectChange] = useState(
+    props.usuarioEditar?.licenciasDeConducir
+  );
 
-  const validateAge = (rule, date, callback) => {
-    if (date && moment().diff(date, "years") < 18) {
-      callback("Debes ser mayor de 18 años.");
-    } else {
-      callback();
-    }
-  };
+  const opcionesStatus = [
+    "Activo",
+    "Disponible",
+    "Licencia Medica",
+    "Licencia Materna",
+  ];
 
-  const validateMinimumValue = (minValue) => (rule, value, callback) => {
-    if (value < minValue) {
-      callback(`El numero deber ser al menos ${minValue}.`);
-    } else {
-      callback();
-    }
-  };
-
-  const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia);
+  //Data
+  const puestos = props?.puestos?.map((e) => e.nombre);
+  const puestosFinalArray = crearSelectArray(puestos);
+  const equipos = props.equipos?.map((e) => e.nombre);
+  const equiposFinalArray = crearSelectArray(equipos);
+  const usuarioEquiposFinal = crearSelectArray(props?.usuarioEditar.Equipos);
+  const opcionesLicencia = ["Si", "No"];
+  const categoriaLicencia = ["Categoria 01", "Categoria 02", "Categoria 03"];
   const opcionesLicenciaCategoria = crearSelectArray(categoriaLicencia);
-
-  const onSelectChangeLic = (e) => {
-    if (e === "No") {
-      hideInputLicSet(true);
-    } else {
-      hideInputLicSet(false);
-    }
-  };
-
-  const renderDepartamentos = (provincas) => {
-    return provincas?.map((e) => {
-      return (
-        <Option value={`${e.label}`} key={e.label}>
-          {e.label}
-        </Option>
-      );
-    });
-  };
-
-  const renderPaises = (Countries) => {
-    return Countries?.map((e) => {
-      return (
-        <Option value={`${e.label}`} key={e.label}>
-          {e.label}
-        </Option>
-      );
-    });
-  };
-
-  const renderProvincias = (provincas) => {
-    return provincas?.map((e) => {
-      return (
-        <Option value={`${e.label}`} key={e.label}>
-          {e.label}
-        </Option>
-      );
-    });
-  };
+  const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia);
+  const proyectosFinal = props.proyectos?.map((e) => e.nombre);
+  const opcionesProyectos = crearSelectArray(proyectosFinal);
+  const opcionesStatusArray = crearSelectArray(opcionesStatus);
 
   useEffect(() => {
     props.GET_PUESTOS_ACTION();
-    console.log(props.usuarioEditar);
+
     form.setFieldsValue({
-      sueldoFijo: props.usuarioEditar.sueldoFijo,
+      salarioBruto: props.usuarioEditar.salarioBruto,
       contrato: props.usuarioEditar.contrato,
       departamento: props.usuarioEditar.departamento,
-      expiracionDelContrato: moment(props.usuarioEditar.expiracionDelContrato),
+      costoPorHora: props.usuarioEditar?.costoPorHora,
+      expiracionDelContrato: props.usuarioEditar.expiracionDelContrato
+        ? moment(props.usuarioEditar.expiracionDelContrato)
+        : "",
       vacacionesTomadas: props.usuarioEditar.vacacionesTomadas,
-      contactoDeEmergencia: props.usuarioEditar.contactoDeEmergencia,
       licenciasDeConducir: props.usuarioEditar?.licenciasDeConducir
         ? "Si"
         : "No",
       tipoLicencia: props.usuarioEditar?.tipoLicencia,
-      fechaDeExpiracion: moment(
-        props.usuarioEditar?.licenciaDeConducirFechaExp
-      ),
+      fechaDeExpiracion: selectChange
+        ? moment(props.usuarioEditar?.licenciaDeConducirFechaExp)
+        : null,
       puesto: props.usuarioEditar?.puesto,
-      contactoDeEmergencia: props.usuarioEditar?.contactoDeEmergencia,
-      salarioBruto: props.usuarioEditar?.salarioBruto,
+      rol: props.usuarioEditar?.rol,
+      tipoDeNomina: props.usuarioEditar?.tipoDeNomina,
+      induccionFechaDeExpiracion: moment(
+        props.usuarioEditar?.induccionFechaDeExpiracion
+      ),
+
+      equipos: usuarioEquiposFinal,
+      proyectoActual: props.usuarioEditar?.proyectoActual,
+      comentarioStatus: props.usuarioEditar?.comentarioStatus,
+      StatusLaboral: props.usuarioEditar?.StatusLaboral,
     });
   }, [props.usuarioEditar]);
 
-  const puestos = props?.puestos?.map((e) => e.nombre);
-  const puestosFinalArray = crearSelectArray(puestos);
-
   const onFinish = async (values) => {
-    console.log("Success:", values);
+    if (dateInput === "indefinido") {
+      values.expiracionDelContrato = null;
+    }
+    console.log(values.licenciasDeConducir);
+
+    if (values.licenciasDeConducir === "No") {
+      console.log("Boo");
+      values.licenciaDeConducirFechaExp = null;
+      values.tipoLicencia = null;
+    }
     try {
-      const data = await Api.patch(`empleados/${props?.usuarioEditar?.key}`, {
+      await Api.patch(`empleados/${props?.usuarioEditar?.key}`, {
         salarioBruto: values.salarioBruto,
         contrato: values.contrato,
         departamento: values.departamento,
         celular: values.celular,
         expiracionDelContrato: values.expiracionDelContrato,
         vacacionesTomadas: values.vacacionesTomadas,
-        contactoDeEmergencia: values.contactoDeEmergencia,
         licenciasDeConducir: values.licenciasDeConducir === "Si" ? true : false,
         tipoLicencia: values.tipoLicencia,
         licenciaDeConducirFechaExp: values.fechaDeExpiracion,
         puesto: values.puesto,
+        rol: values.rol,
+        tipoDeNomina: values.tipoDeNomina,
+        induccionFechaDeExpiracion: values.induccionFechaDeExpiracion,
+        costoPorHora: values.costoPorHora,
+        proyectoActual: values.proyectoActual,
+        comentarioStatus: values.comentarioStatus,
+        StatusLaboral: values.StatusLaboral,
+        Equipos: values.equipos.map((e) => {
+          if (e.label) {
+            return e.label;
+          } else {
+            return e;
+          }
+        }),
       });
       props.CAMBIAR_ESTADO(!props.estado);
       message.success("Empleado Actualizado", 2);
@@ -168,21 +156,6 @@ const CompanyModalEdit = (props) => {
         autoComplete="off"
       >
         <Form.Item
-          label="Sueldo Bruto"
-          name="salarioBruto"
-          rules={[
-            {
-              required: true,
-              message: "Introduce un sueldo fijo",
-            },
-            {
-              validator: validateMinimumValue(1),
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
           name="contrato"
           label="Contrato"
           rules={[
@@ -195,13 +168,7 @@ const CompanyModalEdit = (props) => {
           <Select
             placeholder="Seleciona el tipo de contrato"
             onChange={(e) => {
-              if (e === "definido") {
-                dateInputSet(false);
-              } else if (e === "indefinido") {
-                dateInputSet(true);
-              } else if (e === "temporal") {
-                dateInputSet(false);
-              }
+              dateInputSet(e);
             }}
           >
             <Option value="definido">definido</Option>
@@ -210,7 +177,51 @@ const CompanyModalEdit = (props) => {
           </Select>
         </Form.Item>
         <Form.Item name="expiracionDelContrato" label="Expiración de contrato">
-          <DatePicker disabled={dateInput} />
+          <DatePicker disabled={dateInput === "indefinido" ? true : false} />
+        </Form.Item>
+        <Form.Item
+          name="tipoDeNomina"
+          label="Tipo de Nomina"
+          rules={[
+            {
+              required: true,
+              message: "Introduce un contrato",
+            },
+          ]}
+        >
+          <Select
+            placeholder="Seleciona el tipo de nomina"
+            onChange={(e) => tipoDeNominaSet(e)}
+          >
+            <Option value="Nomina Fija">Nomina Fija</Option>
+            <Option value="Por Hora">Por Hora</Option>
+          </Select>
+        </Form.Item>
+        {tipoDeNomina === "Por Hora" ? (
+          <Form.Item
+            name="costoPorHora"
+            label="Costo por hora"
+            rules={[
+              {
+                required: true,
+                message: "Introduce un contrato",
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+        ) : null}
+        <Form.Item
+          label="Sueldo Bruto"
+          name="salarioBruto"
+          rules={[
+            {
+              required: true,
+              message: "Introduce el suedo bruto",
+            },
+          ]}
+        >
+          <Input />
         </Form.Item>
         <Form.Item
           name="departamento"
@@ -218,16 +229,48 @@ const CompanyModalEdit = (props) => {
           rules={[{ required: true, message: "Please select gender!" }]}
         >
           <Select placeholder="Seleciona el tipo de Departamento">
-            {renderDepartamentos(departamentosFinal)}
+            {returnOption(departamentosFinal)}
           </Select>
         </Form.Item>
-
+        <Form.Item
+          name="proyectoActual"
+          label="Proyecto Actual"
+          rules={[{ required: true, message: "Please select gender!" }]}
+        >
+          <Select placeholder="Seleciona el tipo de Departamento">
+            {returnOption(opcionesProyectos)}
+          </Select>
+        </Form.Item>
+        <Form.Item label="Estado Laboral" name="StatusLaboral">
+          <Select placeholder="Seleciona el estado laboral">
+            {returnOption(opcionesStatusArray)}
+          </Select>
+        </Form.Item>
+        ,
+        <Form.Item label="Comentario Estado" name="comentarioStatus">
+          <Input />
+        </Form.Item>
+        ,
         <Form.Item name="puesto" label="Puesto">
           <Select placeholder="Seleciona el puesto">
-            {renderDepartamentos(puestosFinalArray)}
+            {returnOption(puestosFinalArray)}
           </Select>
         </Form.Item>
-
+        <Form.Item
+          name="equipos"
+          label="Selecciona los equipos que maneja"
+        >
+          <Select placeholder="Selecciona el puesto" mode="multiple">
+            {returnOption(equiposFinalArray)}
+          </Select>
+        </Form.Item>
+        ,
+        <Form.Item
+          name="induccionFechaDeExpiracion"
+          label="Expiración de Inducción "
+        >
+          <DatePicker />
+        </Form.Item>
         <Form.Item
           label="Licencia de Conducir?"
           name="licenciasDeConducir"
@@ -240,43 +283,28 @@ const CompanyModalEdit = (props) => {
         >
           <Select
             placeholder="Seleciona el estado laboral"
-            onChange={(e) => onSelectChangeLic(e)}
+            onChange={(e) => onSelectChange((e) => !e)}
           >
-            {renderProvincias(opcionesLicenciaBolean)}
+            {returnOption(opcionesLicenciaBolean)}
           </Select>
         </Form.Item>
-
         <Form.Item label="Fecha de Exp de Licencia" name="fechaDeExpiracion">
-          <DatePicker />
+          <DatePicker disabled={selectChange ? false : true} />
         </Form.Item>
         <Form.Item label="Tipo De Licencia" name="tipoLicencia">
-          <Select placeholder="Seleciona el estado laboral">
-            {renderProvincias(opcionesLicenciaCategoria)}
+          <Select
+            placeholder="Seleciona el tipo de Licencia"
+            disabled={selectChange ? false : true}
+          >
+            {returnOption(opcionesLicenciaCategoria)}
           </Select>
-        </Form.Item>
-
-        <Form.Item
-          name="contactoDeEmergencia"
-          label="Contacto de Emergencia"
-          rules={[
-            {
-              required: true,
-              message: "Tienes que introducir un contacto de emergencia",
-            },
-            {
-              validator: validateMinLength(10),
-            },
-          ]}
-        >
-          <Input />
         </Form.Item>
         <Form.Item wrapperCol={{ offset: 8, span: 16 }}>
           <Button type="primary" htmlType="submit">
-            Actualizar
+            Actualizar Empleado
           </Button>
         </Form.Item>
       </Form>
-      {errorAlert}
     </div>
   );
 };
@@ -287,6 +315,8 @@ const stateMapToProps = (state) => {
     usuarioFinal: state.usuarioEditadoFinal,
     estado: state.cambiarState,
     puestos: state.puestos.puestos,
+    equipos: state.Equipos.equipos,
+    proyectos: state.Proyectos.proyectos,
   };
 };
 

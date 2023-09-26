@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import handleError from "../../Data/errorHandle";
-import moment from "moment";
 import { connect } from "react-redux";
 import CustomFomItem from "../Custom/CustomFomItem";
 import { CAMBIAR_ESTADO } from "../../actions";
@@ -18,82 +16,46 @@ import {
 } from "antd";
 import { paisesFinal, provinciasFinal } from "../../Data/CountriesData";
 import rrhhApi from "../../apis/rrhhApi";
+import requireAuth from "../requireAuth";
+import {
+  validateMinLength,
+  validateAge,
+  validateAllNumbers,
+} from "../Utils/Validators";
+import { returnOption, prepareOptionLabels } from "../Utils/helperFunctions";
 import "./Steps.css";
 const { TextArea } = Input;
 const { Step } = Steps;
 const { Option } = Select;
 
-const validateMinLength = (value, minLength) => {
-  if (value && value.length < minLength) {
-    return Promise.reject(`Debe tener al menos ${minLength} digitos.`);
-  }
-  return Promise.resolve();
-};
-
-const renderPaises = (Countries) => {
-  return Countries?.map((e) => {
-    return (
-      <Option value={`${e.label}`} key={e.label}>
-        {e.label}
-      </Option>
-    );
-  });
-};
-
 const MultiStepComponent = (props) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [hideInputLic, hideInputLicSet] = useState(true);
   const [dateInput, dateInputSet] = useState(true);
-  const [hideInputHour, hideInputHourSet] = useState(true);
 
   const [formData, setFormData] = useState({});
 
   const puestos = props?.puestos?.map((e) => e.nombre);
   const departamentos = props.departamentos?.map((e) => e.nombre);
+  const equipos = props.equipos?.map((e) => e.nombre);
+  const proyectos = props.proyectos?.map((e) => e.nombre);
 
   const opcionesLicencia = ["Si", "No"];
   const categoriaLicencia = ["Categoria 01", "Categoria 02", "Categoria 03"];
+  const opcionesStatus = [
+    "Activo",
+    "Disponible",
+    "Licencia Medica",
+    "Licencia Materna",
+  ];
 
   function updateState() {
     props.CAMBIAR_ESTADO(!props.estado);
   }
 
-  const crearSelectArray = (array) => {
-    return array?.map((e) => {
-      return {
-        label: e,
-        value: e,
-      };
-    });
-  };
-
-  const onSelectChangeHour = (e) => {
-    if (e === "Por Hora") {
-      hideInputHourSet(false);
-    } else {
-      hideInputHourSet(true);
-    }
-  };
-
-  const validateAge = (rule, date, callback) => {
-    if (date && moment().diff(date, "years") < 18) {
-      callback("Debes ser mayor de 18 años.");
-    } else {
-      callback();
-    }
-  };
-
-  const validateAllNumbers = (rule, value, callback) => {
-    const regex = /^\d+$/;
-    if (!regex.test(value)) {
-      callback("Deben ser solo numeros");
-    } else {
-      callback();
-    }
-  };
-
-  const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia);
-  const opcionesLicenciaBolean2 = crearSelectArray(categoriaLicencia);
+  const opcionesLicenciaBolean = prepareOptionLabels(opcionesLicencia);
+  const opcionesLicenciaBolean2 = prepareOptionLabels(categoriaLicencia);
+  const opcionesProyectos = prepareOptionLabels(proyectos);
 
   const onSelectChangeLic = (e) => {
     if (e === "No") {
@@ -104,8 +66,10 @@ const MultiStepComponent = (props) => {
   };
 
   const [form] = Form.useForm(); // Create a form instance
-  const departamentosFinalArray = crearSelectArray(departamentos);
-  const PuestosFinalArray = crearSelectArray(puestos);
+  const departamentosFinalArray = prepareOptionLabels(departamentos);
+  const PuestosFinalArray = prepareOptionLabels(puestos);
+  const equiposFinalArray = prepareOptionLabels(equipos);
+  const opcionesStatusArray = prepareOptionLabels(opcionesStatus);
 
   const steps = [
     {
@@ -221,6 +185,18 @@ const MultiStepComponent = (props) => {
           <DatePicker />
         </CustomFomItem>,
         <CustomFomItem
+          label="Fecha de expiración de Analisis"
+          name="analisisFechaDeExpiracion"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce la fecha de expiracion",
+            },
+          ]}
+        >
+          <DatePicker />
+        </CustomFomItem>,
+        <CustomFomItem
           label="Pais"
           name="pais"
           rules={[
@@ -231,7 +207,7 @@ const MultiStepComponent = (props) => {
           ]}
         >
           <Select placeholder="Seleciona el pais">
-            {renderPaises(paisesFinal)}
+            {returnOption(paisesFinal)}
           </Select>
         </CustomFomItem>,
         <CustomFomItem
@@ -245,7 +221,7 @@ const MultiStepComponent = (props) => {
           ]}
         >
           <Select placeholder="Seleciona el pais">
-            {renderPaises(provinciasFinal)}
+            {returnOption(provinciasFinal)}
           </Select>
         </CustomFomItem>,
         <CustomFomItem
@@ -290,10 +266,7 @@ const MultiStepComponent = (props) => {
             },
           ]}
         >
-          <Select
-            placeholder="Seleciona el tipo de nomina"
-            onChange={(e) => onSelectChangeHour(e)}
-          >
+          <Select placeholder="Seleciona el tipo de nomina">
             <Option value="Nomina Fija">Nomina Fija</Option>
             <Option value="Por Hora">Por Hora</Option>
           </Select>
@@ -309,7 +282,7 @@ const MultiStepComponent = (props) => {
           ]}
         >
           <Select placeholder="Seleciona el puesto">
-            {renderPaises(departamentosFinalArray)}
+            {returnOption(departamentosFinalArray)}
           </Select>
         </CustomFomItem>,
         <CustomFomItem
@@ -323,7 +296,12 @@ const MultiStepComponent = (props) => {
           ]}
         >
           <Select placeholder="Seleciona el puesto">
-            {renderPaises(PuestosFinalArray)}
+            {returnOption(PuestosFinalArray)}
+          </Select>
+        </CustomFomItem>,
+        <CustomFomItem name="equipos" label="Seleciona los equipos que maneja">
+          <Select placeholder="Seleciona el puesto" mode="multiple">
+            {returnOption(equiposFinalArray)}
           </Select>
         </CustomFomItem>,
         <CustomFomItem
@@ -355,7 +333,7 @@ const MultiStepComponent = (props) => {
         </CustomFomItem>,
 
         <CustomFomItem
-          name="vencimientoDelContrato"
+          name="expiracionDelContrato"
           label="Expiración de contrato"
         >
           <DatePicker disabled={dateInput} />
@@ -369,7 +347,7 @@ const MultiStepComponent = (props) => {
             placeholder="Seleciona el estado de licencia"
             onChange={(e) => onSelectChangeLic(e)}
           >
-            {renderPaises(opcionesLicenciaBolean)}
+            {returnOption(opcionesLicenciaBolean)}
           </Select>
         </CustomFomItem>,
         <CustomFomItem
@@ -385,9 +363,23 @@ const MultiStepComponent = (props) => {
           hidden={hideInputLic}
         >
           <Select placeholder="Seleciona el estado laboral">
-            {renderPaises(opcionesLicenciaBolean2)}
+            {returnOption(opcionesLicenciaBolean2)}
           </Select>
         </CustomFomItem>,
+        <CustomFomItem label="Proyecto Actual" name="proyectoActual">
+          <Select placeholder="Seleciona el estado laboral">
+            {returnOption(opcionesProyectos)}
+          </Select>
+        </CustomFomItem>,
+        <CustomFomItem label="Estado Laboral" name="StatusLaboral">
+          <Select placeholder="Seleciona el estado laboral">
+            {returnOption(opcionesStatusArray)}
+          </Select>
+        </CustomFomItem>,
+        <CustomFomItem label="Comentario Estado" name="comentarioStatus">
+          <Input />
+        </CustomFomItem>,
+
         <CustomFomItem
           name="contactoDeEmergencia"
           label="Contacto de Emergencia"
@@ -399,6 +391,9 @@ const MultiStepComponent = (props) => {
             {
               validator: validateAllNumbers,
             },
+            {
+              validator: validateMinLength,
+            },
           ]}
         >
           <Input />
@@ -409,7 +404,32 @@ const MultiStepComponent = (props) => {
           rules={[
             {
               required: true,
-              message: "Por Favor introduce tu fecha de nacimiento",
+              message:
+                "Por Favor introduce la fecha cuando empezó a laboral en la empresa",
+            },
+          ]}
+        >
+          <DatePicker />
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Fecha de expiración de papel de buena conducta"
+          name="buenaConductaFechaExpiracion"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce la fecha de expiracion",
+            },
+          ]}
+        >
+          <DatePicker />
+        </CustomFomItem>,
+        <CustomFomItem
+          label="Fecha de expiración de inducción"
+          name="induccionFechaDeExpiracion"
+          rules={[
+            {
+              required: true,
+              message: "Por Favor introduce la fecha de expiracion",
             },
           ]}
         >
@@ -459,7 +479,8 @@ const MultiStepComponent = (props) => {
     try {
       const values = await form.validateFields();
       setFormData({ ...formData, ...values });
-      const data = await rrhhApi.post("empleados", {
+      console.log(formData.estadoLaboral);
+      await rrhhApi.post("empleados", {
         nombre: formData.nombre,
         apellido: formData.apellido,
         correo: formData.correo,
@@ -475,12 +496,21 @@ const MultiStepComponent = (props) => {
         costoPorHora: formData.costoPorHora,
         salarioBruto: formData.salarioBruto,
         fechaDeNacimiento: formData.fechaDeNacimiento,
+        Equipos: formData.equipos,
         inicioLaboral: formData.inicioLaboral,
         licenciasDeConducir:
           formData.licenciasDeConducir === "Si" ? true : false,
         tipoLicencia: formData.tipoLicencia,
         licenciaDeConducirFechaExp: formData.fechaDeExpiracion,
         contactoDeEmergencia: formData.contactoDeEmergencia,
+        buenaConductaFechaExpiracion: formData.buenaConductaFechaExpiracion,
+        induccionFechaDeExpiracion: formData.induccionFechaDeExpiracion,
+        analisisFechaDeExpiracion: formData.analisisFechaDeExpiracion,
+        expiracionDelContrato: formData.expiracionDelContrato,
+        contrato: formData.contrato,
+        proyectoActual: formData.proyectoActual,
+        StatusLaboral: formData.StatusLaboral,
+        comentarioStatus: formData.comentarioStatus,
       });
       form.resetFields();
       message.success("Creado con Éxito", 3);
@@ -553,9 +583,13 @@ const StateMapToProps = (state) => {
     puestos: state.puestos.puestos,
     departamentos: state.departamentos.Departamentos,
     estado: state.cambiarState,
+    equipos: state.Equipos.equipos,
+    proyectos: state.Proyectos.proyectos,
   };
 };
 
-export default connect(StateMapToProps, {
-  CAMBIAR_ESTADO,
-})(MultiStepComponent);
+export default requireAuth(
+  connect(StateMapToProps, {
+    CAMBIAR_ESTADO,
+  })(MultiStepComponent)
+);

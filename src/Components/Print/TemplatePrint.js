@@ -23,7 +23,9 @@ const TemplatePrint = React.forwardRef((props, ref) => {
         <h3 className="fechaPrint">
           <span className="spanFecha">Fecha:</span>
           <span className="spanFecha">
-            {moment(new Date()).format("MMMM Do YYYY, h:mm:ss a")}
+            {props?.fechaReporte
+              ? moment(props?.fechaReporte).format("MMMM Do YYYY")
+              : null || moment(new Date()).format("MMMM Do YYYY")}
           </span>
         </h3>
       </div>

@@ -1,9 +1,14 @@
 import moment from "moment";
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
+import { Tag } from "antd";
 
 const EmpresaInfoPer = ({ usuarioSelecionado, usuarioEditado }) => {
   useEffect(() => {}, [usuarioEditado]);
+
+  const ListOfEquipos = (listaDeEquipos) => {
+    return listaDeEquipos?.map((equipo) => <Tag color="#108ee9">{equipo}</Tag>);
+  };
 
   return (
     <div className="infoParent">
@@ -47,9 +52,65 @@ const EmpresaInfoPer = ({ usuarioSelecionado, usuarioEditado }) => {
             </div>
           </div>
           <div className="nombres">
+            <div className="subNombres">Proyecto Actual:</div>
+            <div className="realNombres">
+              {usuarioSelecionado?.proyectoActual}
+            </div>
+          </div>
+          <div className="nombres">
+            <div className="subNombres">Estado Laboral:</div>
+            <div className="realNombres">
+              {usuarioSelecionado?.StatusLaboral}
+            </div>
+          </div>
+          <div className="nombres">
+            <div className="subNombres">Comentario:</div>
+            <div className="realNombres">
+              {moment(usuarioSelecionado?.comentarioStatus).format(
+                "MMMM Do YYYY"
+              )}
+            </div>
+          </div>
+
+          <div className="nombres">
             <div className="subNombres">Entrada a la empresa:</div>
             <div className="realNombres">
-              {usuarioSelecionado?.tiempoEnLaEmpresa}
+              {moment(usuarioSelecionado?.inicioLaboral).format("MMMM Do YYYY")}
+            </div>
+          </div>
+          <hr />
+
+          <div className="nombres">
+            <div className="subNombres">Equipos que maneja:</div>
+            <div className="realNombres">
+              {ListOfEquipos(usuarioSelecionado?.Equipos)}
+            </div>
+          </div>
+
+          <div className="nombres">
+            <div className="subNombres">
+              Expiración de papel de buena conducta:
+            </div>
+            <div className="realNombres">
+              {moment(usuarioSelecionado?.buenaConductaFechaExpiracion).format(
+                "MMMM Do YYYY"
+              )}
+            </div>
+          </div>
+          <div className="nombres">
+            <div className="subNombres">Expiración inducción:</div>
+            <div className="realNombres">
+              {moment(usuarioSelecionado?.induccionFechaDeExpiracion).format(
+                "MMMM Do YYYY"
+              )}
+            </div>
+          </div>
+          <div className="nombres">
+            <div className="subNombres">Expiración de analisis:</div>
+            <div className="realNombres">
+              {moment(usuarioSelecionado?.analisisFechaDeExpiracion).format(
+                "MMMM Do YYYY"
+              )}
             </div>
           </div>
           <div className="nombres">
@@ -67,7 +128,7 @@ const EmpresaInfoPer = ({ usuarioSelecionado, usuarioEditado }) => {
             </div>
           </div>
           <div className="nombres">
-            <div className="subNombres">¿Posee Licencia de Conducir?</div>
+            <div className="subNombres">Expiración de licencia de conducir</div>
             <div className="realNombres">
               {usuarioSelecionado?.licenciasDeConducir
                 ? moment(usuarioSelecionado?.licenciaDeConducirFechaExp).format(

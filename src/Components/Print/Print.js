@@ -2,8 +2,9 @@
 import { Button } from "antd";
 import React from "react";
 import { useReactToPrint } from "react-to-print";
+import requireAuth from "../requireAuth";
 
-const PrintComponent = ({ componentToPrint }) => {
+const PrintComponent = ({ componentToPrint, buttonText }) => {
   const componentRef = React.useRef();
 
   const handlePrint = useReactToPrint({
@@ -17,7 +18,7 @@ const PrintComponent = ({ componentToPrint }) => {
         onClick={handlePrint}
         style={{ marginTop: "20px" }}
       >
-        Imprimir
+        {buttonText || "Imprimir"}
       </Button>
 
       <div style={{ display: "none" }}>
@@ -27,4 +28,4 @@ const PrintComponent = ({ componentToPrint }) => {
   );
 };
 
-export default PrintComponent;
+export default requireAuth(PrintComponent);
