@@ -70,6 +70,17 @@ const NotCumpleaños = ({ showDays, notificacion, type }) => {
       </span>
     );
   }
+  if (type === "Vacaciones") {
+    return (
+      <span>
+        Las vacaciones{" "}
+        <span style={{ fontWeight: 700 }}>{notificacion?.nombre}</span> esta
+        proximas a llegar, sus proximas vacaciones serán en{" "}
+        {showDays(notificacion?.diasAntesDeExpiracion)}, (
+        {moment(notificacion?.diaDeVencimiento).format("MMMM DD")})
+      </span>
+    );
+  }
 
   return <div>dd</div>;
 };

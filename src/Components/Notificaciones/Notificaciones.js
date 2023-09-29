@@ -10,6 +10,7 @@ const Notificaciones = ({
   notificacionesInduccion,
   notificacionesAnalisis,
   LicenciasNormalesFilter,
+  vacacionesNOtificaciones,
 }) => {
   return (
     <div className="notificaciones">
@@ -67,6 +68,15 @@ const Notificaciones = ({
           color="red"
           title="Licencias proximas a vencer"
           link="/notificaciones/licenciasnormales"
+          OnDashboard={true}
+        />
+        <CardNotificacion
+          notificaciones={vacacionesNOtificaciones}
+          type="Vacaciones"
+          nombre="Vacaciones Normales"
+          color="cyan"
+          title="Licencias proximas a vencer"
+          link="/notificaciones/vacaciones"
           OnDashboard={true}
         />
       </div>

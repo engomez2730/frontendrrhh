@@ -102,6 +102,20 @@ const NotificacionesList = ({ notificaciones, type }) => {
                 type="info"
               />
             )}
+            {type === "Vacaciones" && (
+              <Alert
+                style={{ backgroundColor: "#13c2c2", color: "white" }}
+                className="mt-2"
+                message={
+                  <InfoNot
+                    notificacion={e}
+                    showDays={showDays}
+                    type="Vacaciones"
+                  />
+                }
+                type="info"
+              />
+            )}
           </div>
         );
       })}

@@ -4,8 +4,7 @@ import { cargarEmpleados } from "../../actions/index";
 import { connect } from "react-redux";
 import { empleadoSelecionadoVer } from "../../actions/index";
 import { usuarioEditarSeleciondo, editarUsuario } from "../../actions/index";
-import { SearchOutlined } from "@ant-design/icons";
-import EditarVacaciones from "./EditarVacaciones";
+import EditarVacacionesCreadas from "./EdtarVacacionesCreadas";
 import VerVacacionesEach from "./VerVacacionesEach";
 import moment from "moment";
 import "moment/locale/es"; // without this line it didn't work
@@ -15,12 +14,14 @@ const TableFinal = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpenVer, setIsModalVerOpen] = useState(false);
   const [vacacion, vacacionSet] = useState();
+  const [vacacionesSelecionada, vacacionesSelecionadaSet] = useState({});
 
   useEffect(() => {
     props.cargarEmpleados();
   }, [props.estado]);
 
-  const showModal = () => {
+  const showModal = (values) => {
+    vacacionesSelecionadaSet(values);
     setIsModalOpen(true);
   };
   const showModalEdit = () => {
@@ -98,8 +99,8 @@ const TableFinal = (props) => {
       title: "Acción",
       key: "operation",
       fixed: "right",
-      width: 150,
-      render: (text) => [
+      width: 300,
+      render: (text, values) => [
         <Button
           type="primary"
           key="ver"
@@ -107,6 +108,14 @@ const TableFinal = (props) => {
           onClick={(e) => onClickModalVer(e, text)}
         >
           Ver Vacaciones
+        </Button>,
+        <Button
+          /*           type="primary"
+           */ key="editar"
+          style={{ marginLeft: "5px" }}
+          onClick={(e) => showModal(values)}
+        >
+          Editar Vacaciones
         </Button>,
       ],
     },
@@ -140,20 +149,24 @@ const TableFinal = (props) => {
         pagination={{ pageSize: 6, total: vacaciones?.length }}
       />
       <Modal
-        title="Vacaciones del empleado"
+        title="Editar Vacaciones"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
         width={1000}
       >
-        <EditarVacaciones usuario={props.usuarioSelecionado} />
+        <EditarVacacionesCreadas
+          vacaciones={vacacionesSelecionada}
+          onClose={handleCancel}
+          onCloseParent={props.onCloseParent}
+        />
       </Modal>
       <Modal
         title="Vacaciones del empleado"
         open={isModalOpenVer}
         onOk={handleOkVER}
         onCancel={handleCancelVer}
-        width={1000}
+        width={900}
       >
         <VerVacacionesEach vacacion={vacacion} />
       </Modal>

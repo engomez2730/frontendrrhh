@@ -33,7 +33,7 @@ export const columnsPrint = [
     defaultSortOrder: "ascend", // Set the default sort order to ascending
   },
   {
-    width: 1000,
+    width: 350,
     title: "Equipos que Opera",
     dataIndex: "Equipos",
     key: "equipos",

@@ -75,11 +75,6 @@ export const elementos = [
         label: <Link to="/stats">Estadisticas</Link>,
         icon: React.createElement(LineChartOutlined),
       },
-      {
-        key: "print",
-        label: <Link to="/reportes">Reportes</Link>,
-        icon: React.createElement(LineChartOutlined),
-      },
     ],
   },
   {
@@ -189,17 +184,7 @@ export const elementos = [
       },
     ],
   },
-  {
-    nombre: "Avisos",
-    icon: BellOutlined,
-    childrens: [
-      {
-        key: "crearAvisos",
-        label: <Link to="/avisos">Manejar Avisos</Link>,
-        icon: React.createElement(PlusCircleOutlined),
-      },
-    ],
-  },
+
   {
     nombre: "Despidos",
     icon: CloseOutlined,
@@ -245,6 +230,11 @@ export const elementos = [
       {
         key: "ManejarReportes",
         label: <Link to="/reportesdiarios">Reportes Diarios</Link>,
+        icon: React.createElement(ControlOutlined),
+      },
+      {
+        key: "reportesDepartamentos",
+        label: <Link to="/reportes">Reportes Departamentos</Link>,
         icon: React.createElement(ControlOutlined),
       },
     ],

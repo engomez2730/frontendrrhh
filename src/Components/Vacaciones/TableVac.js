@@ -179,13 +179,16 @@ const TableFinal = (props) => {
         <EditarVacaciones usuario={props.usuarioSelecionado} />
       </Modal>
       <Modal
-        title="Vacaciones del empleado"
+        title="Vacaciones"
         open={isModalOpenVer}
         onOk={handleOkVER}
         onCancel={handleCancelVer}
-        width={1000}
+        width={1200}
       >
-        <VerVacaciones usuario={props.usuarioSelecionado} />
+        <VerVacaciones
+          usuario={props.usuarioSelecionado}
+          onClose={handleCancelVer}
+        />
       </Modal>
     </>
   );

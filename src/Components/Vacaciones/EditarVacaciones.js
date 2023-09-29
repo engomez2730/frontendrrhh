@@ -37,7 +37,6 @@ function YourFormComponent({ usuario }) {
 
   return (
     <Form
-      disabled={hasPassedMonths(usuario?.inicioLaboral, 8) ? false : true}
       form={form} // Set the form instance
       name="basic"
       labelCol={{ span: 8 }}

@@ -51,6 +51,7 @@ import {
   calculateDaysUntilInduccion,
   calculateDaysUntilAnalisis,
   calculateLicencias,
+  calculateVacacionesDays,
 } from "./Utils/CumpleañosFunction";
 import Notificaciones from "./Notificaciones/Notificaciones";
 import Equipos from "./Equipos/Equipos";
@@ -148,9 +149,21 @@ const App = (props) => {
       empleado?.Licencias[empleado?.Licencias.length - 1]?.tiempoDeLicencia[1]
     );
   });
-  console.log(LicenciasNormales);
 
   const LicenciasNormalesFilter = LicenciasNormales?.filter((element) => {
+    // Filter out elements that are either false or have the role as "admin"
+    return element !== false && element.rol !== "admin";
+  });
+
+  const VacacionesNot = props.empleados?.empleados?.map((empleado) => {
+    return calculateVacacionesDays(
+      empleado,
+      empleado?.Vacaciones[empleado?.Vacaciones.length - 1]
+        ?.siguientesVacacionesFecha
+    );
+  });
+
+  const VacacionesFilter = VacacionesNot?.filter((element) => {
     // Filter out elements that are either false or have the role as "admin"
     return element !== false && element.rol !== "admin";
   });
@@ -174,7 +187,9 @@ const App = (props) => {
             notificacionesLicenciasDeConducir?.length +
             avisosInduccionFilter?.length +
             avisosBuenaConductaFilter?.length +
-            avisosAnalisisFilter?.length
+            avisosAnalisisFilter?.length +
+            VacacionesFilter?.length +
+            LicenciasNormalesFilter?.length
           }
         />
         <Layout>
@@ -198,6 +213,21 @@ const App = (props) => {
                       notificacionesInduccion={avisosInduccionFilter}
                       notificacionesAnalisis={avisosAnalisisFilter}
                       LicenciasNormalesFilter={LicenciasNormalesFilter}
+                      vacacionesNOtificaciones={VacacionesFilter}
+                    />
+                  }
+                ></Route>
+                <Route
+                  path="/notificaciones/vacaciones"
+                  element={
+                    <CardNotificacion
+                      notificaciones={VacacionesFilter}
+                      type="Vacaciones"
+                      nombre="Vacaciones Normales"
+                      color="cyan"
+                      title="Licencias proximas a vencer"
+                      link="/notificaciones/licenciasnormales"
+                      OnDashboard={true}
                     />
                   }
                 ></Route>

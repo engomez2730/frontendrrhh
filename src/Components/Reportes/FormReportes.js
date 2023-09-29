@@ -5,10 +5,18 @@ import { connect } from "react-redux";
 import Print from "../Print/Print";
 import ReportesTemplate from "../Print/ReportesTemplate";
 import { SearchOutlined, DollarCircleOutlined } from "@ant-design/icons";
+const { Option } = Select;
 
 export const FormReportes = (props) => {
   const [departamentoState, setDepartamentoState] = useState();
-  const [puestoState, setpuestoState] = useState();
+
+  const departamentosFinal = props.departamentos?.map((e) => {
+    return (
+      <Option value={e.nombre} label={e.nombre} key={e.nombre}>
+        <div className="demo-option-label-item">{e.nombre}</div>
+      </Option>
+    );
+  });
 
   const empleadosActivos = props.empleados?.filter((e) => {
     return e.estado === true && e.rol === "empleado";
@@ -19,13 +27,6 @@ export const FormReportes = (props) => {
       return users;
     }
     return users?.filter((user) => user?.departamento === departmentName);
-  }
-
-  function filterUsersByPuesto(users, departmentName) {
-    if (departmentName === undefined) {
-      return users;
-    }
-    return users?.filter((user) => user?.puesto === departmentName);
   }
 
   const empleadosFinal = filterUsersByDepartment(
@@ -123,11 +124,11 @@ export const FormReportes = (props) => {
       >
         <Form.Item label="Departamento" name="departamento">
           <Select
-            style={{ width: "100%" }}
+            style={{ width: "300px" }}
             placeholder="Seleciona los departamentos"
             onChange={(e) => setDepartamentoState(e)}
           >
-            {props?.departamentos}
+            {departamentosFinal}
           </Select>
         </Form.Item>
         <Form.Item
@@ -161,6 +162,7 @@ export const FormReportes = (props) => {
 const StateMapToProps = (state) => {
   return {
     estado: state.cambiarState,
+    departamentos: state.departamentos.Departamentos,
   };
 };
 

@@ -26,7 +26,7 @@ const HeaderFInal = ({
       label: (
         <Link to="notificaciones">
           <Badge
-            count={notificaciones === 0 ? null : notificaciones}
+            count={!notificaciones ? 0 : notificaciones}
             style={{ background: "red" }}
           >
             <Avatar
