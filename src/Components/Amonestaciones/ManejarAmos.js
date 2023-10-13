@@ -1,11 +1,9 @@
 import React from "react";
-import moment from "moment";
-import { Button, Form, Input, message, Select } from "antd";
+import { Button, Form, Input, message } from "antd";
 import Api from "../../apis/rrhhApi";
 import { connect } from "react-redux";
 import { CAMBIAR_ESTADO } from "../../actions";
 import handleError from "../../Data/errorHandle";
-import { useForm } from "antd/lib/form/Form";
 
 const validateMinLength = (minLength) => (rule, value, callback) => {
   if (value && value.length < minLength) {
@@ -28,15 +26,19 @@ const CrearPermiso = (props) => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
-    console.log("Success:", values);
-    console.log(props);
     try {
       await Api.post(`amonestaciones`, {
         nombreAmonestacion: values.nombreAmonestacion,
         cantidadAmonestacion: values.cantidadAmonestacion,
         key: props?.usuarioSelecionado._id,
+        historial: {
+          accion: "Amonestacion",
+          fecha: new Date(),
+          color: "#FF0000",
+        },
       });
       props.CAMBIAR_ESTADO(!props.estado);
+      props.onClose();
       message.success("Amonestacion Creada con exitos", 3);
       form.resetFields();
     } catch (err) {

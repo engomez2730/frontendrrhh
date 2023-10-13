@@ -1,0 +1,24 @@
+.resumen {
+  width: 600px;
+  margin-top: 35px;
+  display: flex;
+  flex-direction: column;
+}
+
+.parentResumen {
+  height: 40px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+
+  border: 1px solid black;
+  text-align: center;
+}
+
+.heading {
+  font-size: 15px;
+}
+
+.color {
+  background-color: red;
+}

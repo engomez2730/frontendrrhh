@@ -8,23 +8,15 @@ import {
   DatePicker,
 } from "antd";
 import React, { useState, useEffect } from "react";
-import {
-  paisesFinal,
-  provinciasFinal,
-  departamentosFinal,
-  puestosFinal,
-} from "../../Data/CountriesData";
+import { paisesFinal, provinciasFinal } from "../../Data/CountriesData";
 import { message } from "antd";
 import { connect } from "react-redux";
 import rrhhApi from "../../apis/rrhhApi";
 import { CAMBIAR_ESTADO, GET_PUESTOS_ACTION } from "../../actions";
 import handleError from "../../Data/errorHandle";
 import moment from "moment";
-import CustomForItem from "../Custom/CustomFomItem";
+import { returnOption, prepareOptionLabels } from "../Utils/helperFunctions";
 const { Option } = Select;
-
-const opcionesLicencia = ["Si", "No"];
-const categoriaLicencia = ["Categoria 01", "Categoria 02", "Categoria 03"];
 
 const App = (props) => {
   const [dateInput, dateInputSet] = useState(true);
@@ -32,6 +24,27 @@ const App = (props) => {
   const [hideInputLic, hideInputLicSet] = useState(true);
 
   const [form] = Form.useForm();
+
+  const puestos = props?.puestos?.map((e) => e.nombre);
+  const departamentos = props.departamentos?.map((e) => e.nombre);
+  const equipos = props.equipos?.map((e) => e.nombre);
+  const proyectos = props.proyectos?.map((e) => e.nombre);
+
+  const opcionesLicencia = ["Si", "No"];
+  const categoriaLicencia = ["Categoria 01", "Categoria 02", "Categoria 03"];
+  const opcionesStatus = [
+    "Activo",
+    "Disponible",
+    "Licencia Medica",
+    "Licencia Materna",
+  ];
+
+  const opcionesLicenciaBolean = prepareOptionLabels(opcionesLicencia);
+  const opcionesProyectos = prepareOptionLabels(proyectos);
+
+  const departamentosFinalArray = prepareOptionLabels(departamentos);
+  const equiposFinalArray = prepareOptionLabels(equipos);
+  const opcionesStatusArray = prepareOptionLabels(opcionesStatus);
 
   const onSelectChangeHour = (e) => {
     if (e === "Por Hora") {
@@ -73,9 +86,6 @@ const App = (props) => {
     });
   }, [props?.candidatoSelecionado]);
 
-  const puestos = props?.puestos?.map((e) => e.nombre);
-  const departamentos = props.departamentos?.map((e) => e.nombre);
-
   const crearSelectArray = (array) => {
     return array?.map((e) => {
       return {
@@ -103,13 +113,11 @@ const App = (props) => {
   };
 
   const puestosFinalArray = crearSelectArray(puestos);
-  const departamentosFinalArray = crearSelectArray(departamentos);
-  const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia);
   const opcionesLicenciaCategoria = crearSelectArray(categoriaLicencia);
 
   const onFinish = async (values) => {
     try {
-      const data = await rrhhApi.post("empleados", {
+      await rrhhApi.post("empleados", {
         nombre: values.nombre,
         apellido: values.apellido,
         correo: values.correo,
@@ -121,7 +129,7 @@ const App = (props) => {
         pais: values.pais,
         direccion: values.direccion,
         entrevistado: values.entrevistado,
-        estadoLaboral: values.estadoLaboral,
+        inicioLaboral: values.inicioLaboral,
         puesto: values.puesto,
         departamento: values.departamento,
         genero: values.sexo,
@@ -134,9 +142,19 @@ const App = (props) => {
         tipoLicencia: values.tipoLicencia,
         licenciaDeConducirFechaExp: values.fechaDeExpiracion,
         contactoDeEmergencia: values.contactoDeEmergencia,
+        buenaConductaFechaExpiracion: values.buenaConductaFechaExpiracion,
+        induccionFechaDeExpiracion: values.induccionFechaDeExpiracion,
+        analisisFechaDeExpiracion: values.analisisFechaDeExpiracion,
+        expiracionDelContrato: values.expiracionDelContrato,
+        contrato: values.contrato,
+        proyectoActual: values.proyectoActual,
+        StatusLaboral: values.StatusLaboral,
+        comentarioStatus: values.comentarioStatus,
+        Equipos: values.equipos,
       });
       form.resetFields();
-      props?.CAMBIAR_ESTADO(!props?.estado);
+      props.onClose();
+      props.CAMBIAR_ESTADO(!props?.estado);
       message.success("Creado con Exito");
     } catch (err) {
       handleError(err);
@@ -185,7 +203,7 @@ const App = (props) => {
       size="small"
       form={form}
     >
-      <CustomForItem
+      <Form.Item
         name="nombre"
         label="Nombre"
         rules={[
@@ -196,7 +214,7 @@ const App = (props) => {
         ]}
       >
         <Input />
-      </CustomForItem>
+      </Form.Item>
       <Form.Item
         name="apellido"
         label="Apellido"
@@ -225,7 +243,6 @@ const App = (props) => {
       >
         <Input />
       </Form.Item>
-
       <Form.Item
         name="cedula"
         label="Cedula"
@@ -239,7 +256,6 @@ const App = (props) => {
       >
         <Input />
       </Form.Item>
-
       <Form.Item
         name="celular"
         label="Numero de Telefono"
@@ -252,7 +268,6 @@ const App = (props) => {
       >
         <Input />
       </Form.Item>
-
       <Form.Item
         name="direccion"
         label="Direccion"
@@ -265,7 +280,6 @@ const App = (props) => {
       >
         <Input.TextArea showCount maxLength={100} />
       </Form.Item>
-
       <Form.Item
         name="sexo"
         label="Genero"
@@ -282,7 +296,6 @@ const App = (props) => {
           <Option value="Otro">Otro</Option>
         </Select>
       </Form.Item>
-
       <Form.Item
         name="fechaDeNacimiento"
         label="Fecha de Nacimiento"
@@ -295,7 +308,6 @@ const App = (props) => {
       >
         <DatePicker />
       </Form.Item>
-
       <Form.Item
         name="pais"
         label="Pais"
@@ -368,7 +380,6 @@ const App = (props) => {
           }}
         />
       </Form.Item>
-
       <Form.Item
         name="contrato"
         label="Contrato"
@@ -442,7 +453,6 @@ const App = (props) => {
           {renderDepartamentos(departamentosFinalArray)}
         </Select>
       </Form.Item>
-
       <Form.Item
         name="puesto"
         label="Puesto"
@@ -457,11 +467,9 @@ const App = (props) => {
           {renderDepartamentos(puestosFinalArray)}
         </Select>
       </Form.Item>
-
-      <Form.Item name="createdAt" label="Inicio Laboral">
+      <Form.Item name="inicioLaboral" label="Inicio Laboral">
         <DatePicker />
       </Form.Item>
-
       <Form.Item
         name="contactoDeEmergencia"
         label="Contacto de Emergencia"
@@ -479,6 +487,45 @@ const App = (props) => {
         ]}
       >
         <Input maxLength={10} />
+      </Form.Item>
+      <Form.Item
+        label="Fecha de expiración de Analisis"
+        name="analisisFechaDeExpiracion"
+      >
+        <DatePicker />
+      </Form.Item>
+      <Form.Item name="equipos" label="Seleciona los equipos que maneja">
+        <Select placeholder="Seleciona el puesto" mode="multiple">
+          {returnOption(equiposFinalArray)}
+        </Select>
+      </Form.Item>
+      <Form.Item name="expiracionDelContrato" label="Expiración de contrato">
+        <DatePicker disabled={dateInput} />
+      </Form.Item>
+      <Form.Item label="Proyecto Actual" name="proyectoActual">
+        <Select placeholder="Seleciona el estado laboral">
+          {returnOption(opcionesProyectos)}
+        </Select>
+      </Form.Item>
+      <Form.Item label="Estado Laboral" name="StatusLaboral">
+        <Select placeholder="Seleciona el estado laboral">
+          {returnOption(opcionesStatusArray)}
+        </Select>
+      </Form.Item>
+      <Form.Item label="Comentario Estado" name="comentarioStatus">
+        <Input />
+      </Form.Item>
+      <Form.Item
+        label="Fecha de expiración de papel de buena conducta"
+        name="buenaConductaFechaExpiracion"
+      >
+        <DatePicker />
+      </Form.Item>
+      <Form.Item
+        label="Fecha de expiración de inducción"
+        name="induccionFechaDeExpiracion"
+      >
+        <DatePicker />
       </Form.Item>
       <Form.Item
         wrapperCol={{
@@ -500,6 +547,8 @@ const StateMapToProps = (state) => {
     candidatoSelecionado: state.candidatoSelecionado.candidatoSelec,
     puestos: state.puestos.puestos,
     departamentos: state.departamentos.Departamentos,
+    equipos: state.Equipos.equipos,
+    proyectos: state.Proyectos.proyectos,
   };
 };
 

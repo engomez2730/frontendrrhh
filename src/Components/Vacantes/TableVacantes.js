@@ -176,6 +176,8 @@ const TablePerm = (props) => {
         onOk={handleOk}
         onCancel={handleCancel}
         width={1000}
+        okText="Esta bien"
+        cancelText='Cerrar'
       >
         <VerVacante vacante={props.vacanteSelecionadaData} />
       </Modal>
@@ -185,6 +187,8 @@ const TablePerm = (props) => {
         onOk={handleOkVER}
         onCancel={handleCancelVer}
         width={1000}
+        okText="Esta bien"
+        cancelText='Cerrar'
       >
         <EditarVacante vacante={props.vacanteSelecionadaData} />
       </Modal>
@@ -194,6 +198,8 @@ const TablePerm = (props) => {
         onOk={handleOkCrear}
         onCancel={handleCancelCrear}
         width={1000}
+        okText="Esta bien"
+        cancelText='Cerrar'
       >
         <CrearVacante />
       </Modal>

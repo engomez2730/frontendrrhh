@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Table, Button, Modal, Input, Popconfirm, Upload } from "antd";
+import { Table, Button, Modal, Input } from "antd";
 import { SearchOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import {
-  avisoSelecionado,
   GET_ENTREVISTADOS,
   CAMBIAR_ESTADO,
   ENTREVISTADOS_SELECIONADO_ACTION,
 } from "../../actions/index";
-import { QuestionCircleOutlined } from "@ant-design/icons";
-import Api from "../../apis/rrhhApi";
 import VerCandidato from "./verCandidato";
 import EditarCandidato from "./editarCandidato";
 import CrearEmpleado from "./CrearEmpleado";
@@ -237,7 +234,10 @@ const TablePerm = (props) => {
         onCancel={handleCancelVer}
         width={800}
       >
-        <EditarCandidato candidato={props?.candidatoSelecionado} />
+        <EditarCandidato
+          candidato={props?.candidatoSelecionado}
+          onClose={handleCancelVer}
+        />
       </Modal>
       <Modal
         title="Crear Candidato"
@@ -245,8 +245,10 @@ const TablePerm = (props) => {
         onOk={handleOkCrear}
         onCancel={handleCancelCrear}
         width={800}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
-        <CrearCandidato />
+        <CrearCandidato onCLose={handleCancelCrear} />
       </Modal>
       <Modal
         title="Convertir a empleado"
@@ -254,15 +256,19 @@ const TablePerm = (props) => {
         onOk={handleOkConvertir}
         onCancel={handleCancelConvertir}
         width={800}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
-        <CrearEmpleado />
+        <CrearEmpleado onClose={handleCancelConvertir} />
       </Modal>
       <Modal
-        title="Convertir a empleado"
+        title="Subir Curriculum"
         open={isModalOpenDocument}
         onOk={handleOkDocument}
         onCancel={handleCancelDocument}
         width={800}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         <UploadDocument candidato={props.candidatoSelecionado} />
       </Modal>

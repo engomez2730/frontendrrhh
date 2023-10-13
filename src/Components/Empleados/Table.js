@@ -216,6 +216,7 @@ const TableFinal = (props) => {
       proyectoActual: e.proyectoActual,
       comentarioStatus: e.comentarioStatus,
       StatusLaboral: e.StatusLaboral,
+      historial: e.historial,
     };
   });
 
@@ -245,6 +246,8 @@ const TableFinal = (props) => {
         onOk={handleOk}
         onCancel={handleCancel}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         <InfoModal />
       </Modal>
@@ -254,6 +257,8 @@ const TableFinal = (props) => {
         onOk={handleOkEdit}
         onCancel={handleCancelEdit}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         <InfoModalEdit />
       </Modal>
@@ -263,6 +268,8 @@ const TableFinal = (props) => {
         onOk={handleOkFoto}
         onCancel={handleCancelFoto}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         <UploadPhoto empleado={props.usuarioSelecionado} />
       </Modal>

@@ -5,7 +5,6 @@ import TableEach from "./TableEach";
 const PermisoVer = (props) => {
   useEffect(() => {}, [props.estado]);
 
-  console.log(props.usuario?.Permisos);
 
   return (
     <div className="verVacacionesModal">

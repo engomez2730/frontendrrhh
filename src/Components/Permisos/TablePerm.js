@@ -182,6 +182,8 @@ const TablePerm = (props) => {
         onOk={handleOk}
         onCancel={handleCancel}
         width={1000}
+        okText="Esta bien"
+        cancelText='Cerrar'
       >
         <PermisoVer usuario={props.usuarioSelecionado?.usuarioSelecionadoVer} />
       </Modal>
@@ -191,9 +193,12 @@ const TablePerm = (props) => {
         onOk={handleOkVER}
         onCancel={handleCancelVer}
         width={1000}
+        okText="Esta bien"
+        cancelText='Cerrar'
       >
         <PermisoCrear
           usuario={props.usuarioSelecionado?.usuarioSelecionadoVer}
+          onCLose={handleCancelVer}
         />
       </Modal>
     </div>

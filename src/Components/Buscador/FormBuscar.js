@@ -78,6 +78,8 @@ const App = (props) => {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         {<TableMini empleados={data} onCancel={handleCancel} />}
       </Modal>

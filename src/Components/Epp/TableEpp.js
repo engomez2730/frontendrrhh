@@ -112,7 +112,6 @@ const TablePerm = (props) => {
       correo: e.correo,
       celular: e.celular,
       cedula: e.cedula,
-      departamento: e.cedula,
       key: e.id,
       DiaDeVacaciones: e.DiaDeVacaciones,
       PrestacionesLaborales: e.PrestacionesLaborales,
@@ -127,12 +126,15 @@ const TablePerm = (props) => {
       departamento: e.departamento,
       expiracionDelContrato: e.vencimientoDelContrato,
       vacacionesTomadas: e.vacacionesTomadas,
+      rol: e.rol,
     };
   });
 
   const empleadosActivos = empleados?.filter((e) => {
-    return e.estado === true;
+    return e.estado === true && e.rol !== "admin";
   });
+
+  console.log(empleadosActivos);
 
   return (
     <div>
@@ -144,6 +146,8 @@ const TablePerm = (props) => {
         bordered={true}
         pagination={{ pageSize: 5, total: empleadosActivos?.length }}
         loading={EmpleadosLoaded}
+        okText="Esta bien"
+        cancelText="Cerrar"
       />
       <Modal
         title="Manejar Eppss"
@@ -151,6 +155,8 @@ const TablePerm = (props) => {
         onOk={handleOk}
         onCancel={handleCancel}
         width={1200}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         <TableAppEach
           usuario={props.usuarioSelecionadoVer}
@@ -163,7 +169,6 @@ const TablePerm = (props) => {
 
 const StateMapToProps = (state) => {
   return {
-    empleados: state.empleados.empleados,
     estado: state.cambiarState,
     usuarioSelecionadoVer: state.usuarioSelecionadoVer.usuarioSelecionadoVer,
   };

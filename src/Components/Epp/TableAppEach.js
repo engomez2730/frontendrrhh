@@ -171,10 +171,12 @@ const TablePerm = (props) => {
         onOk={handleOkCrear}
         onCancel={handleCancelCrear}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         <CrearEpp
           usuario={props?.usuario}
-          closeModal={props.closeModal}
+          closeModal={props?.closeModal}
           onCloseModal2={setIsModalVerOpenCrear}
         />
       </Modal>
@@ -182,7 +184,7 @@ const TablePerm = (props) => {
         componentToPrint={
           <TemplatePrint
             title="EPPS"
-            nombre={props?.usuario.nombre}
+            nombre={props?.usuario?.nombre}
             Table={
               <Table
                 style={{ marginTop: "50px", width: "90%" }}

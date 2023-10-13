@@ -20,8 +20,14 @@ const CrearPermiso = (props) => {
         tiempoDeLicencia: values.tiempoDeLicencia,
         lugarDelReposo: values.lugarDelReposo,
         empleado: props?.usuario?._id,
+        historial: {
+          accion: "Licencia Medica",
+          fecha: new Date(),
+          color: "#FF8A07",
+        },
       });
       form.resetFields();
+      props.onCLose();
       props.CAMBIAR_ESTADO(!props.estado);
       message.success("Licencia Creada con exito", 3);
     } catch (err) {

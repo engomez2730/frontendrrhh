@@ -111,7 +111,7 @@ const App = (props) => {
 
   const onFinish = async (values) => {
     try {
-      const data = await rrhhApi.post("entrevistados", {
+      await rrhhApi.post("entrevistados", {
         nombre: values.nombre,
         apellido: values.apellido,
         correo: values.correo,
@@ -132,8 +132,7 @@ const App = (props) => {
       });
 
       form.resetFields();
-
-      props?.CAMBIAR_ESTADO(!props?.estado);
+      props.onCLose();
       message.success("Candidato creado con exito");
     } catch (err) {
       handleError(err);
@@ -141,16 +140,6 @@ const App = (props) => {
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-  };
-
-  const renderDepartamentos = (provincas) => {
-    return provincas?.map((e) => {
-      return (
-        <Option value={`${e.label}`} key={e.label}>
-          {e.label}
-        </Option>
-      );
-    });
   };
 
   const renderPaises = (Countries) => {

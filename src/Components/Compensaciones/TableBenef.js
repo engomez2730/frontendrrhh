@@ -28,9 +28,7 @@ const TablePerm = (props) => {
   const showModal = () => {
     setIsModalOpen(true);
   };
-  const showModalCrear = () => {
-    setIsModalVerOpenCrear(true);
-  };
+
   const showModalEdit = () => {
     setIsModalVerOpen(true);
   };
@@ -41,9 +39,6 @@ const TablePerm = (props) => {
   const handleOkVER = () => {
     setIsModalVerOpen(false);
   };
-  const handleOkCrear = () => {
-    setIsModalVerOpenCrear(false);
-  };
 
   const handleCancel = () => {
     setIsModalOpen(false);
@@ -51,9 +46,6 @@ const TablePerm = (props) => {
 
   const handleCancelVer = () => {
     setIsModalVerOpen(false);
-  };
-  const handleCancelCrear = () => {
-    setIsModalVerOpenCrear(false);
   };
 
   const columns = [
@@ -142,10 +134,6 @@ const TablePerm = (props) => {
     props.empleadoSelecionadoVer(text.key);
     showModalEdit();
   };
-  const onClickModalCrear = (e, text) => {
-    props.empleadoSelecionadoVer(text.key);
-    showModalCrear();
-  };
 
   const empleados = props.empleados?.map((e) => {
     return {
@@ -166,7 +154,6 @@ const TablePerm = (props) => {
       pais: e.pais,
       provincia: e.provincia,
       sueldoFijo: e.sueldoFijo,
-      departamento: e.departamento,
       expiracionDelContrato: e.vencimientoDelContrato,
       vacacionesTomadas: e.vacacionesTomadas,
       Dieta: e.Dieta,
@@ -195,9 +182,14 @@ const TablePerm = (props) => {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={800}
+        width={1000}
+        okText="Esta bien"
+        cancelText='Cerrar'
       >
-        <VerBeneficios empleadoSelecionado={props.empleadoSelecionado} />
+        <VerBeneficios
+          empleadoSelecionado={props.empleadoSelecionado}
+          onCLose={handleCancel}
+        />
       </Modal>
       <Modal
         title="Manejar Beneficios"
@@ -205,16 +197,14 @@ const TablePerm = (props) => {
         onOk={handleOkVER}
         onCancel={handleCancelVer}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
-        <ManejarBen usuario={props?.empleadoSelecionado} />
+        <ManejarBen
+          usuario={props?.empleadoSelecionado}
+          onClose={handleCancelVer}
+        />
       </Modal>
-      <Modal
-        title="Crear Beneficios"
-        open={isModalOpenCrear}
-        onOk={handleOkCrear}
-        onCancel={handleCancelCrear}
-        width={1000}
-      ></Modal>
     </div>
   );
 };

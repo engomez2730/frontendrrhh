@@ -21,9 +21,15 @@ const CrearPermiso = (props) => {
         descripcion: values.descripcion,
         fecha: values.fecha,
         empleado: props.usuario._id,
+        historial: {
+          accion: "Permiso",
+          fecha: new Date(),
+          color: "#2c3e50",
+        },
       });
       form.resetFields();
       props.CAMBIAR_ESTADO(!props.estado);
+      props.onCLose();
       message.success("Permiso Creado con exito", 3);
     } catch (err) {
       handleError(err);

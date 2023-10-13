@@ -6,7 +6,8 @@ import TemplatePrint from "../Print/TemplatePrint";
 import { columnsPrint } from "./ColumsPrint";
 import CustomModal from "../UI/CustomModal";
 import EditarEmpleadoReporte from "./EditarEmpleadoReporte";
-import moment from "moment";
+import Resumen from "./Resumen";
+
 const ReportesDiariosTable = ({ empleados, proyectos }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [empleadoSelecionado, setEmpleadoSelecionado] = useState({});
@@ -80,7 +81,7 @@ const ReportesDiariosTable = ({ empleados, proyectos }) => {
       key: "departamento",
       filters: proyectosFiler,
       sorter: (a, b) => {
-        const result = a.proyectoActual.localeCompare(b.proyectoActual);
+        const result = a.proyectoActual?.localeCompare(b.proyectoActual);
         return result;
       },
       defaultSortOrder: "ascend", // Set the default sort order to ascending
@@ -100,7 +101,7 @@ const ReportesDiariosTable = ({ empleados, proyectos }) => {
               flexWrap: "wrap",
             }}
           >
-            {value.length > 1 ? value.map((e) => <Tag>{e}</Tag>) : "Ninguno"}
+            {value?.length > 1 ? value?.map((e) => <Tag>{e}</Tag>) : "Ninguno"}
           </div>
         );
       },
@@ -129,12 +130,12 @@ const ReportesDiariosTable = ({ empleados, proyectos }) => {
 
   function getEncargadoForProject(projects, projectName) {
     // Find the project that matches the given name
-    const matchedProject = projects.find(
-      (project) => project.nombre === projectName
+    const matchedProject = projects?.find(
+      (project) => project?.nombre === projectName
     );
 
     // If a matching project is found, return its "encargado" value; otherwise, return null
-    return matchedProject ? matchedProject.encargado : null;
+    return matchedProject ? matchedProject?.encargado : null;
   }
 
   const empleadosFinal = empleados
@@ -155,6 +156,19 @@ const ReportesDiariosTable = ({ empleados, proyectos }) => {
       };
     })
     .filter((e) => e.rol === "empleado" && e.estado !== false);
+
+  const empleadosActivos = empleadosFinal?.filter((e) => {
+    return e.StatusLaboral === "Activo";
+  });
+  const LicenciaMedica = empleadosFinal?.filter((e) => {
+    return e.StatusLaboral === "Licencia Medica";
+  });
+  const LicenciaPorMaternidad = empleadosFinal?.filter((e) => {
+    return e.StatusLaboral === "Licencia por Maternidad";
+  });
+  const empleadosDisponibles = empleadosFinal?.filter((e) => {
+    return e.StatusLaboral === "Disponible";
+  });
 
   return (
     <>
@@ -178,6 +192,8 @@ const ReportesDiariosTable = ({ empleados, proyectos }) => {
         onClose={closeModal}
         title="Editar Proyecto"
         width={800}
+        okText="Esta bien"
+        cancelText="Cerrar"
         content={
           <EditarEmpleadoReporte
             empleado={empleadoSelecionado}
@@ -192,6 +208,15 @@ const ReportesDiariosTable = ({ empleados, proyectos }) => {
           <TemplatePrint
             title="Reporte Diario"
             fechaReporte={selectedDate}
+            resumen={
+              <Resumen
+                empleadosTotales={empleadosFinal?.length}
+                empleadosActivos={empleadosActivos?.length}
+                empleadosDisponibles={empleadosDisponibles?.length}
+                LicenciaMedica={LicenciaMedica?.length}
+                LicenciaPorMaternidad={LicenciaPorMaternidad?.length}
+              />
+            }
             Table={
               <Table
                 dataSource={empleadosFinal}

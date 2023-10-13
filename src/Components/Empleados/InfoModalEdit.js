@@ -57,6 +57,8 @@ const InfoModalEdit = () => {
         closable={true}
         onClose={onClose}
         open={open}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         {renderComponents()}
       </Drawer>

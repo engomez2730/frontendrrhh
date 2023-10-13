@@ -123,6 +123,8 @@ const TableEquipos = ({ equipos, loading }) => {
         onClose={closeModal}
         title="Crear Equipo"
         width={800}
+        okText="Esta bien"
+        cancelText="Cerrar"
         content={
           <EditarEquipo onCloseModal={closeModal} equipo={equipoSelecionado} />
         }

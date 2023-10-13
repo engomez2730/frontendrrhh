@@ -11,6 +11,7 @@ import {
   DESPIDO_SELECIONADO_ACTION,
 } from "../../actions/index";
 import VerDespido from "./VerDespido";
+import { EyeOutlined } from "@ant-design/icons";
 
 import moment from "moment";
 import requireAuth from "../requireAuth";
@@ -139,11 +140,11 @@ const TablePerm = (props) => {
     };
   });
 
-  console.log(despidos);
-
   return (
     <div>
-      <h1>Ver Despidos</h1>
+      <h1>
+        Ver Despidos <EyeOutlined />
+      </h1>
 
       <Table
         style={{ marginTop: "50px", width: "80%" }}
@@ -159,6 +160,8 @@ const TablePerm = (props) => {
         onOk={handleOk}
         onCancel={handleCancel}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         <VerDespido despido={props?.despidoSelect} />
       </Modal>
@@ -168,6 +171,8 @@ const TablePerm = (props) => {
         onOk={handleOkVER}
         onCancel={handleCancelVer}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       ></Modal>
     </div>
   );

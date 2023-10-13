@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Badge, Descriptions } from "antd";
+import { Badge, Descriptions, Space } from "antd";
 import { GET_DESPIDOS_ACTION } from "../../actions/index";
 import { connect } from "react-redux";
 import moment from "moment";
@@ -22,6 +22,8 @@ const App = (props) => {
 
     return `${areaCode}-${middleDigits}-${lastDigits}`;
   }
+
+  console.log(props?.buscadorData);
 
   return (
     <>
@@ -120,8 +122,9 @@ const App = (props) => {
         >
           {props?.buscadorData?.licenciasDeConducir
             ? props?.buscadorData?.tipoLicencia
-            : "No tiene"}
+            : "No tiene" || "No establecido"}
         </Descriptions.Item>
+
         <Descriptions.Item
           contentStyle={{ fontWeight: "600" }}
           label="Dirección"

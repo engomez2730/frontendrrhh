@@ -19,6 +19,11 @@ const CrearPermiso = (props) => {
         botas: botas,
         lentes: lentes,
         Usuario: props?.usuario._id,
+        historial: {
+          accion: "EPP",
+          fecha: new Date(),
+          color: "#404040",
+        },
       });
       message.success("Epps creado con exito", 3);
       props.closeModal(false);

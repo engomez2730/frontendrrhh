@@ -32,6 +32,7 @@ const TemplatePrint = React.forwardRef((props, ref) => {
       {renderNombre(props?.nombre)}
       {props.Table}
       {props.description}
+      {props.resumen}
     </div>
   );
 });

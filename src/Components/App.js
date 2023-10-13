@@ -58,6 +58,8 @@ import Equipos from "./Equipos/Equipos";
 import CardNotificacion from "./Notificaciones/CardNotificacion";
 import Proyectos from "./Proyectos/Proyectos";
 import ReportesDiarios from "./ReportesDiarios/ReportesDiarios";
+import Ausencias from "./Ausencias/Ausencias";
+import ReportesAusencias from "./Reportes/ReportesAusencias";
 const { Content } = Layout;
 
 const App = (props) => {
@@ -201,6 +203,10 @@ const App = (props) => {
             >
               <Routes>
                 <Route path="/" element={<Inicio />}></Route>
+                <Route
+                  path="/reportesausencias"
+                  element={<ReportesAusencias />}
+                ></Route>
                 <Route
                   path="/notificaciones"
                   element={
@@ -352,6 +358,10 @@ const App = (props) => {
                 <Route
                   path="/perfil"
                   element={<Perfil empleados={props.empleados?.empleados} />}
+                ></Route>
+                <Route
+                  path="/ausencias"
+                  element={<Ausencias empleados={props.empleados?.empleados} />}
                 ></Route>
                 <Route
                   path="/permisos"

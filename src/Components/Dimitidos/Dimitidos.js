@@ -1,11 +1,14 @@
 import React from "react";
 import DimitidosTable from "./DimitidosTable";
 import requireAuth from "../requireAuth";
+import { DeleteOutlined } from "@ant-design/icons";
 
 const Domitidos = ({ empleados }) => {
   return (
     <div className="verAnuncios">
-      <h1>Dimitidos</h1>
+      <h1>
+        Dimitidos <DeleteOutlined />
+      </h1>
       <div className="tableDataPer">
         <DimitidosTable empleados={empleados} />
       </div>

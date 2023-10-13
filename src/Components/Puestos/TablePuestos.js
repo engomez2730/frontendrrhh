@@ -190,6 +190,8 @@ const TablePerm = (props) => {
         onOk={handleOk}
         onCancel={handleCancel}
         width={1000}
+        okText="Esta bien"
+        cancelText='Cerrar'
       >
         <VerPuesto puesto={props?.puestoSelecionado} />
       </Modal>
@@ -199,6 +201,8 @@ const TablePerm = (props) => {
         onOk={handleOkVER}
         onCancel={handleCancelVer}
         width={1000}
+        okText="Esta bien"
+        cancelText='Cerrar'
       >
         <EditarPuesto puesto={props?.puestoSelecionado} />
       </Modal>
@@ -208,6 +212,8 @@ const TablePerm = (props) => {
         onOk={handleOkCrear}
         onCancel={handleCancelCrear}
         width={1000}
+        okText="Esta bien"
+        cancelText='Cerrar'
       >
         <CrearPuesto />
       </Modal>

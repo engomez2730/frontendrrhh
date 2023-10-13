@@ -28,17 +28,21 @@ const CrearPermiso = (props) => {
   const [form] = Form.useForm();
 
   const onFinish = async (values) => {
-    console.log("Success:", values);
-    console.log(props);
     try {
       await Api.post(`beneficios`, {
         cantidadBeneficio: values.cantidadBeneficio,
         nombreBeneficio: values.nombreBeneficio,
         key: props?.usuarioSelecionado._id,
+        historial: {
+          accion: "Beneficio",
+          fecha: new Date(),
+          color: "#43cea2",
+        },
       });
       props.CAMBIAR_ESTADO(!props.estado);
-      message.success("Permiso Creado con exito", 3);
+      message.success("Beneficio Creado con exito", 3);
       form.resetFields();
+      props.onClose();
     } catch (err) {
       handleError(err);
     }

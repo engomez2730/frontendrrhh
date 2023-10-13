@@ -1,12 +1,14 @@
 import React from "react";
-import EppStats from "./EppStats";
 import TableEpp from "./TableEpp";
 import requireAuth from "../requireAuth";
+import { FieldTimeOutlined } from "@ant-design/icons";
 
 const Epp = ({ empleados }) => {
   return (
     <div className="verAnuncios">
-      <h1>Epp</h1>
+      <h1>
+        Epp <FieldTimeOutlined />
+      </h1>
       <div className="tableDataPer">
         <TableEpp empleados={empleados} />
       </div>

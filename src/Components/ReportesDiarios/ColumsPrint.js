@@ -37,6 +37,8 @@ export const columnsPrint = [
     title: "Equipos que Opera",
     dataIndex: "Equipos",
     key: "equipos",
+    align: "center",
+
     render: (value) => {
       return (
         <div
@@ -65,6 +67,8 @@ export const columnsPrint = [
     title: "Status",
     dataIndex: "StatusLaboral",
     key: "status",
+    align: "center",
+
     render: (value) => {
       let color = "";
       if (value === "Activo") {

@@ -187,12 +187,6 @@ const MultiStepComponent = (props) => {
         <CustomFomItem
           label="Fecha de expiración de Analisis"
           name="analisisFechaDeExpiracion"
-          rules={[
-            {
-              required: true,
-              message: "Por Favor introduce la fecha de expiracion",
-            },
-          ]}
         >
           <DatePicker />
         </CustomFomItem>,
@@ -414,24 +408,12 @@ const MultiStepComponent = (props) => {
         <CustomFomItem
           label="Fecha de expiración de papel de buena conducta"
           name="buenaConductaFechaExpiracion"
-          rules={[
-            {
-              required: true,
-              message: "Por Favor introduce la fecha de expiracion",
-            },
-          ]}
         >
           <DatePicker />
         </CustomFomItem>,
         <CustomFomItem
           label="Fecha de expiración de inducción"
           name="induccionFechaDeExpiracion"
-          rules={[
-            {
-              required: true,
-              message: "Por Favor introduce la fecha de expiracion",
-            },
-          ]}
         >
           <DatePicker />
         </CustomFomItem>,

@@ -191,9 +191,14 @@ const TablePerm = (props) => {
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
-        width={1000}
+        width={1100}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
-        <VerAmonestaciones empleadoSelecionado={props.empleadoSelecionado} />
+        <VerAmonestaciones
+          empleadoSelecionado={props.empleadoSelecionado}
+          onCLose={handleCancel}
+        />
       </Modal>
       <Modal
         title="Manejar Amonestaciones"
@@ -201,16 +206,14 @@ const TablePerm = (props) => {
         onOk={handleOkVER}
         onCancel={handleCancelVer}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
-        <ManejarAmos usuario={props?.empleadoSelecionado} />
+        <ManejarAmos
+          usuario={props?.empleadoSelecionado}
+          onClose={handleCancelVer}
+        />
       </Modal>
-      <Modal
-        title="Crear Amonestaciones"
-        open={isModalOpenCrear}
-        onOk={handleOkCrear}
-        onCancel={handleCancelCrear}
-        width={1000}
-      ></Modal>
     </div>
   );
 };

@@ -6,7 +6,6 @@ import DespidosTemplate from "../Print/DespidosTemplate";
 moment.locale("es");
 
 const VerDespido = ({ despido }) => {
-  console.log(despido);
   return (
     <div className="verVacacionesModal">
       <div className="verVacacionesItem">

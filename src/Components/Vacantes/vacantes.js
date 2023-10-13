@@ -1,6 +1,8 @@
 import React from "react";
 import TableVacantes from "./TableVacantes";
 import requireAuth from "../requireAuth";
+import { ClearOutlined } from "@ant-design/icons";
+
 
 const Vacantes = ({ vacantes }) => {
   return (

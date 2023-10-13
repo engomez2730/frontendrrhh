@@ -164,6 +164,8 @@ const App = (props) => {
         onOk={() => setOpen(false)}
         onCancel={() => setOpen(false)}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         <VerDepartamento departamento={props.departamento} />
       </Modal>
@@ -174,6 +176,8 @@ const App = (props) => {
         onOk={() => setOpenDep(false)}
         onCancel={() => setOpenDep(false)}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         <EditarDepartamentos departamento={props.departamento} />
       </Modal>
@@ -183,6 +187,8 @@ const App = (props) => {
         onOk={handleOkCrear}
         onCancel={handleCancelCrear}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         <CrearDepartModal />
       </Modal>

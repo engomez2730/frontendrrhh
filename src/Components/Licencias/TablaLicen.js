@@ -136,7 +136,6 @@ const TablePerm = (props) => {
     showModalEdit();
   };
 
-
   const empleados = props.empleados?.empleados?.map((e) => {
     return {
       nombre: e.nombre,
@@ -185,6 +184,8 @@ const TablePerm = (props) => {
         onOk={handleOk}
         onCancel={handleCancel}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
         <VerLicencias onCLose={handleCancel} />
       </Modal>
@@ -194,16 +195,11 @@ const TablePerm = (props) => {
         onOk={handleOkVER}
         onCancel={handleCancelVer}
         width={1000}
+        okText="Esta bien"
+        cancelText="Cerrar"
       >
-        <CrearLicencia />
+        <CrearLicencia onCLose={handleCancelVer} />
       </Modal>
-      <Modal
-        title="Crear Licencia"
-        open={isModalOpenCrear}
-        onOk={handleOkCrear}
-        onCancel={handleCancelCrear}
-        width={1000}
-      ></Modal>
     </div>
   );
 };

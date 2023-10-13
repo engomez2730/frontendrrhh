@@ -16,7 +16,8 @@ export const validateAge = (rule, date, callback) => {
 };
 
 export const validateAllNumbers = (rule, value, callback) => {
-  const regex = /^\d+$/;
+  const regex = /^(-?\d+)$/;
+
   if (!regex.test(value)) {
     callback("Deben ser solo numeros");
   } else {

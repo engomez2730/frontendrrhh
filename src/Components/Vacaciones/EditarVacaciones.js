@@ -12,7 +12,7 @@ function hasPassedMonths(dateStr, months) {
   return futureDate.isSameOrBefore(moment(), "day");
 }
 
-function YourFormComponent({ usuario }) {
+function YourFormComponent({ usuario, onClose }) {
   const [daysFormValues, setDaysFormValues] = useState(0);
   const [form] = useForm(); // Initialize the form instance
 
@@ -23,7 +23,13 @@ function YourFormComponent({ usuario }) {
         diasDeVacaciones: values.diasDeVacaciones,
         salarioPorVacaciones: values.salarioPorVacaciones,
         key: usuario._id,
+        historial: {
+          accion: "Vacaciones",
+          fecha: new Date(),
+          color: "#B993D6",
+        },
       });
+      onClose();
       message.success("Vacaciones Actualizadas con extito", 3);
       form.resetFields();
     } catch (err) {

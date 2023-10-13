@@ -91,6 +91,7 @@ const TableFinal = (props) => {
       Amonestaciones: e.Amonestaciones,
       genero: e.genero,
       tipoDeNomina: e.tipoDeNomina,
+      Ausencias: e.Ausencias,
     };
   });
 

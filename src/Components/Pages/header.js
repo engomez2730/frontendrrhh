@@ -66,9 +66,11 @@ const HeaderFInal = ({
   return (
     <>
       <Header style={stylesHeder}>
-        <div className="logo">
-          Varg<span style={stylesLogo}>Sang </span>RRHH
-        </div>
+        <Link to="/">
+          <div className="logo">
+            Varg<span style={stylesLogo}>Sang </span>RRHH
+          </div>
+        </Link>
         <Menu
           style={{ width: "250px" }}
           theme="dark"

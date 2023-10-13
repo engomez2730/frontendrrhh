@@ -1,6 +1,8 @@
 import React from "react";
 import CardNotificacion from "./CardNotificacion";
 import requireAuth from "../requireAuth";
+import { NotificationOutlined } from "@ant-design/icons";
+
 import "./Not.css";
 
 const Notificaciones = ({
@@ -14,7 +16,9 @@ const Notificaciones = ({
 }) => {
   return (
     <div className="notificaciones">
-      <h1>Notificaciones</h1>
+      <h1>
+        Notificaciones <NotificationOutlined />
+      </h1>
       <div className="parentNotifications">
         <CardNotificacion
           notificaciones={notificacionesCompleaños}
@@ -75,7 +79,7 @@ const Notificaciones = ({
           type="Vacaciones"
           nombre="Vacaciones Normales"
           color="cyan"
-          title="Licencias proximas a vencer"
+          title="Empleados que estan cerca de tomas vacaciones"
           link="/notificaciones/vacaciones"
           OnDashboard={true}
         />

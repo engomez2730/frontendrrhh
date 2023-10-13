@@ -113,7 +113,6 @@ const TableProyecto = ({ proyectos }) => {
       descripcion: e.descripcion,
       encargado: e.encargado,
       _id: e._id,
-      
     };
   });
 
@@ -125,6 +124,8 @@ const TableProyecto = ({ proyectos }) => {
         onClose={closeModal}
         title="Editar Proyecto"
         width={800}
+        okText="Esta bien"
+        cancelText="Cerrar"
         content={
           <EditarProyectos
             onCloseModal={closeModal}

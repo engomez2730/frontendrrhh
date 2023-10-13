@@ -8,6 +8,8 @@ import { Pie } from "react-chartjs-2";
 import { Select } from "antd";
 import requireAuth from "../requireAuth";
 import Empleados from "./Empleados";
+import { LineChartOutlined } from "@ant-design/icons";
+import ShowAusencias from "../Ausencias/ShowAusencias";
 
 export default requireAuth(function Stats() {
   const [empleados, setEmpleadosData] = useState();
@@ -22,15 +24,11 @@ export default requireAuth(function Stats() {
     getData();
   }, []);
 
-  const handleChangeData = (value) => {
-    stateSet(value.value);
-  };
-
   const dataFinal = {
     labels: empleados?.employeesByCountry?.map((e) => e._id),
     datasets: [
       {
-        label: `Cantidad de empleados por ${state}`,
+        label: `Cantidad de empleados por pais`,
         data: empleados?.employeesByCountry?.map((e) => e.activeEmployees),
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
@@ -113,28 +111,11 @@ export default requireAuth(function Stats() {
     ],
   };
 
-  const optionsData = [
-    { label: "Pais", value: "pais" },
-    { label: "Sexo", value: "sexo" },
-    { label: "Departamento", value: "departamento" },
-  ];
-  const finalData = optionsData.map((e) => {
-    return {
-      value: e.value,
-      label: e.label,
-    };
-  });
-
   return (
     <>
-      {/*     <Select
-        labelInValue
-        onChange={handleChangeData}
-        defaultValue={{ value: state, label: state }}
-        options={finalData}
-        style={{ width: 120 }}
-      /> */}
-      <h1>Estadisticas</h1>
+      <h1>
+        Estadisticas <LineChartOutlined />
+      </h1>
       <Empleados stats={empleados} />
       <div className="Stats">
         <div className="stats-item">
@@ -143,11 +124,15 @@ export default requireAuth(function Stats() {
         </div>
         <div className="stats-item">
           <h1>Estadisticas de Empleados por Salario</h1>
-          <BarChart charData={dataFinal3} />
+          <PieChart charData={dataFinal3} />
         </div>
         <div className="stats-item">
           <h1>Estadisticas de Empleados por Departamento</h1>
-          <BarChart charData={dataFinal2} />
+          <LineChart charData={dataFinal2} />
+        </div>
+        <div className="stats-item">
+          <h1>Estadisticas de Empleados por Departamento</h1>
+          <ShowAusencias />
         </div>
       </div>
     </>

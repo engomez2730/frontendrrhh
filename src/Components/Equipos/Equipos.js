@@ -44,6 +44,8 @@ const Equipos = ({ equipos }) => {
         onClose={closeModal}
         title="Crear Equipo"
         width={800}
+        okText="Esta bien"
+        cancelText="Cerrar"
         content={<CrearEquipo onCloseModal={closeModal} />}
       />
     </div>

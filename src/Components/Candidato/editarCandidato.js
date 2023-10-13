@@ -56,6 +56,7 @@ const App = (props) => {
       });
 
       props.CAMBIAR_ESTADO(!props.estado);
+      props.onClose();
       message.success("Editado con exito");
       console.log("Success:", values);
     } catch (err) {
@@ -64,16 +65,6 @@ const App = (props) => {
   };
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
-  };
-
-  const renderDepartamentos = (provincas) => {
-    return provincas.map((e) => {
-      return (
-        <Option value={`${e.label}`} key={e.label}>
-          {e.label}
-        </Option>
-      );
-    });
   };
 
   const renderPaises = (Countries) => {
