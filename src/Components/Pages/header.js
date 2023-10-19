@@ -12,7 +12,11 @@ const stylesHeder = {
   justifyContent: "space-between",
 };
 
-const stylesLogo = { color: "#f97e07" };
+const stylesLogo = {
+  color: "#f97e07",
+  textTransform: "uppercase",
+  fontSize: "1.5rem",
+};
 
 const HeaderFInal = ({
   isLoggedIn,
@@ -66,8 +70,16 @@ const HeaderFInal = ({
     <>
       <Header style={stylesHeder}>
         <Link to="/">
-          <div className="logo">
-            Varg<span style={stylesLogo}>Sang </span>RRHH
+          <div
+            style={{
+              color: "#fff",
+              fontSize: "1.5rem",
+              textTransform: "uppercase",
+            }}
+          >
+            Varg
+            <span style={{ color: "#F9831A", fontSize: "1.5rem" }}>Sang </span>
+            RRHH
           </div>
         </Link>
         <Menu

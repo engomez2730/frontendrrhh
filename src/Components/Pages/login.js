@@ -12,7 +12,7 @@ const Login = (props) => {
 
   const onFinish = async (values) => {
     try {
-      const response = await API.post("http://localhost:5000/api/v1/login", {
+      const response = await API.post("login", {
         correo: values.correo,
         password: values.password,
       });
