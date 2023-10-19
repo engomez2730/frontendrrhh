@@ -20,8 +20,8 @@ const EmpleadosInfoPer = ({ usuarioSelecionado, usuarioEditado }) => {
             <img
               src={
                 usuarioSelecionado.photo
-                  ? `https://vargsangapi-bb18fb62d555.herokuapp.com/${usuarioSelecionado?.photo}`
-                  : "https://vargsangapi-bb18fb62d555.herokuapp.com/default.png"
+                  ? `https://vargsangapi-bb18fb62d555.herokuapp.com/photos/${usuarioSelecionado?.photo}`
+                  : "https://vargsangapi-bb18fb62d555.herokuapp.com/photos/default.png"
               }
               alt="imag"
             />
