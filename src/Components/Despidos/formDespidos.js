@@ -59,6 +59,7 @@ const CrearPermiso = (props) => {
       form.resetFields();
       props.CAMBIAR_ESTADO(!props.estado);
       message.success("Empleado despedido con exito", 3);
+      props.onCancel();
     } catch (err) {
       handleError(err);
     }

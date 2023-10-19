@@ -1,8 +1,7 @@
-import { Button, Checkbox, Form, Input, message, Modal } from "antd";
+import { Button, Form, Input, message, Modal } from "antd";
 import { connect } from "react-redux";
 import { BUSCADOR_EMPLEADOS_GET } from "../../actions";
 import rrhhApi from "../../apis/rrhhApi";
-import handleError from "../../Data/errorHandle";
 import { useState } from "react";
 import TableMini from "./TableMini.js";
 

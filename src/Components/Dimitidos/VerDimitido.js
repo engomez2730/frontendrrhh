@@ -1,7 +1,9 @@
 import React from "react";
 import moment from "moment";
+import { Divider, Tag } from "antd";
 
 const NominaVer = ({ Dimitido }) => {
+  console.log(Dimitido);
   return (
     <div className="verVacacionesModal">
       <div className="verVacacionesItem">
@@ -18,23 +20,6 @@ const NominaVer = ({ Dimitido }) => {
       </div>
 
       <div className="verVacacionesItem">
-        <div className="verVacacionesLabel">Celular:</div>
-        <div className="verVacacionesValue"> {Dimitido?.celular} </div>
-      </div>
-
-      <div className="verVacacionesItem">
-        <div className="verVacacionesLabel">Sexo:</div>
-        <div className="verVacacionesValue"> {Dimitido?.genero} </div>
-      </div>
-      <div className="verVacacionesItem">
-        <div className="verVacacionesLabel">Pais:</div>
-        <div className="verVacacionesValue"> {Dimitido?.pais} </div>
-      </div>
-      <div className="verVacacionesItem">
-        <div className="verVacacionesLabel">Departamento anterior:</div>
-        <div className="verVacacionesValue"> {Dimitido?.departamento} </div>
-      </div>
-      <div className="verVacacionesItem">
         <div className="verVacacionesLabel">Puesto anterior:</div>
         <div className="verVacacionesValue"> {Dimitido?.puesto} </div>
       </div>
@@ -46,7 +31,48 @@ const NominaVer = ({ Dimitido }) => {
         <div className="verVacacionesLabel">Llegada a la empresa:</div>
         <div className="verVacacionesValue">
           {" "}
-          {moment(Dimitido?.createdAt).format("MMMM Do YYYY")}{" "}
+          {moment(Dimitido?.inicioLaboral).format("MMMM Do YYYY")}{" "}
+        </div>
+      </div>
+      <Divider
+        children={
+          <Tag
+            color="error"
+            style={{
+              width: "200px",
+              height: "35px",
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              fontSize: "18px",
+              textAlign: "center",
+            }}
+          >
+            Salida de la Empresa
+          </Tag>
+        }
+      />
+      <div className="verVacacionesItem">
+        <div className="verVacacionesLabel">Tipo de salida: </div>
+        <div className="verVacacionesValue">
+          {" "}
+          {Dimitido?.Despidos[0]?.tipoDeDespido}{" "}
+        </div>
+      </div>
+      <div className="verVacacionesItem">
+        <div className="verVacacionesLabel">Descripción: </div>
+        <div className="verVacacionesValue">
+          {" "}
+          {Dimitido?.Despidos[0]?.descripcion}{" "}
+        </div>
+      </div>
+      <div className="verVacacionesItem">
+        <div className="verVacacionesLabel">Fecha de Salida: </div>
+        <div className="verVacacionesValue">
+          {" "}
+          {moment(Dimitido?.Despidos[0]?.fechaDespido).format(
+            "MMMM Do YYYY"
+          )}{" "}
         </div>
       </div>
     </div>

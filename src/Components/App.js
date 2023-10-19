@@ -100,13 +100,17 @@ const App = (props) => {
   const notificacionesLicenciasDeConducir = avisosLicenciaDeConducir?.filter(
     (element) => {
       // Filter out elements that are either false or have the role as "admin"
-      return element !== false && element.rol !== "admin";
+      return (
+        element !== false && element.rol !== "admin" && element.estado === true
+      );
     }
   );
 
   const notificacionesCumpleaños = avisosCumpleaños?.filter((element) => {
     // Filter out elements that are either false or have the role as "admin"
-    return element !== false && element.rol !== "admin";
+    return (
+      element !== false && element.rol !== "admin" && element.estado === true
+    );
   });
 
   const avisosBuenaConducta = props.empleados?.empleados?.map((empleado) => {
@@ -118,7 +122,9 @@ const App = (props) => {
 
   const avisosBuenaConductaFilter = avisosBuenaConducta?.filter((element) => {
     // Filter out elements that are either false or have the role as "admin"
-    return element !== false && element.rol !== "admin";
+    return (
+      element !== false && element.rol !== "admin" && element.estado === true
+    );
   });
 
   const avisosBuenaInduccion = props.empleados?.empleados?.map((empleado) => {
@@ -130,7 +136,9 @@ const App = (props) => {
 
   const avisosInduccionFilter = avisosBuenaInduccion?.filter((element) => {
     // Filter out elements that are either false or have the role as "admin"
-    return element !== false && element.rol !== "admin";
+    return (
+      element !== false && element.rol !== "admin" && element.estado === true
+    );
   });
 
   const avisosAnalisis = props.empleados?.empleados?.map((empleado) => {
@@ -142,7 +150,9 @@ const App = (props) => {
 
   const avisosAnalisisFilter = avisosAnalisis?.filter((element) => {
     // Filter out elements that are either false or have the role as "admin"
-    return element !== false && element.rol !== "admin";
+    return (
+      element !== false && element.rol !== "admin" && element.estado === true
+    );
   });
 
   const LicenciasNormales = props.empleados?.empleados?.map((empleado) => {
@@ -154,7 +164,9 @@ const App = (props) => {
 
   const LicenciasNormalesFilter = LicenciasNormales?.filter((element) => {
     // Filter out elements that are either false or have the role as "admin"
-    return element !== false && element.rol !== "admin";
+    return (
+      element !== false && element.rol !== "admin" && element.estado === true
+    );
   });
 
   const VacacionesNot = props.empleados?.empleados?.map((empleado) => {
@@ -167,7 +179,9 @@ const App = (props) => {
 
   const VacacionesFilter = VacacionesNot?.filter((element) => {
     // Filter out elements that are either false or have the role as "admin"
-    return element !== false && element.rol !== "admin";
+    return (
+      element !== false && element.rol !== "admin" && element.estado === true
+    );
   });
 
   const USER = JSON.parse(localStorage.getItem("user"));

@@ -135,7 +135,7 @@ const InfoForm = (props) => {
               required: true,
               message: "Por favor introducte tu cedula",
             },
-           
+
             {
               validator: validateAllNumbers,
             },
@@ -164,24 +164,12 @@ const InfoForm = (props) => {
         <Form.Item
           name="analisisFechaDeExpiracion"
           label="Expiración de Analisis "
-          rules={[
-            {
-              required: true,
-              message: "Introduce fecha de expiración de los Analisis",
-            },
-          ]}
         >
           <DatePicker />
         </Form.Item>
         <Form.Item
           name="buenaConductaFechaExpiracion"
           label="Expiración de papel de buena conducta "
-          rules={[
-            {
-              required: true,
-              message: "Introduce la expiración del papel de buena conducta",
-            },
-          ]}
         >
           <DatePicker />
         </Form.Item>
@@ -193,7 +181,6 @@ const InfoForm = (props) => {
               required: true,
               message: "Tienes que introducir un contacto de emergencia",
             },
-         
           ]}
         >
           <Input />

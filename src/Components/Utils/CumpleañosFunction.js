@@ -27,6 +27,7 @@ export function calculateDaysUntilNextBirthday(empleado, birthdate) {
         cumpleaños: empleado.fechaDeNacimiento,
         id: empleado._id,
         rol: empleado.rol,
+        estado: empleado.estado,
       };
     } else {
       return false;
@@ -56,6 +57,7 @@ export function calculateDaysUntilLicenseExpiry(empleado, expiryDate) {
       diaDeVencimiento: empleado.licenciaDeConducirFechaExp,
       id: empleado._id,
       rol: empleado.rol,
+      estado: empleado.estado,
     };
   } else {
     // If the license does not expire within the specified timeframe
@@ -83,6 +85,7 @@ export function calculateDaysUntilPaperConducta(empleado, expiryDate) {
       diaDeVencimiento: expiryDate,
       id: empleado._id,
       rol: empleado.rol,
+      estado: empleado.estado,
     };
   } else {
     // If the license does not expire within the specified timeframe
@@ -110,6 +113,7 @@ export function calculateDaysUntilInduccion(empleado, expiryDate) {
       diaDeVencimiento: expiryDate,
       id: empleado._id,
       rol: empleado.rol,
+      estado: empleado.estado,
     };
   } else {
     // If the license does not expire within the specified timeframe
@@ -137,6 +141,7 @@ export function calculateDaysUntilAnalisis(empleado, expiryDate) {
       diaDeVencimiento: expiryDate,
       id: empleado._id,
       rol: empleado.rol,
+      estado: empleado.estado,
     };
   } else {
     // If the license does not expire within the specified timeframe
@@ -167,6 +172,7 @@ export function calculateLicencias(empleado, expiryDate) {
       diaDeVencimiento: expiryDate,
       id: empleado._id,
       rol: empleado.rol,
+      estado: empleado.estado,
     };
   } else {
     // If the license does not expire within the specified timeframe
@@ -197,6 +203,7 @@ export function calculateVacacionesDays(empleado, expiryDate) {
       diaDeVencimiento: expiryDate,
       id: empleado._id,
       rol: empleado.rol,
+      estado: empleado.estado,
     };
   } else {
     // If the license does not expire within the specified timeframe

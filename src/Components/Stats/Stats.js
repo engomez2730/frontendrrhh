@@ -4,12 +4,10 @@ import LineChart from "./LineChart";
 import PieChart from "./PieCart";
 import Api from "../../apis/rrhhApi";
 import "./Stats.css";
-import { Pie } from "react-chartjs-2";
-import { Select } from "antd";
+
 import requireAuth from "../requireAuth";
 import Empleados from "./Empleados";
 import { LineChartOutlined } from "@ant-design/icons";
-import ShowAusencias from "../Ausencias/ShowAusencias";
 
 export default requireAuth(function Stats() {
   const [empleados, setEmpleadosData] = useState();
@@ -129,10 +127,6 @@ export default requireAuth(function Stats() {
         <div className="stats-item">
           <h1>Estadisticas de Empleados por Departamento</h1>
           <LineChart charData={dataFinal2} />
-        </div>
-        <div className="stats-item">
-          <h1>Estadisticas de Empleados por Departamento</h1>
-          <ShowAusencias />
         </div>
       </div>
     </>

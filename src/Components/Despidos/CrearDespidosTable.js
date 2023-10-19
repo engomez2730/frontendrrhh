@@ -149,9 +149,9 @@ const TablePerm = (props) => {
         onCancel={handleCancel}
         width={1000}
         okText="Esta bien"
-        cancelText='Cerrar'
+        cancelText="Cerrar"
       >
-        <FormDespidos />
+        <FormDespidos onCancel={handleCancel} />
       </Modal>
     </div>
   );

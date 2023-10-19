@@ -6,6 +6,7 @@ import { GET_DIMITIDOS_ACTION } from "../../actions/index";
 import VerDimitido from "./VerDimitido";
 import moment from "moment";
 import Api from "../../apis/rrhhApi";
+import AddDimitido from "./AddDimitido";
 
 const TablePerm = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -42,6 +43,9 @@ const TablePerm = (props) => {
   };
   const handleCancelCrear = () => {
     setIsModalVerOpenCrear(false);
+  };
+  const handleCrear = () => {
+    setIsModalVerOpenCrear(true);
   };
 
   const columns = [
@@ -84,24 +88,14 @@ const TablePerm = (props) => {
       key: "apellido",
       width: 200,
     },
-    {
-      title: "Celular",
-      dataIndex: "celular",
-      key: "celular",
-      width: 200,
-    },
+
     {
       title: "Puesto",
       dataIndex: "puesto",
       key: "celular",
       width: 200,
     },
-    {
-      title: "Departamento",
-      dataIndex: "departamento",
-      key: "celular",
-      width: 200,
-    },
+
     {
       title: "Acción",
       key: "operation",
@@ -157,6 +151,13 @@ const TablePerm = (props) => {
 
   return (
     <div>
+      <Button
+        type="primary"
+        style={{ marginTop: "15px" }}
+        onClick={() => handleCrear()}
+      >
+        Añadir Dimitido
+      </Button>
       <Table
         style={{ marginTop: "50px", width: "80%" }}
         columns={columns}
@@ -167,7 +168,7 @@ const TablePerm = (props) => {
         loading={EmpleadosLoaded}
       />
       <Modal
-        title="Ver Permiso"
+        title="Ver Dimitido"
         open={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
@@ -178,7 +179,7 @@ const TablePerm = (props) => {
         <VerDimitido Dimitido={props.dimitidosSelect} />
       </Modal>
       <Modal
-        title="Editar Permiso"
+        title="Editar Dimitido"
         open={isModalOpenVer}
         onOk={handleOkVER}
         onCancel={handleCancelVer}
@@ -187,14 +188,16 @@ const TablePerm = (props) => {
         cancelText="Cerrar"
       ></Modal>
       <Modal
-        title="Crear Permiso"
+        title="Añadir Dimitido"
         open={isModalOpenCrear}
         onOk={handleOkCrear}
         onCancel={handleCancelCrear}
         width={1000}
         okText="Esta bien"
         cancelText="Cerrar"
-      ></Modal>
+      >
+        <AddDimitido onClose={handleCancelCrear} />
+      </Modal>
     </div>
   );
 };

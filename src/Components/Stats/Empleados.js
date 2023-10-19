@@ -9,7 +9,7 @@ const Empleados = ({ stats }) => {
       <div className="cardContent">
         <DashBoardCard
           title={"Empleados Totales"}
-          value={stats?.totalEmployees}
+          value={stats?.totalEmployees - 1}
           icon={
             <UserOutlined
               style={{
@@ -24,7 +24,7 @@ const Empleados = ({ stats }) => {
         />
         <DashBoardCard
           title={"Empleados Activos"}
-          value={stats?.totalActiveEmployees}
+          value={stats?.totalActiveEmployees - 1}
           icon={
             <UserOutlined
               style={{

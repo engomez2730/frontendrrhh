@@ -256,10 +256,7 @@ const CompanyModalEdit = (props) => {
             {returnOption(puestosFinalArray)}
           </Select>
         </Form.Item>
-        <Form.Item
-          name="equipos"
-          label="Selecciona los equipos que maneja"
-        >
+        <Form.Item name="equipos" label="Selecciona los equipos que maneja">
           <Select placeholder="Selecciona el puesto" mode="multiple">
             {returnOption(equiposFinalArray)}
           </Select>
@@ -271,16 +268,7 @@ const CompanyModalEdit = (props) => {
         >
           <DatePicker />
         </Form.Item>
-        <Form.Item
-          label="Licencia de Conducir?"
-          name="licenciasDeConducir"
-          rules={[
-            {
-              required: true,
-              message: "Tienes que definir si tienes licencia o no",
-            },
-          ]}
-        >
+        <Form.Item label="Licencia de Conducir?" name="licenciasDeConducir">
           <Select
             placeholder="Seleciona el estado laboral"
             onChange={(e) => onSelectChange((e) => !e)}

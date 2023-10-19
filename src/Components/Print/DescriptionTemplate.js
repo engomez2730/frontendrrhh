@@ -8,7 +8,7 @@ const App = (props) => {
   useEffect(() => {}, [props?.buscadorData]);
 
   function formatPhoneNumber(number) {
-
+    if (!number) return 0;
     if (typeof number !== "number" || number.toString().length !== 10) {
       throw new Error("Input should be a 10-digit number");
     }
@@ -51,7 +51,7 @@ const App = (props) => {
             contentStyle={{ fontWeight: "600" }}
             label="Telefono"
           >
-            {formatPhoneNumber(props?.buscadorData?.celular)}
+            {formatPhoneNumber(props?.buscadorData?.celular) || 0}
           </Descriptions.Item>
           <Descriptions.Item
             contentStyle={{ fontWeight: "600" }}
@@ -135,7 +135,7 @@ const App = (props) => {
             contentStyle={{ fontWeight: "600" }}
             label="Contacto de Emergencia"
           >
-            {formatPhoneNumber(props.buscadorData?.contactoDeEmergencia)}
+            {formatPhoneNumber(props.buscadorData?.contactoDeEmergencia) || 0}
           </Descriptions.Item>
           <Descriptions.Item
             contentStyle={{ fontWeight: "600" }}
