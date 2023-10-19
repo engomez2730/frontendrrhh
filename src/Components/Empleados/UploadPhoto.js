@@ -25,7 +25,7 @@ const PhotoUploadForm = ({ empleado }) => {
 
     try {
       const response = await fetch(
-        `http://localhost:5000/Api/v1/empleados/${empleado?._id}`,
+        `https://vargsangapi-bb18fb62d555.herokuapp.com/api/v1/empleados/${empleado?._id}`,
         {
           method: "PATCH",
           body: formData,
