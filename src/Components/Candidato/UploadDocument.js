@@ -25,7 +25,7 @@ const DocumentUploadForm = ({ candidato }) => {
 
     try {
       const response = await fetch(
-        `https://vargsangapi-bb18fb62d555.herokuapp.com/api/v1/entrevistados/${candidato?._id}`,
+        `http://localhost:5000/api/v1/entrevistados/${candidato?._id}`,
         {
           method: "PATCH",
           body: formData,

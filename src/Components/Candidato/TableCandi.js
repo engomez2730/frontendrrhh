@@ -151,14 +151,6 @@ const TablePerm = (props) => {
         >
           Convertir en Empleado
         </Button>,
-        <Button
-          type="primary"
-          key="convertir"
-          style={{ marginLeft: "10px" }}
-          onClick={(e) => showModalDocument(e, text)}
-        >
-          Subir Curriculum
-        </Button>,
       ],
     },
   ];

@@ -81,24 +81,6 @@ const VerCandidato = ({ candidato }) => {
           {candidato?.tipoLicencia ? candidato?.tipoLicencia : "No tiene"}
         </div>
       </div>
-      <div className="verVacacionesItem">
-        <div className="verVacacionesLabel">Curriculum:</div>
-        <div className="verVacacionesValue">
-          <Button
-            type="primary"
-            disabled={candidato?.document === undefined ? true : false}
-            onClick={() =>
-              openPdfInNewTab(
-                `https://vargsangapi-bb18fb62d555.herokuapp.com/doc/${candidato.document}`
-              )
-            }
-          >
-            {candidato?.document === undefined
-              ? "No tiene Curriculum"
-              : "Ver Curriculum"}
-          </Button>
-        </div>
-      </div>
     </div>
   );
 };
