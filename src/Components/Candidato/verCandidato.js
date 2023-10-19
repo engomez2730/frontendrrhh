@@ -88,7 +88,9 @@ const VerCandidato = ({ candidato }) => {
             type="primary"
             disabled={candidato?.document === undefined ? true : false}
             onClick={() =>
-              openPdfInNewTab(`http://localhost:5000/doc/${candidato.document}`)
+              openPdfInNewTab(
+                `https://vargsangapi-bb18fb62d555.herokuapp.com/doc/${candidato.document}`
+              )
             }
           >
             {candidato?.document === undefined
