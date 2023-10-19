@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import { loggedUserOut, setUser } from "../../actions/index";
 import { Button, Layout, Menu, Badge, Avatar } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import "./Header.css";
 
 const { Header } = Layout;
 
