@@ -2,7 +2,6 @@ import { message } from "antd";
 
 const handleError = (err) => {
   console.log(err);
-
   if (err.response.data === undefined) {
     return message.error(`Ocurrio un problema con el servidor`);
   }
