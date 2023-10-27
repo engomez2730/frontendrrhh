@@ -15,6 +15,7 @@ export default requireAuth(function Stats() {
 
   const getData = async () => {
     const data = await Api.get(`empleados/stats/?query=${state}`);
+    console.log(data.data.statsFinal);
     setEmpleadosData(data.data.statsFinal);
   };
 
