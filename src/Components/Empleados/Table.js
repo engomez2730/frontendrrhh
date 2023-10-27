@@ -68,7 +68,7 @@ const TableFinal = (props) => {
   const columns = [
     {
       title: "Nombre",
-      width: 100,
+      width: 200,
       dataIndex: "nombre",
       key: "name",
       fixed: "left",
@@ -107,24 +107,7 @@ const TableFinal = (props) => {
       dataIndex: "cedula",
       key: "cedula",
     },
-    {
-      title: "Departamento",
-      dataIndex: "departamento",
-      key: "departamento",
-      filters: [
-        {
-          text: "Administracion",
-          value: "Administracion",
-        },
-        {
-          text: "Inmobiliaria",
-          value: "Inmobiliaria",
-        },
-      ],
-      onFilter: (value, record) => {
-        return record?.departamento?.indexOf(value) === 0;
-      },
-    },
+
     {
       title: "Salario",
       dataIndex: "salarioBruto",
