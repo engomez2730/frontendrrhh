@@ -26,6 +26,7 @@ const EditarEquipo = (props) => {
     "Disponible",
     "Licencia Medica",
     "Licencia Materna",
+    "De Vacaciones",
   ];
 
   const proyectos = props.proyectos?.map((e) => e.nombre);
