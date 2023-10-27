@@ -56,7 +56,7 @@ export default requireAuth(function Stats() {
     labels: empleados?.employeesByDepartment?.map((e) => e._id),
     datasets: [
       {
-        label: `Salario promedio de empleados por ${state}`,
+        label: `Tipos de nominas por empleados ${state}`,
         data: empleados?.employeesByDepartment?.map((e) => e.activeEmployees),
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
@@ -85,7 +85,7 @@ export default requireAuth(function Stats() {
     labels: empleados?.employeesByNominaType?.map((e) => e._id),
     datasets: [
       {
-        label: `Salario promedio de empleados por ${state}`,
+        label: `Cantidad de empleados por departamento ${state}`,
         data: empleados?.employeesByNominaType?.map((e) => e.activeEmployees),
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
