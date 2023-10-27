@@ -36,6 +36,7 @@ const Reportes = ({ departamentos, empleados }) => {
               </Option>
               <Option value="induccion">Inducción</Option>
               <Option value="LicenciadeConducir">Licencia de Conducir</Option>
+              <Option value="LicenciadeConducir">De Vacaciones</Option>
             </Select>
           </Form.Item>
         </Form>

@@ -47,6 +47,7 @@ const MultiStepComponent = (props) => {
     "Disponible",
     "Licencia Medica",
     "Licencia Materna",
+    "De Vacaciones",
   ];
 
   function updateState() {
@@ -103,10 +104,6 @@ const MultiStepComponent = (props) => {
           label="Correo"
           name="correo"
           rules={[
-            {
-              required: true,
-              message: "Por Favor introduce tu nombre",
-            },
             {
               type: "email",
               message: "Introduce un verdadero correo",
