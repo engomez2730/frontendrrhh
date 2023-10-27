@@ -33,7 +33,6 @@ const EditarEquipo = (props) => {
   const opcionesStatusArray = prepareOptionLabels(opcionesStatus);
 
   const onFinish = async (values) => {
-    console.log(props.empleado.id);
     try {
       await Api.patch(`/empleados/${props.empleado.id}`, {
         proyectoActual: values.proyectoActual,

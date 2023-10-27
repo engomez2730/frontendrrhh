@@ -122,11 +122,11 @@ export default requireAuth(function Stats() {
         </div>
         <div className="stats-item">
           <h1>Estadisticas de Empleados por Salario</h1>
-          <PieChart charData={dataFinal3} />
+          <BarChart charData={dataFinal3} />
         </div>
         <div className="stats-item">
           <h1>Estadisticas de Empleados por Departamento</h1>
-          <LineChart charData={dataFinal2} />
+          <BarChart charData={dataFinal2} />
         </div>
       </div>
     </>
