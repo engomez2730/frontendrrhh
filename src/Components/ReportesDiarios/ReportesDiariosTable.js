@@ -169,6 +169,9 @@ const ReportesDiariosTable = ({ empleados, proyectos }) => {
   const empleadosDisponibles = empleadosFinal?.filter((e) => {
     return e.StatusLaboral === "Disponible";
   });
+  const empleadosDeVacaciones = empleadosFinal?.filter((e) => {
+    return e.StatusLaboral === "De Vacaciones";
+  });
 
   return (
     <>
@@ -215,6 +218,7 @@ const ReportesDiariosTable = ({ empleados, proyectos }) => {
                 empleadosDisponibles={empleadosDisponibles?.length}
                 LicenciaMedica={LicenciaMedica?.length}
                 LicenciaPorMaternidad={LicenciaPorMaternidad?.length}
+                empleadosDeVacaciones={empleadosDeVacaciones?.length}
               />
             }
             Table={

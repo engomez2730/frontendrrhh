@@ -8,8 +8,6 @@ import handleError from "../../Data/errorHandle";
 import CustomFomItem from "../Custom/CustomFomItem";
 import { returnOption, prepareOptionLabels } from "../Utils/helperFunctions";
 
-const { TextArea } = Input;
-
 const EditarEquipo = (props) => {
   const [form] = useForm();
 

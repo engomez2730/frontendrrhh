@@ -7,6 +7,7 @@ const App = ({
   LicenciaMedica,
   LicenciaPorMaternidad,
   empleadosDisponibles,
+  empleadosDeVacaciones,
 }) => (
   <Descriptions title="Resumen" layout="vertical" bordered={true}>
     <Descriptions.Item
@@ -40,6 +41,12 @@ const App = ({
       label="Empleados con licencia por maternidad "
     >
       {LicenciaPorMaternidad}
+    </Descriptions.Item>
+    <Descriptions.Item
+      contentStyle={{ fontWeight: "600" }}
+      label="Empleados de vacaciones "
+    >
+      {empleadosDeVacaciones}
     </Descriptions.Item>
   </Descriptions>
 );
