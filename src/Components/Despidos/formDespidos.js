@@ -1,55 +1,16 @@
-import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Form,
-  message,
-  Select,
-  InputNumber,
-  Input,
-  Checkbox,
-  Cascader,
-} from "antd";
+import React from "react";
+import { Button, Form, message, Select, InputNumber, Input } from "antd";
 import Api from "../../apis/rrhhApi";
 import { connect } from "react-redux";
 import { CAMBIAR_ESTADO } from "../../actions";
 import handleError from "../../Data/errorHandle";
-import moment from "moment";
 const { TextArea } = Input;
 const { Option } = Select;
 
 const CrearPermiso = (props) => {
-  const [vacacionesTomadas, SetVacacionesTomadas] = useState(false);
   const [form] = Form.useForm();
 
-  let UltimasVacaciones =
-    props?.usuarioSelecionado?.Vacaciones[
-      props?.usuarioSelecionado?.Vacaciones?.length - 1
-    ];
-  console.log(
-    moment(UltimasVacaciones?.tiempoDeVacaciones[1])?.format("MMMM Do YYYY")
-  );
-
-  useEffect(() => {
-    form.setFieldsValue({
-      nombreNomina: props.nominaCompletaSelect?.nombreNomina,
-      horasMensualesTrabajadas: 0,
-    });
-  }, [props?.usuarioSelecionado]);
-
-  const onChange = (e) => {
-    SetVacacionesTomadas(e.target.checked);
-  };
-
-  const validateDiasVacaciones = (rule, value, callback) => {
-    if (value > 18) {
-      callback("No se pueden tomar más de 18 días de vacaciones");
-    } else {
-      callback();
-    }
-  };
-
   const onFinish = async (values) => {
-    console.log(values);
     try {
       await Api.post(`despidos/${props?.usuarioSelecionado?._id}`, {
         tipo: values.tipo,

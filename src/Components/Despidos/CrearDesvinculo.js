@@ -10,21 +10,7 @@ const { Option } = Select;
 const CrearPermiso = (props) => {
   const [form] = Form.useForm();
 
-  useEffect(() => {
-    form.setFieldsValue({
-      nombreNomina: props.nominaCompletaSelect?.nombreNomina,
-      horasMensualesTrabajadas: 0,
-    });
-    const item = props?.usuarioSelecionado?.Nominas.find((e) => {
-      return e.nombreNomina === props.nominaCompletaSelect?.nombreNomina;
-    });
-    if (
-      props?.usuarioSelecionado?.Nominas.length === 0 ||
-      item?.nombreNomina !== props.nominaCompletaSelect?.nombreNomina
-    ) {
-    } else {
-    }
-  }, [props?.usuarioSelecionado]);
+  useEffect(() => {}, [props?.usuarioSelecionado]);
 
   const onFinish = async (values) => {
     console.log(values);
@@ -45,7 +31,6 @@ const CrearPermiso = (props) => {
     const mes = meses[new Date().getMonth()];
     const year = new Date().getFullYear();
     const nombreNomina = `${mes} ${year}`;
-    console.log(nombreNomina);
 
     try {
       await Api.post(`despidos/desvincular/${props?.usuarioSelecionado?._id}`, {

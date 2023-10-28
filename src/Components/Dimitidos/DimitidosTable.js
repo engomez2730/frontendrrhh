@@ -4,8 +4,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { connect } from "react-redux";
 import { GET_DIMITIDOS_ACTION } from "../../actions/index";
 import VerDimitido from "./VerDimitido";
-import moment from "moment";
-import Api from "../../apis/rrhhApi";
+
 import AddDimitido from "./AddDimitido";
 
 const TablePerm = (props) => {
@@ -79,7 +78,7 @@ const TablePerm = (props) => {
         return record.nombre.toLowerCase().includes(value.toLowerCase());
       },
       render: (value, record) => {
-        return <>{`${record.nombre} ${record.apellido}`}</>;
+        return <>{`${record?.nombre} ${record?.apellido}`}</>;
       },
     },
     {

@@ -3,7 +3,6 @@ import moment from "moment";
 import { Divider, Tag } from "antd";
 
 const NominaVer = ({ Dimitido }) => {
-  console.log(Dimitido);
   return (
     <div className="verVacacionesModal">
       <div className="verVacacionesItem">

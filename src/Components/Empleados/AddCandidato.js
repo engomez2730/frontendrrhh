@@ -1,5 +1,5 @@
-import { Button, Checkbox, Form, Input } from "antd";
-import React, { useEffect } from "react";
+import { Button, Form, Input } from "antd";
+import React from "react";
 import rrhhApi from "../../apis/rrhhApi";
 import { connect } from "react-redux";
 import { BUSCAR_CANDIDATO_ACTION, CAMBIAR_ESTADO } from "../../actions/index";
@@ -9,7 +9,7 @@ const App = (props) => {
     const dataCandidato = await rrhhApi.get(
       `entrevistados?cedula=${values.candidato}`
     );
-    props.BUSCAR_CANDIDATO_ACTION(dataCandidato.data.Entrevistados[0]);
+    props.BUSCAR_CANDIDATO_ACTION(dataCandidato?.data?.Entrevistados[0]);
     props.CAMBIAR_ESTADO(!props.estado);
   };
   const onFinishFailed = (errorInfo) => {

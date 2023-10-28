@@ -11,7 +11,6 @@ import Api from "../../apis/rrhhApi";
 import { message } from "antd";
 import handleError from "../../Data/errorHandle";
 import moment from "moment";
-import { validateMinLength } from "../Utils/Validators";
 import { returnOption } from "../Utils/helperFunctions";
 const { Option } = Select;
 
@@ -27,9 +26,9 @@ const CompanyModalEdit = (props) => {
 
   const [form] = Form.useForm();
   //State
-  const [dateInput, dateInputSet] = useState(props.usuarioEditar?.contrato);
+  const [dateInput, dateInputSet] = useState(props?.usuarioEditar?.contrato);
   const [tipoDeNomina, tipoDeNominaSet] = useState(
-    props.usuarioEditar.tipoDeNomina
+    props.usuarioEditar?.tipoDeNomina
   );
   const [selectChange, onSelectChange] = useState(
     props.usuarioEditar?.licenciasDeConducir
@@ -43,16 +42,16 @@ const CompanyModalEdit = (props) => {
   ];
 
   //Data
-  const puestos = props?.puestos?.map((e) => e.nombre);
+  const puestos = props?.puestos?.map((e) => e?.nombre);
   const puestosFinalArray = crearSelectArray(puestos);
-  const equipos = props.equipos?.map((e) => e.nombre);
+  const equipos = props?.equipos?.map((e) => e?.nombre);
   const equiposFinalArray = crearSelectArray(equipos);
-  const usuarioEquiposFinal = crearSelectArray(props?.usuarioEditar.Equipos);
+  const usuarioEquiposFinal = crearSelectArray(props?.usuarioEditar?.Equipos);
   const opcionesLicencia = ["Si", "No"];
   const categoriaLicencia = ["Categoria 01", "Categoria 02", "Categoria 03"];
   const opcionesLicenciaCategoria = crearSelectArray(categoriaLicencia);
   const opcionesLicenciaBolean = crearSelectArray(opcionesLicencia);
-  const proyectosFinal = props.proyectos?.map((e) => e.nombre);
+  const proyectosFinal = props?.proyectos?.map((e) => e.nombre);
   const opcionesProyectos = crearSelectArray(proyectosFinal);
   const opcionesStatusArray = crearSelectArray(opcionesStatus);
 
@@ -60,32 +59,32 @@ const CompanyModalEdit = (props) => {
     props.GET_PUESTOS_ACTION();
 
     form.setFieldsValue({
-      salarioBruto: props.usuarioEditar.salarioBruto,
-      contrato: props.usuarioEditar.contrato,
-      departamento: props.usuarioEditar.departamento,
-      costoPorHora: props.usuarioEditar?.costoPorHora,
-      expiracionDelContrato: props.usuarioEditar.expiracionDelContrato
-        ? moment(props.usuarioEditar.expiracionDelContrato)
+      salarioBruto: props?.usuarioEditar?.salarioBruto,
+      contrato: props?.usuarioEditar?.contrato,
+      departamento: props?.usuarioEditar?.departamento,
+      costoPorHora: props?.usuarioEditar?.costoPorHora,
+      expiracionDelContrato: props?.usuarioEditar?.expiracionDelContrato
+        ? moment(props?.usuarioEditar?.expiracionDelContrato)
         : "",
-      vacacionesTomadas: props.usuarioEditar.vacacionesTomadas,
-      licenciasDeConducir: props.usuarioEditar?.licenciasDeConducir
+      vacacionesTomadas: props?.usuarioEditar?.vacacionesTomadas,
+      licenciasDeConducir: props?.usuarioEditar?.licenciasDeConducir
         ? "Si"
         : "No",
-      tipoLicencia: props.usuarioEditar?.tipoLicencia,
+      tipoLicencia: props?.usuarioEditar?.tipoLicencia,
       fechaDeExpiracion: selectChange
-        ? moment(props.usuarioEditar?.licenciaDeConducirFechaExp)
+        ? moment(props?.usuarioEditar?.licenciaDeConducirFechaExp)
         : null,
-      puesto: props.usuarioEditar?.puesto,
-      rol: props.usuarioEditar?.rol,
-      tipoDeNomina: props.usuarioEditar?.tipoDeNomina,
+      puesto: props?.usuarioEditar?.puesto,
+      rol: props?.usuarioEditar?.rol,
+      tipoDeNomina: props?.usuarioEditar?.tipoDeNomina,
       induccionFechaDeExpiracion: moment(
-        props.usuarioEditar?.induccionFechaDeExpiracion
+        props?.usuarioEditar?.induccionFechaDeExpiracion
       ),
 
       equipos: usuarioEquiposFinal,
-      proyectoActual: props.usuarioEditar?.proyectoActual,
-      comentarioStatus: props.usuarioEditar?.comentarioStatus,
-      StatusLaboral: props.usuarioEditar?.StatusLaboral,
+      proyectoActual: props?.usuarioEditar?.proyectoActual,
+      comentarioStatus: props?.usuarioEditar?.comentarioStatus,
+      StatusLaboral: props?.usuarioEditar?.StatusLaboral,
     });
   }, [props.usuarioEditar]);
 

@@ -7,15 +7,12 @@ import {
   DatePicker,
   Divider,
 } from "antd";
-import React, { useState, useEffect } from "react";
-import { paisesFinal, provinciasFinal } from "../../Data/CountriesData";
+import React, { useEffect } from "react";
 import { message } from "antd";
 import { connect } from "react-redux";
 import rrhhApi from "../../apis/rrhhApi";
 import { CAMBIAR_ESTADO, GET_PUESTOS_ACTION } from "../../actions";
 import handleError from "../../Data/errorHandle";
-import moment from "moment";
-import { returnOption, prepareOptionLabels } from "../Utils/helperFunctions";
 const { Option } = Select;
 const TextArea = Input;
 

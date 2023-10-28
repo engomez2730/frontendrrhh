@@ -101,7 +101,7 @@ const TablePerm = (props) => {
   ];
 
   const onClickModal = (e, text) => {
-    props.empleadoSelecionadoVer(text.key);
+    props.empleadoSelecionadoVer(text?.key);
     showModal();
   };
 
