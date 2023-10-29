@@ -301,7 +301,7 @@ const MultiStepComponent = (props) => {
           rules={[
             {
               required: true,
-              message: "Please select gender!",
+              message: "Por favor seleciona el genero del empleado",
             },
           ]}
         >
@@ -375,10 +375,6 @@ const MultiStepComponent = (props) => {
           name="contactoDeEmergencia"
           label="Contacto de Emergencia"
           rules={[
-            {
-              required: true,
-              message: "Tienes que introducir un contacto de emergencia",
-            },
             {
               validator: validateAllNumbers,
             },
